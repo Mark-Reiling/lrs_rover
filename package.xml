@@ -41,7 +41,11 @@
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>
+  <build_depend>lrs_srvs_tst</build_depend>
+  <build_depend>lrs_exec</build_depend>
   <run_depend>roscpp</run_depend>
+  <run_depend>lrs_srvs_tst</run_depend>
+  <run_depend>lrs_exec</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

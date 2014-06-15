@@ -6,6 +6,8 @@ project(lrs_exec_txt)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  lrs_srvs_tst
+  lrs_exec
 )
 
 ## System dependencies are found with CMake's conventions
@@ -101,7 +103,15 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-# add_executable(lrs_exec_txt_node src/lrs_exec_txt_node.cpp)
+add_executable(txtexecutor
+  src/txtexecutor.cc
+)
+
+target_link_libraries(txtexecutor
+  ${catkin_LIBRARIES}
+  exec
+)
+
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
