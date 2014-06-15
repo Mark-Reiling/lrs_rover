@@ -1,0 +1,171 @@
+/**
+
+\mainpage
+
+<a href="refman.pdf">lrs_exec_txt PDF file</a>
+
+\b lrs_exec_txt is a package for an executor factory that shows how to write
+execurot factories..
+
+
+<!--
+\section codeapi Code API
+
+Provide links to specific auto-generated API documentation within your
+package that is of particular interest to a reader. Doxygen will
+document pretty much every part of your code, so do your best here to
+point the reader to the actual API.
+
+If your codebase is fairly large or has different sets of APIs, you
+should use the doxygen 'group' tag to keep these APIs together. For
+example, the roscpp documentation has 'libros' and 'botherder' groups
+so that those can be viewed separately. The rospy documentation
+similarly has a 'client-api' group that pulls together APIs for a
+Client API page.
+-->
+
+\section rosapi ROS API
+
+<!--
+Every ROS name in your code must be documented. Names are very
+important in ROS because they are the API to nodes and services. They
+are also capable of being remapped on the command-line, so it is VERY
+IMPORTANT THAT YOU LIST NAMES AS THEY APPEAR IN THE CODE. It is also
+important that you write your code so that the names can be easily
+remapped.
+-->
+
+List of nodes:
+- \b txtexecutor
+
+
+<!-- START: copy for each node -->
+
+<hr>
+
+\subsection node_name4 txtexecutor
+
+txtexecutor is a node providing a TST executor example. The prefix for the topics
+and services are "NameSpace/tst_executor".
+
+\subsubsection Usage
+\verbatim
+$ txtexecutor [standard ROS args]
+\endverbatim
+
+\par Example
+
+\verbatim
+$ txtexecutor __ns:=/uav1
+\endverbatim
+
+\subsubsection topics ROS topics
+
+<!--
+Subscribes to:
+- \b "in": [std_msgs/FooType] description of in
+-->
+
+Publishes to:
+- \b confirm_request: [lrs_msgs_tst/ConfirmReq]
+
+<!--
+\subsubsection parameters ROS parameters
+
+Reads the following parameters from the parameter server
+
+- \b "~param_name" : \b [type] description of param_name
+- \b "~my_param" : \b [string] description of my_param
+
+Sets the following parameters on the parameter server
+
+- \b "~param_name" : \b [type] description of param_name
+-->
+
+
+\subsubsection services ROS services
+
+- \b create_executor: <a href="../../lrs_srvs_tst/html/srv/TSTCreateExecutor.html">[lrs_srvs_tst/TSTCreateExecutor]</a> Create a TST Executor.
+- \b executor_expand: <a href="../../lrs_srvs_tst/html/srv/TSTExecutorExpand.html">[lrs_srvs_tst/TSTExecutor/Expand]</a> Run code that expands a TST node if it is expandable at delegation time.
+- \b executor_get_constraints: <a href="../../lrs_srvs_tst/html/srv/TSTExecutorGetConstraints.html">[lrs_srvs_tst/TSTExecutorGetConstraints]</a> Get the constraints that the specified executor gives.
+- \b start_executor: <a href="../../lrs_srvs_tst/html/srv/TSTStartExecutor.html">[lrs_srvs_tst/TSTStartExecutor]</a> Start an executor.
+
+
+
+\subsubsection execypes Executors implemented for Node Types
+
+- conc (from lrs_exec)
+
+- seq (from lrs_exec)
+
+- confirm (from lrs_exec)
+
+- wait (from lrs_exec)
+
+- fly-from-to
+  - x0
+  - y0
+  - z0
+  - x
+  - y
+  - z
+  - speed
+  - min-speed
+  - max-speed
+  - default-speed
+  - use-mp
+  - confirm-mp
+  - from-is-grid-coord
+  - to-is-grid-coord
+  - loiter-mode : The loiter mode that should be used when having arrived at the goal position
+
+- fly-to
+  - x
+  - y
+  - z
+  - speed
+  - to-is-grid-coord
+  - loiter-mode : The loiter mode that should be used when having arrived at the goal position
+
+- climb
+  - z (this is now in origin frame, should be in world frame and transformed to origin frame)
+
+- yaw
+  - heading : Heading in degree, 0 is north and positive clockwise
+
+- hover
+
+- flydir
+  - heading : Heading in degree, 0 is north and positive clockwise
+  - speed
+
+
+<!-- END: copy for each node -->
+
+<!--
+\section regression Simple Regression Tests
+
+Start everything
+\verbatim
+$ roslaunch lrs_launch tst3.launch
+\endverbatim
+
+TST test simple flying unit 0:
+\verbatim
+$ rosrun lrs_tst tsttool.py -t 1 --exec __ns:=/uav0
+\endverbatim
+
+Simple concurrent flying on unit 0 and 1:
+\verbatim
+$ rosrun lrs_tst tsttool.py -t 2 --exec __ns:=/uav0
+\endverbatim
+
+Concurrent flying on unit 0 and 1 with 1 waiting for 0:
+\verbatim
+$ rosrun lrs_tst tsttool.py -t 3 --exec __ns:=/uav0
+\endverbatim
+
+-->
+
+*/
+
