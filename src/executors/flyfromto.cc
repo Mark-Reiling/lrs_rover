@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <boost/lexical_cast.hpp>
 
 using namespace std;
 
@@ -62,28 +63,23 @@ bool Exec::FlyFromTo::get_constraints (std::vector<std::string> & cons) {
 
 
 bool Exec::FlyFromTo::init_from_node_info () {
+  bool res = true;
   if (get_parameters (node_ns, node_id, params)) {
-
-    istringstream isx0 (params["x0"]);
-    istringstream isy0 (params["y0"]);
-    istringstream isz0 (params["z0"]);
-    isx0 >> x0;
-    isy0 >> y0;
-    isz0 >> z0;
-
-    istringstream isx (params["x"]);
-    istringstream isy (params["y"]);
-    istringstream isz (params["z"]);
-
-    isx >> x;
-    isy >> y;
-    isz >> z;
-
-    istringstream isspeed (params["speed"]);
-    isspeed >> speed;
-
-    return true;
+    try {
+      x0 = boost::lexical_cast<double>(params["x0"]);
+      y0 = boost::lexical_cast<double>(params["y0"]);
+      z0 = boost::lexical_cast<double>(params["z0"]);
+      x = boost::lexical_cast<double>(params["x"]);
+      y = boost::lexical_cast<double>(params["y"]);
+      z = boost::lexical_cast<double>(params["z"]);
+      speed = boost::lexical_cast<double>(params["speed"]);
+    }
+    catch(boost::bad_lexical_cast &) {
+      ROS_ERROR("txt_exec flyto: BAD LEXICAL CAST");
+      res = false;
+    }
   } else {
-    return false;
+    res = false;
   }
+  return res;
 }
