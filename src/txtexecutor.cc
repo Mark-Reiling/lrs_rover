@@ -21,6 +21,7 @@
 #include "testif.h"
 #include "confirm.h"
 #include "wait.h"
+#include "executors/flyto.h"
 
 //#include "lrs_msgs/ConfirmReq.h"
 
@@ -75,6 +76,11 @@ bool create_executor (lrs_srvs_tst::TSTCreateExecutor::Request  &req,
 
   if (type == "wait") {
     execmap[os.str()] = new Exec::Wait (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "fly-to") {
+    execmap[os.str()] = new Exec::FlyTo (req.ns, req.id);
     found = true;
   }
 
