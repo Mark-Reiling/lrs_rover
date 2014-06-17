@@ -5,7 +5,7 @@
 <a href="refman.pdf">lrs_exec_txt PDF file</a>
 
 \b lrs_exec_txt is a package for an executor factory that shows how to write
-execurot factories..
+executor factories..
 
 
 <!--
@@ -45,7 +45,7 @@ List of nodes:
 
 \subsection node_name4 txtexecutor
 
-txtexecutor is a node providing a TST executor example. The prefix for the topics
+txtexecutor is a node providing a TST Executor Factory example. The prefix for the topics
 and services are "NameSpace/tst_executor".
 
 \subsubsection Usage
@@ -102,8 +102,8 @@ in this TST Executor Factory. For a description of the TST Node types see
 - seq (from lrs_exec)
 - confirm (from lrs_exec)
 - wait (from lrs_exec)
-- fly-from-to (fly_from_to.c)
-- fly-to (flyto.c)
+- fly-from-to (flyfromto.cc)
+- fly-to (flyto.cc)
 
 
 <!-- END: copy for each node -->
