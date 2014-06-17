@@ -94,50 +94,16 @@ Sets the following parameters on the parameter server
 
 \subsubsection execypes Executors implemented for Node Types
 
+Below is a list of the TST Node types that have executors implemented
+in this TST Executor Factory. For a description of the TST Node types see
+<a href="../../lrs_tst/html/index.html">lrs_tst</a>.
+
 - conc (from lrs_exec)
-
 - seq (from lrs_exec)
-
 - confirm (from lrs_exec)
-
 - wait (from lrs_exec)
-
-- fly-from-to
-  - x0
-  - y0
-  - z0
-  - x
-  - y
-  - z
-  - speed
-  - min-speed
-  - max-speed
-  - default-speed
-  - use-mp
-  - confirm-mp
-  - from-is-grid-coord
-  - to-is-grid-coord
-  - loiter-mode : The loiter mode that should be used when having arrived at the goal position
-
-- fly-to
-  - x
-  - y
-  - z
-  - speed
-  - to-is-grid-coord
-  - loiter-mode : The loiter mode that should be used when having arrived at the goal position
-
-- climb
-  - z (this is now in origin frame, should be in world frame and transformed to origin frame)
-
-- yaw
-  - heading : Heading in degree, 0 is north and positive clockwise
-
-- hover
-
-- flydir
-  - heading : Heading in degree, 0 is north and positive clockwise
-  - speed
+- fly-from-to (fly_from_to.c)
+- fly-to (flyto.c)
 
 
 <!-- END: copy for each node -->
