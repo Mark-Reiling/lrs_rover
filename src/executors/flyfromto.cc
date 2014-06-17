@@ -21,21 +21,10 @@ bool Exec::FlyFromTo::prepare () {
 void Exec::FlyFromTo::start () {
   ROS_INFO ("Exec::FlyFromTo::start: %s - %d", node_ns.c_str(), node_id);
 
-  fetch_node_info ();
-
-  if (!is_active ()) {
+  if (!do_before_work ()) {
     return;
   }
 
-  if (!wait_for_prework_conditions ()) {
-    return;
-  }
-
-  if (!init_params ()) {
-    return;
-  }
-
-  
   ROS_ERROR ("RMAX flyto world exex: %f %f %f -> %f %f %f - %f", x0, y0, z0, x, y, z, speed);
 
   sleep(5);
@@ -48,16 +37,13 @@ void Exec::FlyFromTo::start () {
 bool Exec::FlyFromTo::abort () {
   bool res = false;
   ROS_INFO("Exec::FlyFromTo::abort");
-  //  mission->set_aborted (true);
   return res;
 }
 
 bool Exec::FlyFromTo::get_constraints (std::vector<std::string> & cons) {
   cons.clear ();
   bool res = false;
-
   res = true;
-
   return res;
 }
 

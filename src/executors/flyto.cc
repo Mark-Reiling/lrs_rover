@@ -27,20 +27,9 @@ bool Exec::FlyTo::prepare () {
 void Exec::FlyTo::start () {
   ROS_INFO ("Exec::FlyTo::start: %s - %d", node_ns.c_str(), node_id);
 
-  fetch_node_info ();
-
-  if (!is_active ()) {
+  if (!do_before_work ()) {
     return;
   }
-
-  if (!wait_for_prework_conditions ()) {
-    return;
-  }
-
-  if (!init_params ()) {
-    return;
-  }
-
 
   ROS_INFO ("Exec::Flyto: %f %f %f - %f", x, y, z, speed);
 
@@ -54,16 +43,13 @@ void Exec::FlyTo::start () {
 bool Exec::FlyTo::abort () {
   bool res = false;
   ROS_INFO("Exec::FlyTo::abort");
-  //  mission->set_aborted (true);
   return res;
 }
 
 bool Exec::FlyTo::get_constraints (std::vector<std::string> & cons) {
   cons.clear ();
   bool res = false;
-
   res = true;
-
   return res;
 }
 
