@@ -25,7 +25,28 @@ void Exec::FlyFromTo::start () {
     return;
   }
 
-  ROS_ERROR ("RMAX flyto world exex: %f %f %f -> %f %f %f - %f", x0, y0, z0, x, y, z, speed);
+  if (float64_params["speed"].have_value) {
+    speed = float64_params["speed"].value;
+  }
+
+  geometry_msgs::PointStamped p;
+  if (point_params["p"].have_value) {
+    p = point_params["p"].value;
+  } else {
+    return;
+  }
+
+  geometry_msgs::PointStamped p0;
+  if (point_params["p0"].have_value) {
+    p0 = point_params["p0"].value;
+  } else {
+    return;
+  }
+
+  ROS_ERROR ("RMAX flyto world exex: %f %f %f %s -> %f %f %f %s - %f", 
+	     p0.point.x, p0.point.y, p0.point.z, p0.header.frame_id.c_str(), 
+	     p.point.x, p.point.y, p.point.z, p.header.frame_id.c_str(), 
+	     speed);
 
   sleep(5);
   
@@ -44,28 +65,5 @@ bool Exec::FlyFromTo::get_constraints (std::vector<std::string> & cons) {
   cons.clear ();
   bool res = false;
   res = true;
-  return res;
-}
-
-
-bool Exec::FlyFromTo::init_from_node_info () {
-  bool res = true;
-  if (get_parameters (node_ns, node_id, params)) {
-    try {
-      x0 = boost::lexical_cast<double>(params["x0"]);
-      y0 = boost::lexical_cast<double>(params["y0"]);
-      z0 = boost::lexical_cast<double>(params["z0"]);
-      x = boost::lexical_cast<double>(params["x"]);
-      y = boost::lexical_cast<double>(params["y"]);
-      z = boost::lexical_cast<double>(params["z"]);
-      speed = boost::lexical_cast<double>(params["speed"]);
-    }
-    catch(boost::bad_lexical_cast &) {
-      ROS_ERROR("txt_exec flyto: BAD LEXICAL CAST");
-      res = false;
-    }
-  } else {
-    res = false;
-  }
   return res;
 }

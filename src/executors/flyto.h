@@ -27,9 +27,6 @@ namespace Exec {
 
     virtual bool get_constraints (std::vector<std::string> & cons);
     
-
-    bool init_from_node_info ();
-
   };
 
 };
