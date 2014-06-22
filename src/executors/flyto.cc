@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <iostream>
-#include <boost/lexical_cast.hpp>
 
 #include "lrs_msgs_tst/ConfirmReq.h"
 
@@ -39,6 +38,9 @@ void Exec::FlyTo::start () {
   if (point_params["p"].have_value) {
     p = point_params["p"].value;
   } else {
+    ROS_ERROR ("flyto: parameter p is missing");
+    set_succeeded_flag (node_ns, node_id, false);
+    set_finished_flag (node_ns, node_id, true);
     return;
   }
 
