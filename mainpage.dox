@@ -5,7 +5,7 @@
 <a href="refman.pdf">lrs_exec_txt PDF file</a>
 
 \b lrs_exec_txt is a package for an executor factory that shows how to write
-executor factories..
+executor factories.
 
 
 <!--
@@ -67,7 +67,8 @@ Subscribes to:
 -->
 
 Publishes to:
-- \b confirm_request: [lrs_msgs_tst/ConfirmReq]
+- \b confirm_request: <a href="../../lrs_msgs_tst/html/msg/ConfirmReq.html">[lrs_msgs_tst/ConfirmReq]</a> An executor that needs a confirmation publish a request
+for confirmation in this topic.
 
 <!--
 \subsubsection parameters ROS parameters
@@ -85,10 +86,15 @@ Sets the following parameters on the parameter server
 
 \subsubsection services ROS services
 
-- \b create_executor: <a href="../../lrs_srvs_tst/html/srv/TSTCreateExecutor.html">[lrs_srvs_tst/TSTCreateExecutor]</a> Create a TST Executor.
+- \b create_executor: <a href="../../lrs_srvs_tst/html/srv/TSTCreateExecutor.html">[lrs_srvs_tst/TSTCreateExecutor]</a> Create a TST Executor for the specified node.
 - \b executor_expand: <a href="../../lrs_srvs_tst/html/srv/TSTExecutorExpand.html">[lrs_srvs_tst/TSTExecutor/Expand]</a> Run code that expands a TST node if it is expandable at delegation time.
-- \b executor_get_constraints: <a href="../../lrs_srvs_tst/html/srv/TSTExecutorGetConstraints.html">[lrs_srvs_tst/TSTExecutorGetConstraints]</a> Get the constraints that the specified executor gives.
-- \b start_executor: <a href="../../lrs_srvs_tst/html/srv/TSTStartExecutor.html">[lrs_srvs_tst/TSTStartExecutor]</a> Start an executor.
+- \b executor_get_constraints: <a href="../../lrs_srvs_tst/html/srv/TSTExecutorGetConstraints.html">[lrs_srvs_tst/TSTExecutorGetConstraints]</a> Get the constraints that the specified executor gives raise to. This can be for example constraints on the duration of the actions or constraints on the allowed commanded speed or something else.
+- \b start_executor: <a
+  href="../../lrs_srvs_tst/html/srv/TSTStartExecutor.html">[lrs_srvs_tst/TSTStartExecutor]</a>
+  Start an executor. This calls the start function in the executor in
+  a seperate thread and then return success of the service calls. The
+  executor is running in its own thread and communicates with the rest
+  of the system by updating variables in its TST node.
 
 
 
@@ -105,6 +111,16 @@ in this TST Executor Factory. For a description of the TST Node types see
 - fly-from-to (flyfromto.cc)
 - fly-to (flyto.cc)
 
+For a description of the virtual base class the executors inherits
+from see <a href="../../lrs_exec/html/index.html">lrs_exec.</a>. The
+pure virtual methods that have to be implemented is
+<code>prepare()</code>, <code>start()</code> and <code>abort()</code>.
+As a start now in the SHERPA project use the code examples for
+<code>prepare()</code> and <code>abort()</code> as they are and
+implement your own platform specific <code>start()</code>. The
+intention with <code>prepare()</code> is that you can do fest check
+there if it is possible to execute the executor and fail early. So
+feel free to implement these kind of checks also if available.
 
 <!-- END: copy for each node -->
 

@@ -1,6 +1,5 @@
 #include "flyto.h"
 
-#include <algorithm>
 #include <iostream>
 
 #include "lrs_msgs_tst/ConfirmReq.h"
