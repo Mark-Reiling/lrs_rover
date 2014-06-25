@@ -4,8 +4,9 @@
 
 <a href="refman.pdf">lrs_exec_txt PDF file</a>
 
-\b lrs_exec_txt is a package for an executor factory that shows how to write
-executor factories.
+\b lrs_exec_txt is a package for a simple executor factory that shows how to write
+executor factories. What is does is just print some text during execution and
+do a sleep to simulate that a task takes some time to execute.
 
 
 <!--
@@ -46,7 +47,8 @@ List of nodes:
 \subsection node_name4 txtexecutor
 
 txtexecutor is a node providing a TST Executor Factory example. The prefix for the topics
-and services are "NameSpace/tst_executor".
+and services are "NameSpace/tst_executor". The prefix must be this way so that other programs
+can know how to find the service calls it needs.
 
 \subsubsection Usage
 \verbatim
@@ -104,15 +106,15 @@ Below is a list of the TST Node types that have executors implemented
 in this TST Executor Factory. For a description of the TST Node types see
 <a href="../../lrs_tst/html/index.html">lrs_tst</a>.
 
-- conc (from lrs_exec)
-- seq (from lrs_exec)
-- confirm (from lrs_exec)
-- wait (from lrs_exec)
+- conc (from <a href="../../lrs_exec/html/index.html">lrs_exec</a>)
+- seq (from <a href="../../lrs_exec/html/index.html">lrs_exec</a>)
+- confirm (from <a href="../../lrs_exec/html/index.html">lrs_exec</a>)
+- wait (from <a href="../../lrs_exec/html/index.html">lrs_exec</a>)
 - fly-from-to (flyfromto.cc)
 - fly-to (flyto.cc)
 
 For a description of the virtual base class the executors inherits
-from see <a href="../../lrs_exec/html/index.html">lrs_exec.</a>. The
+from see <a href="../../lrs_exec/html/index.html">lrs_exec</a>. The
 pure virtual methods that have to be implemented is
 <code>prepare()</code>, <code>start()</code> and <code>abort()</code>.
 As a start now in the SHERPA project use the code examples for
