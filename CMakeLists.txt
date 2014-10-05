@@ -106,6 +106,7 @@ include_directories(
 add_executable(txtexecutor
   src/executors/flyto.cc
   src/executors/flyfromto.cc
+  src/executors/flywaypoints.cc
   src/txtexecutor.cc
 )
 
