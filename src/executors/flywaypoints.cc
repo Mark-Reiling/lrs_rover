@@ -35,11 +35,26 @@ void Exec::FlyWaypoints::start () {
     speed = float64_params["speed"].value;
   }
 
+  ROS_ERROR("N WAYPOINTS: %zu", points_params["waypoints"].value.size());
+  if (points_params["waypoints"].have_value) {
+    ROS_ERROR("WAYPOINTS HAVE VALUE");
+  } else {
+    ROS_ERROR("WAYPOINTS DO NOT HAVE VALUE");
+  }
+
+  if (points_params.find("waypoints") == points_params.end()) {
+    ROS_ERROR("expand: Parmeter waypoints do not exist");
+    set_succeeded_flag (node_ns, node_id, false);
+    set_finished_flag (node_ns, node_id, true);
+    return;
+  }
+
+
   std::vector<geometry_msgs::PointStamped> waypoints;
-  if (point_params["waypoints"].have_value) {
+  if (points_params["waypoints"].have_value) {
     waypoints = points_params["waypoints"].value;
   } else {
-    ROS_ERROR ("flywaypoints: parameter waypoints is missing");
+    ROS_ERROR ("flywaypoints: parameter waypoints do hot have a value");
     set_succeeded_flag (node_ns, node_id, false);
     set_finished_flag (node_ns, node_id, true);
     return;
