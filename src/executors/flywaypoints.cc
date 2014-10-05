@@ -49,6 +49,16 @@ void Exec::FlyWaypoints::start () {
     return;
   }
 
+  bool segment_flag = false;
+  bool any_order_flag = false;
+
+  if (int32_params["segment-flag"].have_value) {
+    segment_flag = int32_params["segment-flag"].value;
+  }
+
+  if (int32_params["any-order-flag"].have_value) {
+    any_order_flag = int32_params["any-order-flag"].value;
+  }
 
   std::vector<geometry_msgs::PointStamped> waypoints;
   if (points_params["waypoints"].have_value) {
