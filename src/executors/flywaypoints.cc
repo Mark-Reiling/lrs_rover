@@ -29,15 +29,10 @@ void Exec::FlyWaypoints::start () {
     return;
   }
 
-  speed = 2.0;
+  ROS_INFO("N WAYPOINTS: %zu", points_params["waypoints"].value.size());
 
-  if (float64_params["speed"].have_value) {
-    speed = float64_params["speed"].value;
-  }
-
-  ROS_ERROR("N WAYPOINTS: %zu", points_params["waypoints"].value.size());
   if (points_params["waypoints"].have_value) {
-    ROS_ERROR("WAYPOINTS HAVE VALUE");
+    ROS_INFO("WAYPOINTS HAVE VALUE");
   } else {
     ROS_ERROR("WAYPOINTS DO NOT HAVE VALUE");
   }
@@ -74,8 +69,8 @@ void Exec::FlyWaypoints::start () {
   for (unsigned int i=0; i<waypoints.size(); i++) {
     geometry_msgs::PointStamped p;
     p = waypoints[i];
-    ROS_INFO ("Exec::Flywaypoints: %f %f %f %s - %f", p.point.x, p.point.y, p.point.z, 
-	      p.header.frame_id.c_str(), speed);
+    ROS_INFO ("Exec::Flywaypoints: %f %f %f %s", p.point.x, p.point.y, p.point.z, 
+	      p.header.frame_id.c_str());
     sleep (5);
   }
 
