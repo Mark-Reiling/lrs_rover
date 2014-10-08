@@ -23,6 +23,7 @@
 #include "wait.h"
 #include "executors/flyto.h"
 #include "executors/flywaypoints.h"
+#include "executors/movearm.h"
 
 //#include "lrs_msgs/ConfirmReq.h"
 
@@ -87,6 +88,11 @@ bool create_executor (lrs_srvs_tst::TSTCreateExecutor::Request  &req,
 
   if (type == "fly-waypoints") {
     execmap[os.str()] = new Exec::FlyWaypoints (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "move-arm") {
+    execmap[os.str()] = new Exec::MoveArm (req.ns, req.id);
     found = true;
   }
 
