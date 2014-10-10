@@ -48,7 +48,15 @@ void Exec::FlyTo::start () {
   ROS_INFO ("Exec::Flyto: %f %f %f %s - %f", p.point.x, p.point.y, p.point.z, 
 	    p.header.frame_id.c_str(), speed);
 
+  //
+  // Replace the sleep with useful work.
+  //
+
   sleep (5);
+
+  //
+  // When we reach this point the node execution whould be finished.
+  //
 
   ROS_INFO ("Exec::FlyTo: FINISHED");
 

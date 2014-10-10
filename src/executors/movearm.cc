@@ -45,7 +45,15 @@ void Exec::MoveArm::start () {
 	    p.pose.position.x, p.pose.position.y, p.pose.position.z, 
 	    p.header.frame_id.c_str());
 
+  //
+  // Replace the sleep with useful work.
+  //
+
   sleep (5);
+
+  //
+  // When we reach this point the node execution whould be finished.
+  //
 
   ROS_INFO ("Exec::MoveArm: FINISHED");
 
