@@ -152,16 +152,20 @@ bool executor_expand (lrs_srvs_tst::TSTExecutorExpand::Request  &req,
   os << req.ns << "-" << req.id;
 
   if (execmap.find (os.str()) != execmap.end()) {
-    if (execmap[os.str()]->expand ()) {
+    int fid = execmap[os.str()]->expand (req.free_id);
+    if (fid) {
+      res.free_id = fid;
       res.error = 0;
       res.success = true;
     } else {
       ROS_ERROR ("executor_expand: Expand failed");
+      res.free_id = 0;
       res.success = false;
       res.error = 2;
     }
   } else {
     ROS_ERROR ("Executor does not exist: %s %d", req.ns.c_str(), req.id);
+    res.free_id = 0;
     res.success = false;
     res.error = 1;
   }
