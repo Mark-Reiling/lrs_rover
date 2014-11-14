@@ -5,9 +5,10 @@ project(lrs_exec_txt)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
   lrs_srvs_tst
   lrs_exec
+  lrs_util_gs
+  roscpp
 )
 
 ## System dependencies are found with CMake's conventions
@@ -113,7 +114,6 @@ add_executable(txtexecutor
 
 target_link_libraries(txtexecutor
   ${catkin_LIBRARIES}
-  exec
 )
 
 
