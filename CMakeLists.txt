@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   lrs_srvs_tst
   lrs_exec
   lrs_util_gs
+  tf
   roscpp
 )
 
