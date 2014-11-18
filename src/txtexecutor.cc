@@ -182,8 +182,10 @@ bool executor_get_constraints (lrs_srvs_tst::TSTExecutorGetConstraints::Request 
   os << req.ns << "-" << req.id;
 
   if (execmap.find (os.str()) != execmap.end()) {
+    std::vector<std::string> vars;
     std::vector<std::string> cons;
-    if (execmap[os.str()]->get_constraints (cons)) {
+    if (execmap[os.str()]->get_constraints (vars, cons)) {
+      res.variables = vars;
       res.constraints = cons;
       res.error = 0;
       res.success = true;
