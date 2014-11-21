@@ -11,9 +11,6 @@
 #include "lrs_msgs_tst/ConfirmReq.h"
 
 #include "lrs_srvs_tst/TSTCreateExecutor.h"
-#include "lrs_srvs_tst/TSTStartExecutor.h"
-#include "lrs_srvs_tst/TSTExecutorExpand.h"
-#include "lrs_srvs_tst/TSTExecutorGetConstraints.h"
 #include "lrs_srvs_tst/TSTGetNode.h"
 
 #include "concurrent.h"
@@ -116,92 +113,6 @@ bool create_executor (lrs_srvs_tst::TSTCreateExecutor::Request  &req,
 }
 
 
-bool start_executor (lrs_srvs_tst::TSTStartExecutor::Request  &req,
-		     lrs_srvs_tst::TSTStartExecutor::Response &res ) {
-  boost::mutex::scoped_lock mutex;
-  ROS_INFO("start_executor: %s %d", req.ns.c_str(), req.id);
-
-  ostringstream os;
-  os << req.ns << "-" << req.id;
-
-
-  if (execmap.find (os.str()) != execmap.end()) {
-    string type = get_node_type (req.ns, req.id);
-    boost::thread * thread;
-    //      thread = new boost::thread(&Exec::Concurrent::start, execmap[os.str()]);
-    thread = new boost::thread(&Executor::start, execmap[os.str()]);
-    // thread->interrupt () to abort...
-    threadmap[os.str()] = thread;
-    res.success = true;
-    res.error = 0;
-  } else {
-    ROS_ERROR ("Executor does not exist: %s %d", req.ns.c_str(), req.id);
-    res.success = false;
-    res.error = 1;
-  }
-
-  return true;
-}
-
-bool executor_expand (lrs_srvs_tst::TSTExecutorExpand::Request  &req,
-		      lrs_srvs_tst::TSTExecutorExpand::Response &res ) {
-  boost::mutex::scoped_lock mutex;
-  ROS_INFO("executor_expand: %s %d", req.ns.c_str(), req.id);
-
-  ostringstream os;
-  os << req.ns << "-" << req.id;
-
-  if (execmap.find (os.str()) != execmap.end()) {
-    int fid = execmap[os.str()]->expand (req.free_id);
-    if (fid) {
-      res.free_id = fid;
-      res.error = 0;
-      res.success = true;
-    } else {
-      ROS_ERROR ("executor_expand: Expand failed");
-      res.free_id = 0;
-      res.success = false;
-      res.error = 2;
-    }
-  } else {
-    ROS_ERROR ("Executor does not exist: %s %d", req.ns.c_str(), req.id);
-    res.free_id = 0;
-    res.success = false;
-    res.error = 1;
-  }
-
-  return true;
-}
-
-bool executor_get_constraints (lrs_srvs_tst::TSTExecutorGetConstraints::Request  &req,
-			       lrs_srvs_tst::TSTExecutorGetConstraints::Response &res ) {
-  boost::mutex::scoped_lock mutex;
-  ROS_INFO("executor_get_constraints: %s %d", req.ns.c_str(), req.id);
-
-  ostringstream os;
-  os << req.ns << "-" << req.id;
-
-  if (execmap.find (os.str()) != execmap.end()) {
-    std::vector<std::string> vars;
-    std::vector<std::string> cons;
-    if (execmap[os.str()]->get_constraints (vars, cons)) {
-      res.variables = vars;
-      res.constraints = cons;
-      res.error = 0;
-      res.success = true;
-    } else {
-      ROS_ERROR ("executor_get_constraints: Failed to get constraints: %s", os.str().c_str());
-      res.success = false;
-      res.error = 2;
-    }
-  } else {
-    ROS_ERROR ("Executor does not exist: %s %d", req.ns.c_str(), req.id);
-    res.success = false;
-    res.error = 1;
-  }
-
-  return true;
-}
 
 int main(int argc, char **argv) {
 
