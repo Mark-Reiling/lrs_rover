@@ -32,10 +32,6 @@ boost::mutex mutex;
 
 using namespace std;
 
-void spin_thread () {
-  ros::spin();
-}
-
 bool create_executor (lrs_srvs_tst::TSTCreateExecutor::Request  &req,
 		      lrs_srvs_tst::TSTCreateExecutor::Response &res ) {
   boost::mutex::scoped_lock mutex;
@@ -132,11 +128,6 @@ int main(int argc, char **argv) {
   services.push_back (n.advertiseService(prefix + "start_executor", start_executor));
 
   ROS_INFO("Ready to be an executor factory");
-
-  ros::Rate loop_rate(500);
-  ///  int count = 0;
-
-  //  boost::thread sthread (spin_thread);
 
   ros::spin();
   
