@@ -11,7 +11,6 @@
 #include "lrs_msgs_tst/ConfirmReq.h"
 
 #include "lrs_srvs_tst/TSTCreateExecutor.h"
-#include "lrs_srvs_tst/TSTGetNode.h"
 
 #include "concurrent.h"
 #include "sequence.h"
@@ -21,8 +20,6 @@
 #include "executors/flyto.h"
 #include "executors/flywaypoints.h"
 #include "executors/movearm.h"
-
-//#include "lrs_msgs/ConfirmReq.h"
 
 #include "executil.h"
 
