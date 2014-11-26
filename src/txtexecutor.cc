@@ -34,7 +34,7 @@ using namespace std;
 
 bool create_executor (lrs_srvs_tst::TSTCreateExecutor::Request  &req,
 		      lrs_srvs_tst::TSTCreateExecutor::Response &res ) {
-  boost::mutex::scoped_lock mutex;
+  boost::mutex::scoped_lock lock(mutex);
   ROS_INFO("quadexecutor: create_executor: %s %d - %d", req.ns.c_str(), req.id, req.run_prepare);
 
   ostringstream os;
