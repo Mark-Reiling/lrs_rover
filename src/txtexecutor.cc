@@ -10,7 +10,7 @@
 
 #include "lrs_msgs_tst/ConfirmReq.h"
 
-#include "lrs_srvs_tst/TSTCreateExecutor.h"
+#include "lrs_srvs_exec/TSTCreateExecutor.h"
 
 #include "concurrent.h"
 #include "sequence.h"
@@ -32,8 +32,8 @@ boost::mutex mutex;
 
 using namespace std;
 
-bool create_executor (lrs_srvs_tst::TSTCreateExecutor::Request  &req,
-		      lrs_srvs_tst::TSTCreateExecutor::Response &res ) {
+bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
+		      lrs_srvs_exec::TSTCreateExecutor::Response &res ) {
   boost::mutex::scoped_lock lock(mutex);
   ROS_INFO("quadexecutor: create_executor: %s %d - %d", req.ns.c_str(), req.id, req.run_prepare);
 

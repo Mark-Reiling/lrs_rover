@@ -6,6 +6,7 @@ project(lrs_exec_txt)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   lrs_srvs_tst
+  lrs_srvs_exec
   lrs_exec
   lrs_util_gs
   tf
