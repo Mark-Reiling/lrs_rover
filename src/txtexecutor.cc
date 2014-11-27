@@ -53,6 +53,7 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
 
   if (type == "seq") {
     execmap[os.str()] = new Exec::Sequence (req.ns, req.id);
+    execmap[os.str()]->set_can_be_paused (true);
     found = true;
   }
 
@@ -123,9 +124,12 @@ int main(int argc, char **argv) {
   std::string prefix = "tst_executor/";
 
   services.push_back (n.advertiseService(prefix + "create_executor", create_executor));
+  services.push_back (n.advertiseService(prefix + "executor_continue", executor_continue));
   services.push_back (n.advertiseService(prefix + "executor_expand", executor_expand));
+  services.push_back (n.advertiseService(prefix + "executor_request_pause", executor_request_pause));
   services.push_back (n.advertiseService(prefix + "executor_get_constraints", executor_get_constraints));
   services.push_back (n.advertiseService(prefix + "start_executor", start_executor));
+  services.push_back (n.advertiseService(prefix + "abort_executor", abort_executor));
 
   ROS_INFO("Ready to be an executor factory");
 
