@@ -12,6 +12,12 @@ extern std::map<std::string, boost::thread *> threadmap;
 using namespace std;
 
 
+Exec::FlyTo::FlyTo (std::string ns, int id) : Executor (ns, id) {
+  lrs_msgs_tst::TSTExecInfo einfo;
+  einfo.can_be_aborted = true;
+  set_exec_info(ns, id, einfo);
+}
+
 bool Exec::FlyTo::prepare () {
   bool res = true;
   ROS_INFO ("Exec::FlyTo::prepare");

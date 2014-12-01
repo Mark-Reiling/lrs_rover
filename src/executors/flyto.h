@@ -15,10 +15,7 @@ namespace Exec {
     double speed;
 
   public:
-    FlyTo (std::string ns, int id) : Executor (ns, id) {
-
-    };
-
+    FlyTo (std::string ns, int id);
     virtual ~FlyTo () {};
 
     bool prepare ();
