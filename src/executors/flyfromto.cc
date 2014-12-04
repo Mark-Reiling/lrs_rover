@@ -23,8 +23,8 @@ void Exec::FlyFromTo::start () {
     return;
   }
   
-  if (float64_params["speed"].have_value) {
-    speed = float64_params["speed"].value;
+  if (float64_params["commanded-speed"].have_value) {
+    speed = float64_params["commanded-speed"].value;
   }
 
   geometry_msgs::PointStamped p;
