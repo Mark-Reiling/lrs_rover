@@ -7,6 +7,7 @@ project(lrs_exec_txt)
 find_package(catkin REQUIRED COMPONENTS
   lrs_srvs_tst
   lrs_srvs_exec
+  lrs_resource
   lrs_exec
   lrs_util_gs
   tf
