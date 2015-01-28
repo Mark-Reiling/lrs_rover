@@ -20,6 +20,7 @@
 #include "executors/flyto.h"
 #include "executors/flywaypoints.h"
 #include "executors/movearm.h"
+#include "executors/scanfromabove.h"
 
 #include "executil.h"
 
@@ -84,6 +85,11 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
 
   if (type == "move-arm") {
     execmap[os.str()] = new Exec::MoveArm (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "scan-from-above") {
+    execmap[os.str()] = new Exec::ScanFromAbove (req.ns, req.id);
     found = true;
   }
 
