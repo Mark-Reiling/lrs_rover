@@ -49,6 +49,27 @@ void Exec::ScanFromAbove::start () {
   // Replace the sleep with useful work.
   //
 
+  if (points_params.find("area") == points_params.end()) {
+    ROS_ERROR("expand: Parmeter area do not exist");
+    return;
+  }
+
+  std::vector<geometry_msgs::PointStamped> points;
+  points = points_params["area"].value;
+
+  for (unsigned int i=0; i<points.size(); i++) {
+    ROS_INFO("Point %d: %s - %f %f %f", i, points[i].header.frame_id.c_str(),
+	     points[i].point.x, points[i].point.y, points[i].point.z);
+  }
+
+  std::vector<string> uavs;
+  uavs = strings_params["uavs"].value;
+
+  for (unsigned int i=0; i<uavs.size(); i++) {
+    ROS_INFO("UAV %d: %s", i, uavs[i].c_str());
+  }
+
+
   sleep(20);
 
   //
