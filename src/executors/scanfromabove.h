@@ -23,6 +23,7 @@ namespace Exec {
     virtual ~ScanFromAbove () {};
 
     virtual int expand (int free_id);
+    virtual bool check ();
 
     bool prepare ();
     void start ();

@@ -11,9 +11,16 @@ int Exec::ScanFromAbove::expand (int free_id) {
 
   ROS_INFO("expand: %s", ns.c_str());
 
-  // Place code doing the work here
+  // Place code doing the expansion
 
   return free_id;
+}
+
+bool Exec::ScanFromAbove::check () {
+  bool res = true;
+
+
+  return res;
 }
 
 

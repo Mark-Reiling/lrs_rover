@@ -130,6 +130,7 @@ int main(int argc, char **argv) {
   std::string prefix = "tst_executor/";
 
   services.push_back (n.advertiseService(prefix + "create_executor", create_executor));
+  services.push_back (n.advertiseService(prefix + "executor_check", executor_check));
   services.push_back (n.advertiseService(prefix + "executor_continue", executor_continue));
   services.push_back (n.advertiseService(prefix + "executor_expand", executor_expand));
   services.push_back (n.advertiseService(prefix + "executor_request_pause", executor_request_pause));
