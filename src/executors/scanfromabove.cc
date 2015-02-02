@@ -1,5 +1,7 @@
 #include "scanfromabove.h"
 
+//#include "delutil.h"
+
 #include <iostream>
 #include <string>
 
@@ -103,7 +105,26 @@ void Exec::ScanFromAbove::start () {
   }
 
 
-  sleep(20);
+  sleep(20); // Replace with the real code
+
+  //
+  // The flying is done. Process the data if needed.
+  //
+
+  sleep(5); // Replace with the real code
+
+  //
+  // Put information in the world data base about the generated data
+  //
+
+#if 0
+  lrs_msgs_common::DataInfo di;
+  string filename = datauuid + ".bag";
+  di.uuid = datauuid;
+  di.url = "http://abc.def.com/" + filename;
+  di.datatype = di.DATATYPE_LIDAR;
+  di.filetype = di.FILETYPE_BAG;
+#endif
 
   //
   // When we reach this point the node execution whould be finished.
