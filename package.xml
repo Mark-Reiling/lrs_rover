@@ -44,6 +44,8 @@
   <build_depend>roscpp</build_depend>
   <build_depend>lrs_srvs_tst</build_depend>
   <build_depend>lrs_srvs_exec</build_depend>
+  <build_depend>lrs_srvs_wdb</build_depend>
+  <build_depend>lrs_wdb</build_depend>
   <build_depend>lrs_resource</build_depend>
   <build_depend>lrs_exec</build_depend>
   <build_depend>lrs_util_gs</build_depend>
@@ -52,6 +54,8 @@
   <run_depend>lrs_srvs_exec</run_depend>
   <run_depend>lrs_resource</run_depend>
   <run_depend>lrs_exec</run_depend>
+  <run_depend>lrs_srvs_wdb</run_depend>
+  <run_depend>lrs_wdb</run_depend>
   <run_depend>lrs_util_gs</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
