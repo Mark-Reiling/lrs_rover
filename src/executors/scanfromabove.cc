@@ -18,8 +18,15 @@ int Exec::ScanFromAbove::expand (int free_id) {
 
 bool Exec::ScanFromAbove::check () {
   bool res = true;
+  string sensortype;
+  if (get_param("sensor-type", sensortype)) {
+    ROS_INFO("scanfromabove check - sensortype: %s", sensortype.c_str());
 
+    //
+    // Check that we have this sensor. Return false if we do not have this sensor.
+    //
 
+  }
   return res;
 }
 
@@ -53,8 +60,27 @@ void Exec::ScanFromAbove::start () {
 
 
   //
-  // Replace the sleep with useful work.
+  // Replace the sleeps with useful work.
   //
+
+
+  //
+  // We assume that this node is a non-expanding node and that the datacollection
+  // and processing is done in this node.
+  //
+
+  //
+  // Code to preparefor the data collection
+  //
+
+  string datauuid = string_params["data-uuid"].value;
+  ROS_INFO("scanfromabove preparing for data collection for uuid: %s", datauuid.c_str());
+
+  sleep(5); // Replace with the real code
+
+  //
+  // Do the actual scan/mapping flying
+  // 
 
   if (points_params.find("area") == points_params.end()) {
     ROS_ERROR("expand: Parmeter area do not exist");
