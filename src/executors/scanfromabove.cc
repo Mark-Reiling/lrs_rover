@@ -1,6 +1,6 @@
 #include "scanfromabove.h"
 
-//#include "delutil.h"
+#include "wdbutil.h"
 
 #include <iostream>
 #include <string>
@@ -116,15 +116,17 @@ void Exec::ScanFromAbove::start () {
   //
   // Put information in the world data base about the generated data
   //
+  // Example code below
+  //
 
-#if 0
   lrs_msgs_common::DataInfo di;
   string filename = datauuid + ".bag";
   di.uuid = datauuid;
   di.url = "http://abc.def.com/" + filename;
   di.datatype = di.DATATYPE_LIDAR;
   di.filetype = di.FILETYPE_BAG;
-#endif
+
+  add_data_info("/ground", di);
 
   //
   // When we reach this point the node execution whould be finished.
