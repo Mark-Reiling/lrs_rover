@@ -133,6 +133,7 @@ int main(int argc, char **argv) {
   services.push_back (n.advertiseService(prefix + "executor_check", executor_check));
   services.push_back (n.advertiseService(prefix + "executor_continue", executor_continue));
   services.push_back (n.advertiseService(prefix + "executor_expand", executor_expand));
+  services.push_back (n.advertiseService(prefix + "executor_is_delegation_expandable", executor_is_delegation_expandable));
   services.push_back (n.advertiseService(prefix + "executor_request_pause", executor_request_pause));
   services.push_back (n.advertiseService(prefix + "executor_get_constraints", executor_get_constraints));
   services.push_back (n.advertiseService(prefix + "start_executor", start_executor));

@@ -21,13 +21,36 @@ int Exec::ScanFromAbove::expand (int free_id) {
 bool Exec::ScanFromAbove::check () {
   bool res = true;
   string sensortype;
-  if (get_param("sensor-type", sensortype)) {
-    ROS_INFO("scanfromabove check - sensortype: %s", sensortype.c_str());
 
-    //
-    // Check that we have this sensor. Return false if we do not have this sensor.
-    //
+  fetch_node_info();
 
+  if (init_params()) {
+    if (get_param("sensor-type", sensortype)) {
+      ROS_ERROR("scanfromabove check - sensortype: %s - %s", sensortype.c_str(), tni.execution_ns.c_str());
+
+      //
+      // Check that we have this sensor. Return false if we do not have this sensor.
+      //
+
+      // Here a hard coded check for examples.
+
+      if (sensortype == "laser") {
+	if (tni.delegation_ns == "/uav0") {
+	  return true;
+	} else {
+	  return false;
+	}
+      }
+
+      if (sensortype == "camera") {
+	if (tni.delegation_ns == "/uav1") {
+	  return true;
+	} else {
+	  return false;
+	}
+      }
+      
+    }
   }
   return res;
 }
@@ -122,7 +145,11 @@ void Exec::ScanFromAbove::start () {
   lrs_msgs_common::DataInfo di;
   string filename = datauuid + ".bag";
   di.uuid = datauuid;
-  di.url = "http://abc.def.com/" + filename;
+  if (tni.execution_ns == "/uav0") {
+    di.url = "http://abc.def.com/" + filename;
+  } else {
+    di.url = "http://ghi.jkl.com/" + filename;
+  }
   di.datatype = di.DATATYPE_LIDAR;
   di.filetype = di.FILETYPE_BAG;
 
