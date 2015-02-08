@@ -4,6 +4,7 @@
 #define _SCAN_FROM_ABOVE_H
 
 #include "executor.h"
+#include "geoconvert.h"
 
 #include <string>
 
@@ -13,6 +14,7 @@ namespace Exec {
   private:
     std::vector<std::string> uavs;
     std::vector< std::map<std::string, double> > sensors_params;
+    GeoConvert geoconv;
 
   public:
     ScanFromAbove (std::string ns, int id) : Executor (ns, id) {

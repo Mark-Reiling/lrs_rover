@@ -127,6 +127,18 @@ void Exec::ScanFromAbove::start () {
     ROS_INFO("UAV %d: %s", i, uavs[i].c_str());
   }
 
+  //
+  // To convert the points to different coordinate systems
+  //
+
+  for (unsigned int i=0; i<points.size(); i++) {
+    // Just a demonstration of the three conversion methods available
+    // This assumes that the frame_id of the PointStamped are one of /world, utm or wgs84.
+    points[i] = geoconv.to_utm(points[i]);
+    points[i] = geoconv.to_wgs84(points[i]);
+    points[i] = geoconv.to_world(points[i]);
+  }
+
 
   sleep(20); // Replace with the real code
 
