@@ -164,6 +164,7 @@ void Exec::ScanFromAbove::start () {
   }
   di.datatype = di.DATATYPE_LIDAR;
   di.filetype = di.FILETYPE_BAG;
+  di.filename = filename;
 
   add_data_info("/ground", di);
 
