@@ -12,11 +12,6 @@
 
 #include "lrs_srvs_exec/TSTCreateExecutor.h"
 
-#include "concurrent.h"
-#include "sequence.h"
-#include "testif.h"
-#include "confirm.h"
-#include "wait.h"
 #include "executors/flyto.h"
 #include "executors/flywaypoints.h"
 #include "executors/movearm.h"
