@@ -4,6 +4,8 @@
 
 #include "lrs_msgs_tst/ConfirmReq.h"
 
+#include "executil.h"
+
 extern ros::NodeHandle * global_nh;
 extern ros::Publisher * global_confirm_pub;
 

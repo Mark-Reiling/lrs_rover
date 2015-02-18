@@ -2,6 +2,8 @@
 
 #include "wdbutil.h"
 
+#include "executil.h"
+
 #include <iostream>
 #include <string>
 

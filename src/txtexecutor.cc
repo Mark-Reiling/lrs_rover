@@ -47,29 +47,10 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
   string type = get_node_type (req.ns, req.id);
   
   bool found = false;
-  if (type == "conc") {
-    execmap[os.str()] = new Exec::Concurrent (req.ns, req.id);
-    found = true;
-  }
 
-  if (type == "seq") {
-    execmap[os.str()] = new Exec::Sequence (req.ns, req.id);
-    execmap[os.str()]->set_can_be_paused (true);
-    found = true;
-  }
-
-  if (type == "test-if") {
-    execmap[os.str()] = new Exec::TestIf (req.ns, req.id);
-    found = true;
-  }
-
-  if (type == "confirm") {
-    execmap[os.str()] = new Exec::Confirm (req.ns, req.id);
-    found = true;
-  }
-
-  if (type == "wait") {
-    execmap[os.str()] = new Exec::Wait (req.ns, req.id);
+  Executor * cres = check_exec(type, req.ns, req.id);
+  if (cres) {
+    execmap[os.str()] = cres;
     found = true;
   }
 
