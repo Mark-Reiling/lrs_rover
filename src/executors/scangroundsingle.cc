@@ -1,4 +1,4 @@
-#include "scanfromabove.h"
+#include "scangroundsingle.h"
 
 #include "wdbutil.h"
 
@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int Exec::ScanFromAbove::expand (int free_id) {
+int Exec::ScanGroundSingle::expand (int free_id) {
 
   std::string ns = ros::names::clean (ros::this_node::getNamespace());
 
@@ -18,7 +18,7 @@ int Exec::ScanFromAbove::expand (int free_id) {
   return free_id;
 }
 
-bool Exec::ScanFromAbove::check () {
+bool Exec::ScanGroundSingle::check () {
   bool res = true;
   string sensortype;
 
@@ -26,7 +26,7 @@ bool Exec::ScanFromAbove::check () {
 
   if (init_params()) {
     if (get_param("sensor-type", sensortype)) {
-      ROS_ERROR("scanfromabove check - sensortype: %s - %s", sensortype.c_str(), tni.execution_ns.c_str());
+      ROS_ERROR("scangroundsingle check - sensortype: %s - %s", sensortype.c_str(), tni.execution_ns.c_str());
 
       //
       // Check that we have this sensor. Return false if we do not have this sensor.
@@ -56,9 +56,9 @@ bool Exec::ScanFromAbove::check () {
 }
 
 
-bool Exec::ScanFromAbove::prepare () {
+bool Exec::ScanGroundSingle::prepare () {
   bool res = true;
-  ROS_INFO ("Exec::ScanFromAbove::prepare");
+  ROS_INFO ("Exec::ScanGroundSingle::prepare");
 
   if (res) {
     set_active_flag (node_ns, node_id, true);
@@ -67,8 +67,8 @@ bool Exec::ScanFromAbove::prepare () {
   return res;
 }
 
-void Exec::ScanFromAbove::start () {
-  ROS_INFO ("Exec::ScanFromAbove::start: %s - %d", node_ns.c_str(), node_id);
+void Exec::ScanGroundSingle::start () {
+  ROS_INFO ("Exec::ScanGroundSingle::start: %s - %d", node_ns.c_str(), node_id);
 
   ros::NodeHandle n;
 
@@ -172,19 +172,19 @@ void Exec::ScanFromAbove::start () {
   // When we reach this point the node execution whould be finished.
   //
   
-  ROS_INFO ("Exec::ScanFromAbove: FINISHED");
+  ROS_INFO ("Exec::ScanGroundSingle: FINISHED");
 
   wait_for_postwork_conditions ();
 }
 
-bool Exec::ScanFromAbove::abort () {
+bool Exec::ScanGroundSingle::abort () {
   bool res = false;
-  ROS_INFO("Exec::ScanFromAbove::abort");
+  ROS_INFO("Exec::ScanGroundSingle::abort");
 
   return res;
 }
 
-bool Exec::ScanFromAbove::get_constraints (std::vector<std::string> & cons) {
+bool Exec::ScanGroundSingle::get_constraints (std::vector<std::string> & cons) {
   cons.clear ();
   bool res = false;
 
