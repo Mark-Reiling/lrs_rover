@@ -87,9 +87,3 @@ bool Exec::FlyWaypoints::abort () {
   return res;
 }
 
-bool Exec::FlyWaypoints::get_constraints (std::vector<std::string> & cons) {
-  cons.clear ();
-  bool res = false;
-  res = true;
-  return res;
-}

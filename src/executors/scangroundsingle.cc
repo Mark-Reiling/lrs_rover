@@ -186,10 +186,3 @@ bool Exec::ScanGroundSingle::abort () {
   return res;
 }
 
-bool Exec::ScanGroundSingle::get_constraints (std::vector<std::string> & cons) {
-  cons.clear ();
-  bool res = false;
-
-  return res;
-}
-

@@ -61,9 +61,3 @@ bool Exec::FlyFromTo::abort () {
   return res;
 }
 
-bool Exec::FlyFromTo::get_constraints (std::vector<std::string> & cons) {
-  cons.clear ();
-  bool res = false;
-  res = true;
-  return res;
-}
