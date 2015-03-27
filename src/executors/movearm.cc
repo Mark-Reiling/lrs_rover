@@ -35,9 +35,7 @@ void Exec::MoveArm::start () {
   if (pose_params["p"].have_value) {
     p = pose_params["p"].value;
   } else {
-    ROS_ERROR ("move-arm: parameter p is missing");
-    set_succeeded_flag (node_ns, node_id, false);
-    set_finished_flag (node_ns, node_id, true);
+    fail("move-arm: parameter p is missing");
     return;
   }
 

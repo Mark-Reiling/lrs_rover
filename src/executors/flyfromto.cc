@@ -33,6 +33,7 @@ void Exec::FlyFromTo::start () {
   if (point_params["p"].have_value) {
     p = point_params["p"].value;
   } else {
+    fail("parameter p is missing");
     return;
   }
 
@@ -40,6 +41,7 @@ void Exec::FlyFromTo::start () {
   if (point_params["p0"].have_value) {
     p0 = point_params["p0"].value;
   } else {
+    fail("parameter p0 is missing");
     return;
   }
 

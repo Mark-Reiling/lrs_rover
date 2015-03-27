@@ -40,9 +40,7 @@ void Exec::FlyWaypoints::start () {
   }
 
   if (points_params.find("waypoints") == points_params.end()) {
-    ROS_ERROR("expand: Parmeter waypoints do not exist");
-    set_succeeded_flag (node_ns, node_id, false);
-    set_finished_flag (node_ns, node_id, true);
+    fail("Parmeter waypoints do not exist");
     return;
   }
 
@@ -61,9 +59,7 @@ void Exec::FlyWaypoints::start () {
   if (points_params["waypoints"].have_value) {
     waypoints = points_params["waypoints"].value;
   } else {
-    ROS_ERROR ("flywaypoints: parameter waypoints do hot have a value");
-    set_succeeded_flag (node_ns, node_id, false);
-    set_finished_flag (node_ns, node_id, true);
+    fail("flywaypoints: parameter waypoints do hot have a value");
     return;
   }
 

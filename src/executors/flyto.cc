@@ -49,9 +49,7 @@ void Exec::FlyTo::start () {
     if (point_params["p"].have_value) {
       p = point_params["p"].value;
     } else {
-      ROS_ERROR ("flyto: parameter p is missing");
-      set_succeeded_flag (node_ns, node_id, false);
-      set_finished_flag (node_ns, node_id, true);
+      fail ("flyto: parameter p is missing");
       return;
     }
 

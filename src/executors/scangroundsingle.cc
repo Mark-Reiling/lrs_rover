@@ -110,7 +110,7 @@ void Exec::ScanGroundSingle::start () {
   // 
 
   if (points_params.find("area") == points_params.end()) {
-    ROS_ERROR("expand: Parmeter area do not exist");
+    fail("Parmeter area do not exist");
     return;
   }
 
