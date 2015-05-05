@@ -30,8 +30,6 @@ int Exec::TakeToTheAir::expand (int free_id, std::vector<std::string> possible_u
 
   vector<string> vars;
   vector<string> cons;
-  ostringstream os;
-  os << "var 0.." << possible_units.size()-1 << ": execution_unit;";
 
   int seqid = create_child_node (node_ns, "seq", "seq", node_id);
   ROS_INFO("seqid:%d", seqid);
@@ -44,6 +42,11 @@ int Exec::TakeToTheAir::expand (int free_id, std::vector<std::string> possible_u
   //
 
   int cid = create_child_node (node_ns, "tell-operator", "tell-operator", seqid);
+  set_constraints(node_ns, cid, vars, cons);
+  set_parameter_string(node_ns, cid, "execunit", "/uav1");
+  //  set_parameter_string(node_ns, cid, "execunitalias", "B");
+  set_parameter_string(node_ns, cid, "content", "take-to-the-air");
+  set_parameter_string(node_ns, cid, "interaction-uuid", "18");
   set_parameter_int32(node_ns, cid, "unique_node_id", free_id++);
 
   return free_id;
