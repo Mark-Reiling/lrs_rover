@@ -117,6 +117,7 @@ add_executable(txtexecutor
   src/executors/flywaypoints.cc
   src/executors/movearm.cc
   src/executors/scangroundsingle.cc
+  src/executors/taketotheair.cc
   src/txtexecutor.cc
 )
 
