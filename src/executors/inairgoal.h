@@ -1,7 +1,7 @@
 // This may look like C code, but it is really -*- C++ -*-
 
-#ifndef _TAKE_TO_THE_AIR_H
-#define _TAKE_TO_THE_AIR_H
+#ifndef _IN_AIR_GOAL_H
+#define _IN_AIR_GOAL_H
 
 #include "executor.h"
 
@@ -9,15 +9,15 @@
 
 namespace Exec {
 
-  class TakeToTheAir : public virtual Executor {
+  class InAirGoal : public virtual Executor {
   private:
 
   public:
-    TakeToTheAir (std::string ns, int id) : Executor (ns, id) {
+    InAirGoal (std::string ns, int id) : Executor (ns, id) {
       set_delegation_expandable(true);
     };
 
-    virtual ~TakeToTheAir () {};
+    virtual ~InAirGoal () {};
 
     virtual int expand (int free_id, std::vector<std::string> possible_units);
 

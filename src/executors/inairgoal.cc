@@ -1,4 +1,4 @@
-#include "taketotheair.h"
+#include "inairgoal.h"
 
 #include <iostream>
 #include <string>
@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int Exec::TakeToTheAir::expand (int free_id, std::vector<std::string> possible_units) {
+int Exec::InAirGoal::expand (int free_id, std::vector<std::string> possible_units) {
   std::string ns = ros::names::clean (ros::this_node::getNamespace());
 
   ROS_INFO("expand: %s", ns.c_str());
@@ -31,17 +31,19 @@ int Exec::TakeToTheAir::expand (int free_id, std::vector<std::string> possible_u
   vector<string> vars;
   vector<string> cons;
 
+#if 0
   int seqid = create_child_node (node_ns, "seq", "seq", node_id);
   ROS_INFO("seqid:%d", seqid);
   set_execution_unit(node_ns, seqid, ns);
   set_constraints(node_ns, seqid, vars, cons);
   set_parameter_int32(node_ns, seqid, "unique_node_id", free_id++);
+#endif
 
   //
   // Tell operator
   //
 
-  int cid = create_child_node (node_ns, "tell-operator", "tell-operator", seqid);
+  int cid = create_child_node (node_ns, "tell-operator", "tell-operator", node_id);
   set_constraints(node_ns, cid, vars, cons);
   set_parameter_string(node_ns, cid, "execunit", "/uav1");
   //  set_parameter_string(node_ns, cid, "execunitalias", "B");
@@ -52,8 +54,8 @@ int Exec::TakeToTheAir::expand (int free_id, std::vector<std::string> possible_u
   return free_id;
 }
 
-bool Exec::TakeToTheAir::check () {
-  ROS_INFO ("TakeToTheAir CHECK");
+bool Exec::InAirGoal::check () {
+  ROS_INFO ("InAirGoal CHECK");
 
   std::string ns = ros::names::clean (ros::this_node::getNamespace());
 
@@ -68,9 +70,9 @@ bool Exec::TakeToTheAir::check () {
 }
 
 
-bool Exec::TakeToTheAir::prepare () {
+bool Exec::InAirGoal::prepare () {
   bool res = true;
-  ROS_INFO ("Exec::TakeToTheAir::prepare");
+  ROS_INFO ("Exec::InAirGoal::prepare");
   if (res) {
     set_active_flag (node_ns, node_id, true);
   }
@@ -78,8 +80,8 @@ bool Exec::TakeToTheAir::prepare () {
 }
 
 
-void Exec::TakeToTheAir::start () {
-  ROS_INFO ("Exec::TakeToTheAir::start: %s - %d", node_ns.c_str(), node_id);
+void Exec::InAirGoal::start () {
+  ROS_INFO ("Exec::InAirGoal::start: %s - %d", node_ns.c_str(), node_id);
 
   ros::NodeHandle n;
 
@@ -99,9 +101,9 @@ void Exec::TakeToTheAir::start () {
 
 }
 
-bool Exec::TakeToTheAir::abort () {
+bool Exec::InAirGoal::abort () {
   bool res = false;
-  ROS_INFO("Exec::TakeToTheAir::abort");
+  ROS_INFO("Exec::InAirGoal::abort");
 
   return res;
 }
