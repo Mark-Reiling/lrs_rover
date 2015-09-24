@@ -114,6 +114,7 @@ include_directories(
 add_executable(txtexecutor
   src/executors/flyto.cc
   src/executors/flyfromto.cc
+  src/executors/lookat.cc
   src/executors/flywaypoints.cc
   src/executors/movearm.cc
   src/executors/scangroundsingle.cc
