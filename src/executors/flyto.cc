@@ -63,7 +63,7 @@ void Exec::FlyTo::start () {
     //
 
     boost::this_thread::interruption_point();
-    for (int i=0; i<5000; i++) {
+    for (int i=0; i<10000; i++) {
       usleep(1000);
       boost::this_thread::interruption_point();
     }
