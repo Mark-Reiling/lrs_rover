@@ -133,6 +133,9 @@ int main(int argc, char **argv) {
   services.push_back (n.advertiseService(prefix + "executor_get_constraints", executor_get_constraints));
   services.push_back (n.advertiseService(prefix + "start_executor", start_executor));
   services.push_back (n.advertiseService(prefix + "abort_executor", abort_executor));
+  services.push_back (n.advertiseService(prefix + "pause_executor", pause_executor));
+  services.push_back (n.advertiseService(prefix + "continue_executor", continue_executor));
+  services.push_back (n.advertiseService(prefix + "enough_executor", enough_executor));
 
   ROS_INFO("Ready to be an executor factory");
 
