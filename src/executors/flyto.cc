@@ -55,6 +55,9 @@ void Exec::FlyTo::start () {
 
     ROS_INFO ("Exec::Flyto: Execution unit: %s", tni.execution_ns.c_str());
 
+
+    // The frame_id for p should be wgs84 or utm-ZONE-[south|north].
+
     ROS_INFO ("Exec::Flyto: %f %f %f %s - %f", p.point.x, p.point.y, p.point.z, 
 	      p.header.frame_id.c_str(), speed);
 
