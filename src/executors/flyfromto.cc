@@ -45,14 +45,14 @@ void Exec::FlyFromTo::start () {
     return;
   }
 
-  ROS_ERROR ("RMAX flyto world exex: %f %f %f %s -> %f %f %f %s - %f", 
+  ROS_INFO ("txtexecutor flyfromto exec: %f %f %f %s -> %f %f %f %s - %f", 
 	     p0.point.x, p0.point.y, p0.point.z, p0.header.frame_id.c_str(), 
 	     p.point.x, p.point.y, p.point.z, p.header.frame_id.c_str(), 
 	     speed);
 
   sleep(5);
   
-  ROS_INFO ("Exec::FlyTo: FINISHED");
+  ROS_INFO ("Exec::FlyFromTo: FINISHED");
 
   wait_for_postwork_conditions ();
 }
