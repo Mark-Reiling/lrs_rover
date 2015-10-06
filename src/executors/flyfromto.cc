@@ -29,25 +29,25 @@ void Exec::FlyFromTo::start () {
     speed = float64_params["commanded-speed"].value;
   }
 
-  geometry_msgs::PointStamped p;
-  if (point_params["p"].have_value) {
-    p = point_params["p"].value;
+  geographic_msgs::GeoPoint p;
+  if (geo_point_params["p"].have_value) {
+    p = geo_point_params["p"].value;
   } else {
     fail("parameter p is missing");
     return;
   }
 
-  geometry_msgs::PointStamped p0;
-  if (point_params["p0"].have_value) {
-    p0 = point_params["p0"].value;
+  geographic_msgs::GeoPoint p0;
+  if (geo_point_params["p0"].have_value) {
+    p0 = geo_point_params["p0"].value;
   } else {
     fail("parameter p0 is missing");
     return;
   }
 
-  ROS_INFO ("txtexecutor flyfromto exec: %f %f %f %s -> %f %f %f %s - %f", 
-	     p0.point.x, p0.point.y, p0.point.z, p0.header.frame_id.c_str(), 
-	     p.point.x, p.point.y, p.point.z, p.header.frame_id.c_str(), 
+  ROS_INFO ("txtexecutor flyfromto exec: %f %f %f -> %f %f %f - %f", 
+	    p0.latitude, p0.longitude, p0.altitude,
+	    p.latitude, p.longitude, p.altitude, 
 	     speed);
 
   sleep(5);
