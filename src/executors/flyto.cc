@@ -45,9 +45,10 @@ void Exec::FlyTo::start () {
       speed = float64_params["commanded-speed"].value;
     }
     
-    geometry_msgs::PointStamped p;
-    if (point_params["p"].have_value) {
-      p = point_params["p"].value;
+    geographic_msgs::GeoPoint p;
+    if (geo_point_params["p"].have_value) {
+      p = geo_point_params["p"].value;
+      ROS_ERROR ("FLYTO: %f %f - %f", p.latitude, p.longitude, p.altitude);
     } else {
       fail ("flyto: parameter p is missing");
       return;
@@ -58,8 +59,8 @@ void Exec::FlyTo::start () {
 
     // The frame_id for p should be wgs84 or utm-ZONE-[south|north].
 
-    ROS_INFO ("Exec::Flyto: %f %f %f %s - %f", p.point.x, p.point.y, p.point.z, 
-	      p.header.frame_id.c_str(), speed);
+    ROS_INFO ("Exec::Flyto (WGS84 Ellipsoid alt): %f %f %f - %f", 
+	      p.latitude, p.longitude, p.altitude, speed);
 
     //
     // Replace the sleep with useful work.
