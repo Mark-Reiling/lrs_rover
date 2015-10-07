@@ -114,12 +114,12 @@ void Exec::ScanGroundSingle::start () {
     return;
   }
 
-  std::vector<geometry_msgs::PointStamped> points;
-  points = points_params["area"].value;
+  std::vector<geographic_msgs::GeoPoint> points;
+  points = geo_points_params["area"].value;
 
   for (unsigned int i=0; i<points.size(); i++) {
-    ROS_INFO("Point %d: %s - %f %f %f", i, points[i].header.frame_id.c_str(),
-	     points[i].point.x, points[i].point.y, points[i].point.z);
+    ROS_INFO("GeoPoint %d: %f %f %f", i,
+	     points[i].latitude, points[i].longitude, points[i].altitude);
   }
 
   std::vector<string> uavs;
@@ -132,15 +132,6 @@ void Exec::ScanGroundSingle::start () {
   //
   // To convert the points to different coordinate systems
   //
-
-  for (unsigned int i=0; i<points.size(); i++) {
-    // Just a demonstration of the three conversion methods available
-    // This assumes that the frame_id of the PointStamped are one of /world, utm or wgs84.
-    points[i] = geoconv.to_utm(points[i]);
-    points[i] = geoconv.to_wgs84(points[i]);
-    points[i] = geoconv.to_world(points[i]);
-  }
-
 
   sleep(20); // Replace with the real code
 
