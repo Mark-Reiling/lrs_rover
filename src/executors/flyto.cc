@@ -57,8 +57,8 @@ void Exec::FlyTo::start () {
 	  speed = 7.0;
 	}
       } else {
-	fail ("Neither commanded-speed or speed are specified");
-	return;
+	// Use default speed
+	speed = 3.0;
       }
     } 
    

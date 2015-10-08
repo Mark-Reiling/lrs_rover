@@ -15,6 +15,8 @@
 #include "executors/flyto.h"
 #include "executors/flyfromto.h"
 #include "executors/lookat.h"
+#include "executors/takeoff.h"
+#include "executors/land.h"
 #include "executors/flywaypoints.h"
 #include "executors/movearm.h"
 #include "executors/scangroundsingle.h"
@@ -64,6 +66,16 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
 
   if (type == "look-at") {
     execmap[os.str()] = new Exec::LookAt (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "take-off") {
+    execmap[os.str()] = new Exec::TakeOff (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "land") {
+    execmap[os.str()] = new Exec::Land (req.ns, req.id);
     found = true;
   }
 
