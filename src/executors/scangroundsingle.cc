@@ -96,23 +96,24 @@ void Exec::ScanGroundSingle::start () {
   // and processing is done in this node.
   //
 
+  std::vector<geographic_msgs::GeoPoint> points;
+  if (!get_param("area", points)) {
+    fail("Parameter 'area' do not exist or is not set");
+    return;
+  }
+
   //
   // Code to preparefor the data collection
   //
 
   string datauuid = string_params["data-uuid"].value;
-  ROS_INFO("scanfromabove preparing for data collection for uuid: %s", datauuid.c_str());
+  ROS_INFO("scangroundsingle preparing for data collection for uuid: %s", datauuid.c_str());
 
   sleep(5); // Replace with the real code
 
   //
   // Do the actual scan/mapping flying
   // 
-
-  std::vector<geographic_msgs::GeoPoint> points;
-  if (!get_param("area", points)) {
-    fail("Parameter 'area' do not exist or is not set");
-  }
 
   for (unsigned int i=0; i<points.size(); i++) {
     ROS_ERROR("GeoPoint %d: %f %f %f", i,
@@ -134,22 +135,7 @@ void Exec::ScanGroundSingle::start () {
   //
   // Put information in the world data base about the generated data
   //
-  // Example code below
-  //
 
-  lrs_msgs_common::DataInfo di;
-  string filename = datauuid + ".bag";
-  di.uuid = datauuid;
-  if (tni.execution_ns == "/uav0") {
-    di.url = "http://abc.def.com/" + filename;
-  } else {
-    di.url = "http://ghi.jkl.com/" + filename;
-  }
-  di.datatype = di.DATATYPE_LIDAR;
-  di.filetype = di.FILETYPE_BAG;
-  di.filename = filename;
-
-  add_data_info("/ground", di);
 
   //
   // When we reach this point the node execution whould be finished.
