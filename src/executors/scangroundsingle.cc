@@ -109,24 +109,14 @@ void Exec::ScanGroundSingle::start () {
   // Do the actual scan/mapping flying
   // 
 
-  if (points_params.find("area") == points_params.end()) {
-    fail("Parmeter area do not exist");
-    return;
-  }
-
   std::vector<geographic_msgs::GeoPoint> points;
-  points = geo_points_params["area"].value;
+  if (!get_param("area", points)) {
+    fail("Parameter 'area' do not exist or is not set");
+  }
 
   for (unsigned int i=0; i<points.size(); i++) {
-    ROS_INFO("GeoPoint %d: %f %f %f", i,
-	     points[i].latitude, points[i].longitude, points[i].altitude);
-  }
-
-  std::vector<string> uavs;
-  uavs = strings_params["uavs"].value;
-
-  for (unsigned int i=0; i<uavs.size(); i++) {
-    ROS_INFO("UAV %d: %s", i, uavs[i].c_str());
+    ROS_ERROR("GeoPoint %d: %f %f %f", i,
+	      points[i].latitude, points[i].longitude, points[i].altitude);
   }
 
   //

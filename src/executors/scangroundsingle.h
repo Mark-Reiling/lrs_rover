@@ -12,7 +12,6 @@ namespace Exec {
 
   class ScanGroundSingle : public virtual Executor {
   private:
-    std::vector<std::string> uavs;
     std::vector< std::map<std::string, double> > sensors_params;
     GeoConvertRos geoconv;
 

@@ -41,23 +41,36 @@ void Exec::FlyTo::start () {
       return;
     }
 
-    if (float64_params["commanded-speed"].have_value) {
-      speed = float64_params["commanded-speed"].value;
-    }
-    
+
+    if (!get_param("commanded-speed", speed)) {
+      // Try to use the qualitative speed
+      std::string qspeed;
+      if (get_param("speed", qspeed)) {
+	// Assign speed dependent on the value of qspeed
+	if (qspeed == "slow") {
+	  speed = 1.0;
+	}
+	if (qspeed == "standard") {
+	  speed = 3.0;
+	}
+	if (qspeed == "fast") {
+	  speed = 7.0;
+	}
+      } else {
+	fail ("Neither commanded-speed or speed are specified");
+	return;
+      }
+    } 
+   
     geographic_msgs::GeoPoint p;
-    if (geo_point_params["p"].have_value) {
-      p = geo_point_params["p"].value;
-      ROS_ERROR ("FLYTO: %f %f - %f", p.latitude, p.longitude, p.altitude);
+    if (get_param("p", p)) {
+      ROS_ERROR ("FLYTO: %f %f - %f - %f", p.latitude, p.longitude, p.altitude, speed);
     } else {
       fail ("flyto: parameter p is missing");
       return;
     }
 
     ROS_INFO ("Exec::Flyto: Execution unit: %s", tni.execution_ns.c_str());
-
-
-    // The frame_id for p should be wgs84 or utm-ZONE-[south|north].
 
     ROS_INFO ("Exec::Flyto (WGS84 Ellipsoid alt): %f %f %f - %f", 
 	      p.latitude, p.longitude, p.altitude, speed);
