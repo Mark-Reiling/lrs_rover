@@ -45,10 +45,32 @@ void Exec::FlyFromTo::start () {
     return;
   }
 
+  int follow_ground_flag = 0;
+  get_param ("follow-ground-flag", follow_ground_flag);
+
+  double follow_ground_altitude = 0.0;
+  if (follow_ground_flag) {
+    if (!get_param ("follow-ground-altitude", follow_ground_altitude)) {
+      fail ("flyto: follow ground altitude must be specified");
+      return;
+    }
+  }
+
+  int must_be_near_from_position_flag = 0;
+  get_param ("must-be-near-from-position-flag", must_be_near_from_position_flag);
+  
+  int fly_in_straight_line_flag = 0;
+  get_param ("fly-in-a-straight-line-flag", fly_in_straight_line_flag);
+
   ROS_INFO ("txtexecutor flyfromto exec: %f %f %f -> %f %f %f - %f", 
 	    p0.latitude, p0.longitude, p0.altitude,
 	    p.latitude, p.longitude, p.altitude, 
 	     speed);
+
+  ROS_INFO ("Exec::Flyto: Follow ground: %d - %f", follow_ground_flag, follow_ground_altitude);
+
+    ROS_INFO ("Exec::Flyto: must_be_near_from_position_flag: %d", must_be_near_from_position_flag);
+    ROS_INFO ("Exec::Flyto: fly_in_straight_line_flag: %d", fly_in_straight_line_flag);
 
   sleep(5);
   
