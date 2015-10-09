@@ -70,10 +70,18 @@ void Exec::FlyTo::start () {
       return;
     }
 
+    lrs_msgs_tst::TSTInt32Param follow_ground_flag = 0;
+    get_param ("follow-ground-flag", follow_ground_flag);
+
+    lrs_msgs_tst::TSTFloat64Param follow_ground_altitude = 0.0;
+    get_param ("follow-ground-altitude", follow_ground_altitude);
+
     ROS_INFO ("Exec::Flyto: Execution unit: %s", tni.execution_ns.c_str());
 
     ROS_INFO ("Exec::Flyto (WGS84 Ellipsoid alt): %f %f %f - %f", 
 	      p.latitude, p.longitude, p.altitude, speed);
+
+    ROS_INFO ("Exec::Flyto: Follow ground: %d - %f", follow_ground_flag, follow_ground_altitude);
 
     //
     // Replace the sleep with useful work.
