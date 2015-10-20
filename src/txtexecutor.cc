@@ -24,6 +24,8 @@
 
 #include "executors/driveto.h"
 
+#include "executors/leashing.h"
+
 #include "executil.h"
 
 std::map<std::string, Executor *> execmap;
@@ -103,6 +105,11 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
 
   if (type == "drive-to") {
     execmap[os.str()] = new Exec::DriveTo (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "leashing") {
+    execmap[os.str()] = new Exec::Leashing (req.ns, req.id);
     found = true;
   }
 
