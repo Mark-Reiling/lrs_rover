@@ -121,6 +121,7 @@ add_executable(txtexecutor
   src/executors/movearm.cc
   src/executors/scangroundsingle.cc
   src/executors/inairgoal.cc
+  src/executors/driveto.cc
   src/txtexecutor.cc
 )
 

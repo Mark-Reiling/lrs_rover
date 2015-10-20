@@ -22,6 +22,8 @@
 #include "executors/scangroundsingle.h"
 #include "executors/inairgoal.h"
 
+#include "executors/driveto.h"
+
 #include "executil.h"
 
 std::map<std::string, Executor *> execmap;
@@ -96,6 +98,11 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
 
   if (type == "in-air-goal") {
     execmap[os.str()] = new Exec::InAirGoal (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "drive-to") {
+    execmap[os.str()] = new Exec::DriveTo (req.ns, req.id);
     found = true;
   }
 
