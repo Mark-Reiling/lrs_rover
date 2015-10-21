@@ -57,6 +57,15 @@ void Exec::Leashing::start () {
       return;
     }
 
+    double desired_distance_xy = 4.0;
+    get_param("desired_distance_xy", desired_distance_xy);
+
+    double desired_distance_z = 2.0;
+    get_param("desired_distance_z", desired_distance_z);
+
+    ROS_ERROR ("leashing: Desired distance XY: %f", desired_distance_xy);
+    ROS_ERROR ("leashing: Desired distance Z: %f", desired_distance_z);
+
 
     boost::this_thread::interruption_point();
     while (!enough_requested) {
