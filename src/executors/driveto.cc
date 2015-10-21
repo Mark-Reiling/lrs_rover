@@ -80,9 +80,9 @@ void Exec::DriveTo::start () {
 
     geographic_msgs::GeoPoint p;
     if (get_param("p", p)) {
-      ROS_ERROR ("FLYTO: %f %f - %f - %f", p.latitude, p.longitude, p.altitude, speed);
+      ROS_ERROR ("DRIVETO: %f %f - %f - %f", p.latitude, p.longitude, p.altitude, speed);
     } else {
-      fail ("flyto: parameter p is missing");
+      fail ("driveto: parameter p is missing");
       return;
     }
 
