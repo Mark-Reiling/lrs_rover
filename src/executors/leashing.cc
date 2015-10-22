@@ -63,8 +63,24 @@ void Exec::Leashing::start () {
     double desired_distance_z = 2.0;
     get_param("desired_distance_z", desired_distance_z);
 
+    double heading = 0.0;
+    get_param("heading", heading);
+
+    int xy_control_mode = 0;
+    get_param("xy_control_mode", xy_control_mode);
+
+    int z_control_mode = 0;
+    get_param("z_control_mode", z_control_mode);
+
+    int heading_control_mode = 0;
+    get_param("heading_control_mode", heading_control_mode);
+
     ROS_ERROR ("leashing: Desired distance XY: %f", desired_distance_xy);
     ROS_ERROR ("leashing: Desired distance Z: %f", desired_distance_z);
+    ROS_ERROR ("leashing: Heading: %f", heading);
+    ROS_ERROR ("leashing: xy_control_mode: %d", xy_control_mode);
+    ROS_ERROR ("leashing: z_control_mode: %d", z_control_mode);
+    ROS_ERROR ("leashing: heading_control_mode: %d", heading_control_mode);
 
 
     boost::this_thread::interruption_point();
