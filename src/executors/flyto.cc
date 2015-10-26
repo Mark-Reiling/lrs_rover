@@ -122,6 +122,15 @@ bool Exec::FlyTo::abort () {
   if (threadmap.find (os.str()) != threadmap.end()) {
     ROS_ERROR("EXECUTOR EXISTS: Sending interrupt to running thread");
     threadmap[os.str()]->interrupt();
+
+    // Unlock resources
+
+    bool ures = unlock_resources ();
+    if (!ures) {
+      ROS_ERROR ("flyto abort: failed to unlock resources");
+    }
+
+
     // Platform specific things to to
 
     return true;
