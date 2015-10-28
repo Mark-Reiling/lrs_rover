@@ -5,6 +5,7 @@ project(lrs_exec_txt)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  lrs_msgs_common
   lrs_srvs_tst
   lrs_srvs_exec
   lrs_srvs_wdb
