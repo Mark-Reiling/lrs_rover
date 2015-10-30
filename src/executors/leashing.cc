@@ -117,7 +117,19 @@ void Exec::Leashing::start () {
 
       if (horizontal_control_mode == lrs_msgs_common::LeashingCommand::HORIZONTAL_CONTROL_MODE_DISTANCE_HEADING_VEL) {
 	horizontal_distance += horizontal_distance_vel * period;
-	horizontal_heading += horizontal_heading_vel*10.0 * period;
+	if (horizontal_distance < 0) {
+	  horizontal_distance = 0.0;
+	}
+
+	// divide by r*r to compensate for longer circumference
+	horizontal_heading += horizontal_heading_vel*20.0 * period / horizontal_distance / horizontal_distance;
+
+	if (horizontal_heading < -360.0) {
+	  horizontal_heading += 360.0;
+	}
+	if (horizontal_heading > 360.0) {
+	  horizontal_heading -= 360.0;
+	}
       }
 
       if (horizontal_control_mode == lrs_msgs_common::LeashingCommand::HORIZONTAL_CONTROL_MODE_NORTH_EAST_VEL) {
@@ -131,6 +143,12 @@ void Exec::Leashing::start () {
 
       if (yaw_control_mode == lrs_msgs_common::LeashingCommand::YAW_CONTROL_MODE_VEL) {
 	yaw += yaw_vel*10*period;
+	if (yaw < -360.0) {
+	  yaw += 360.0;
+	}
+	if (yaw > 360.0) {
+	  yaw -= 360.0;
+	}
       }
 
 
