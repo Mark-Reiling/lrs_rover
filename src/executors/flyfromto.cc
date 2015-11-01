@@ -45,7 +45,7 @@ void Exec::FlyFromTo::start () {
     return;
   }
 
-  int follow_ground_flag = 0;
+  bool follow_ground_flag = false;
   get_param ("follow-ground-flag", follow_ground_flag);
 
   double follow_ground_altitude = 0.0;
