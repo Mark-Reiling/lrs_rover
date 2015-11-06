@@ -107,10 +107,8 @@ void Exec::FlyTo::start () {
     wait_for_postwork_conditions ();
   }
   catch (boost::thread_interrupted) {
-    ROS_ERROR("BOOST INTERUPTED IN flyto");
-    set_succeeded_flag (node_ns, node_id, false);
-    set_aborted_flag (node_ns, node_id, true);
-    set_finished_flag (node_ns, node_id, true);
+    abort_fail ("flyto ABORTED");
+    return;
   }
 }
 
@@ -122,14 +120,6 @@ bool Exec::FlyTo::abort () {
   if (threadmap.find (os.str()) != threadmap.end()) {
     ROS_ERROR("EXECUTOR EXISTS: Sending interrupt to running thread");
     threadmap[os.str()]->interrupt();
-
-    // Unlock resources
-
-    bool ures = unlock_resources ();
-    if (!ures) {
-      ROS_ERROR ("flyto abort: failed to unlock resources");
-    }
-
 
     // Platform specific things to to
 

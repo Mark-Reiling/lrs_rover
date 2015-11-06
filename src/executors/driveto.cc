@@ -96,10 +96,8 @@ void Exec::DriveTo::start () {
     wait_for_postwork_conditions ();
   }
   catch (boost::thread_interrupted) {
-    ROS_ERROR("BOOST INTERUPTED IN driveto");
-    set_succeeded_flag (node_ns, node_id, false);
-    set_aborted_flag (node_ns, node_id, true);
-    set_finished_flag (node_ns, node_id, true);
+    abort_fail("driveto ABORT");
+    return;
   }
 
 }
