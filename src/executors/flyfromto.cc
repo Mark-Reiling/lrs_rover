@@ -30,18 +30,14 @@ void Exec::FlyFromTo::start () {
   }
 
   geographic_msgs::GeoPoint p;
-  if (geo_point_params["p"].have_value) {
-    p = geo_point_params["p"].value;
-  } else {
-    fail("parameter p is missing");
+  if (!get_param("p", p)) {
+    fail("flyfromto: parameter p is missing");
     return;
   }
 
   geographic_msgs::GeoPoint p0;
-  if (geo_point_params["p0"].have_value) {
-    p0 = geo_point_params["p0"].value;
-  } else {
-    fail("parameter p0 is missing");
+  if (!get_param ("p0", p0)) {
+    fail("flyfromto: parameter p0 is missing");
     return;
   }
 
@@ -65,12 +61,12 @@ void Exec::FlyFromTo::start () {
   ROS_INFO ("txtexecutor flyfromto exec: %f %f %f -> %f %f %f - %f", 
 	    p0.latitude, p0.longitude, p0.altitude,
 	    p.latitude, p.longitude, p.altitude, 
-	     speed);
+	    speed);
 
-  ROS_INFO ("Exec::Flyto: Follow ground: %d - %f", follow_ground_flag, follow_ground_altitude);
+  ROS_INFO ("Exec::FlyFromTo: Follow ground: %d - %f", follow_ground_flag, follow_ground_altitude);
 
-    ROS_INFO ("Exec::Flyto: must_be_near_from_position_flag: %d", must_be_near_from_position_flag);
-    ROS_INFO ("Exec::Flyto: fly_in_straight_line_flag: %d", fly_in_straight_line_flag);
+    ROS_INFO ("Exec::FlyFromTo: must_be_near_from_position_flag: %d", must_be_near_from_position_flag);
+    ROS_INFO ("Exec::FlyFromTo: fly_in_straight_line_flag: %d", fly_in_straight_line_flag);
 
   sleep(5);
   
