@@ -9,7 +9,6 @@ namespace Exec {
 
   class FlyWaypoints: public virtual Executor {
   private:
-    double speed;
 
   public:
     FlyWaypoints (std::string ns, int id) : Executor (ns, id) {

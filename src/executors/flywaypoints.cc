@@ -31,44 +31,25 @@ void Exec::FlyWaypoints::start () {
     return;
   }
 
-  ROS_INFO("N WAYPOINTS: %zu", points_params["waypoints"].value.size());
-
-  if (points_params["waypoints"].have_value) {
-    ROS_INFO("WAYPOINTS HAVE VALUE");
-  } else {
-    ROS_ERROR("WAYPOINTS DO NOT HAVE VALUE");
-  }
-
-  if (points_params.find("waypoints") == points_params.end()) {
-    fail("Parmeter waypoints do not exist");
+  std::vector<geographic_msgs::GeoPoint> geopoints;
+  
+  if (!get_param("waypoints", geopoints)) {
+    fail ("flywaypoints: waypoints not set");
     return;
   }
 
+  ROS_INFO("N WAYPOINTS: %zu", geopoints.size());
+  
   bool segment_flag = false;
   bool any_order_flag = false;
-
-  if (int32_params["segment-flag"].have_value) {
-    segment_flag = int32_params["segment-flag"].value;
-  }
-
-  if (int32_params["any-order-flag"].have_value) {
-    any_order_flag = int32_params["any-order-flag"].value;
-  }
-
-  std::vector<geometry_msgs::PointStamped> waypoints;
-  if (points_params["waypoints"].have_value) {
-    waypoints = points_params["waypoints"].value;
-  } else {
-    fail("flywaypoints: parameter waypoints do hot have a value");
-    return;
-  }
+  get_param ("segment-flag", segment_flag);
+  get_param ("any_order_flag", any_order_flag);
 
   ROS_INFO ("Exec::FlyWaypoints: Execution unit: %s", tni.execution_ns.c_str());
-  for (unsigned int i=0; i<waypoints.size(); i++) {
-    geometry_msgs::PointStamped p;
-    p = waypoints[i];
-    ROS_INFO ("Exec::Flywaypoints: %f %f %f %s", p.point.x, p.point.y, p.point.z, 
-	      p.header.frame_id.c_str());
+  for (unsigned int i=0; i<geopoints.size(); i++) {
+    geographic_msgs::GeoPoint p;
+    p = geopoints[i];
+    ROS_INFO ("Exec::Flywaypoints: %f %f %f", p.latitude, p.longitude, p.altitude);
     sleep (5);
   }
 
