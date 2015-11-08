@@ -12,6 +12,8 @@
 
 #include "lrs_srvs_exec/TSTCreateExecutor.h"
 
+#include "executors/start_video_recording.h"
+#include "executors/stop_video_recording.h"
 #include "executors/yaw.h"
 #include "executors/flyto.h"
 #include "executors/flyfromto.h"
@@ -56,6 +58,16 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
   Executor * cres = check_exec(type, req.ns, req.id);
   if (cres) {
     execmap[os.str()] = cres;
+    found = true;
+  }
+
+  if (type == "start-video-recording") {
+    execmap[os.str()] = new Exec::StartVideoRecording (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "stop-video-recording") {
+    execmap[os.str()] = new Exec::StopVideoRecording (req.ns, req.id);
     found = true;
   }
 
