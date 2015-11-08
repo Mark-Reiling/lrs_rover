@@ -12,6 +12,7 @@
 
 #include "lrs_srvs_exec/TSTCreateExecutor.h"
 
+#include "executors/yaw.h"
 #include "executors/flyto.h"
 #include "executors/flyfromto.h"
 #include "executors/lookat.h"
@@ -55,6 +56,11 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
   Executor * cres = check_exec(type, req.ns, req.id);
   if (cres) {
     execmap[os.str()] = cres;
+    found = true;
+  }
+
+  if (type == "yaw") {
+    execmap[os.str()] = new Exec::Yaw (req.ns, req.id);
     found = true;
   }
 
