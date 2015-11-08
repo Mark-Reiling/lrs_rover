@@ -15,6 +15,9 @@ using namespace std;
 
 
 Exec::FlyTo::FlyTo (std::string ns, int id) : Executor (ns, id) {
+
+  add_resource_to_lock("fly");
+
   lrs_msgs_tst::TSTExecInfo einfo;
   einfo.can_be_aborted = true;
   set_exec_info(ns, id, einfo);

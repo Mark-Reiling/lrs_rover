@@ -8,6 +8,12 @@
 
 using namespace std;
 
+Exec::Yaw::Yaw (std::string ns, int id) : Executor (ns, id) {
+  set_delegation_expandable(false);
+
+  add_resource_to_lock("fly");
+}
+
 
 bool Exec::Yaw::check () {
   ROS_INFO ("Yaw CHECK");

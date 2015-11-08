@@ -13,10 +13,7 @@ namespace Exec {
   private:
 
   public:
-    Yaw (std::string ns, int id) : Executor (ns, id) {
-      set_delegation_expandable(false);
-    };
-
+    Yaw (std::string ns, int id);
     virtual ~Yaw () {};
 
     virtual bool check ();
