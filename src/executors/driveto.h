@@ -4,6 +4,7 @@
 #define _DRIVETO_AT_H
 
 #include "executor.h"
+#include "geoconvertros.h"
 
 #include <string>
 
@@ -11,6 +12,9 @@ namespace Exec {
 
   class DriveTo : public virtual Executor {
   private:
+    GeoConvertRos geoconv;
+    bool have_current_pose;
+    geometry_msgs::PoseStamped current_pose;
 
   public:
     DriveTo (std::string ns, int id);
@@ -22,6 +26,7 @@ namespace Exec {
     virtual void start ();
     virtual bool abort ();
 
+    void pose_callback(const geometry_msgs::PoseStamped::ConstPtr & msg);
 
   };
 };

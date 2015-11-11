@@ -49,6 +49,9 @@ void Exec::DriveTo::start () {
   ROS_INFO ("Exec::DriveTo::start: %s - %d", node_ns.c_str(), node_id);
 
   ros::NodeHandle n;
+  ros::Subscriber pose_sub = n.subscribe("pose", 1, &Exec::DriveTo::pose_callback, 
+					 this);
+
 
   try {
 
@@ -78,17 +81,22 @@ void Exec::DriveTo::start () {
       }
     } 
 
-    geographic_msgs::GeoPoint p;
-    if (get_param("p", p)) {
-      ROS_ERROR ("DRIVETO: %f %f - %f - %f", p.latitude, p.longitude, p.altitude, speed);
+    geographic_msgs::GeoPoint gp;
+    if (get_param("p", gp)) {
+      ROS_INFO ("DRIVETO: %f %f - %f - %f", gp.latitude, gp.longitude, gp.altitude, speed);
     } else {
       fail ("driveto: parameter p is missing");
       return;
     }
 
     ROS_INFO ("Exec::DriveTo (WGS84 Ellipsoid alt): %f %f - %f", 
-	      p.latitude, p.longitude,  speed);
+	      gp.latitude, gp.longitude,  speed);
 
+    geometry_msgs::PointStamped p = geoconv.to_world (gp);
+
+    ROS_INFO ("Exec::DriveTo (/world): %f %f", p.point.x, p.point.y);
+
+    // Code doing the actual work
 
     sleep (10);
 
@@ -110,7 +118,8 @@ bool Exec::DriveTo::abort () {
   os << node_ns << "-" << node_id;
   if (threadmap.find (os.str()) != threadmap.end()) {
     ROS_ERROR("EXECUTOR EXISTS: Sending interrupt to running thread");
-    threadmap[os.str()]->interrupt();
+    //    threadmap[os.str()]->interrupt();
+
     // Platform specific things to to
 
     return true;
@@ -122,6 +131,8 @@ bool Exec::DriveTo::abort () {
   return res;
 }
 
-
-
-
+void Exec::DriveTo::pose_callback(const geometry_msgs::PoseStamped::ConstPtr & msg) {
+  ROS_INFO ("DriveTo POSE CALLBACK: %f %f", msg->pose.position.x, msg->pose.position.y);
+  current_pose = *msg;
+  have_current_pose = true;
+}
