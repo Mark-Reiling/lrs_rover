@@ -171,47 +171,6 @@ void Exec::Leashing::start () {
     }
 
 
-#if 0
-    string fail_reason;
-
-    if (!qc_reset(fail_reason)) {
-      fail ("leashing: " + fail_reason);
-      return;
-    }
-
-    double x = 13;
-    double y = 19;
-
-    if (!qc_leashing (desired_distance_xy, desired_distance_z, heading, x, y,
-		      xy_control_mode, z_control_mode, heading_control_mode,
-		      fail_reason)) {
-      fail ("leashing: " + fail_reason);
-      return;
-    }
-
-    if (!qc_run(fail_reason)) {
-      fail ("flyto qc_run failed: " + fail_reason);
-      return;
-    }
-    
-    boost::this_thread::interruption_point();
-    while (!enough_requested) {
-      usleep (100000);
-      boost::this_thread::interruption_point();
-      if (qc_finished(last_status)) {
-	fail ("abnormal operator override");
-	return;
-      }
-    }
-
-    ROS_ERROR ("BEFORE qc_stop");
-
-    if (!qc_stop(fail_reason)) {
-      fail ("flyto qc_stop failed: " + fail_reason);
-      return;
-    }
-#endif
-
 
     wait_for_postwork_conditions ();
   }
