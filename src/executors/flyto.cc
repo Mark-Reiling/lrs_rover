@@ -14,12 +14,16 @@ extern std::map<std::string, boost::thread *> threadmap;
 using namespace std;
 
 
-Exec::FlyTo::FlyTo (std::string ns, int id) : Executor (ns, id) {
+Exec::FlyTo::FlyTo (std::string ns, int id) : Executor (ns, id), enough_requested(false),
+					      pause_requested(false), 
+					      continue_requested(false) {
 
   add_resource_to_lock("fly");
 
   lrs_msgs_tst::TSTExecInfo einfo;
   einfo.can_be_aborted = true;
+  einfo.can_be_enoughed = true;
+  einfo.can_be_paused = true;
   set_exec_info(ns, id, einfo);
 }
 
@@ -131,5 +135,26 @@ bool Exec::FlyTo::abort () {
     ROS_ERROR ("Executor does not exist: %s", os.str().c_str());
     return false;
   }
+  return res;
+}
+
+bool Exec::FlyTo::enough_execution () {
+  bool res = true;
+  ROS_ERROR ("Exec::FlyTo::enough_execution");
+  enough_requested = true;
+  return res;
+}
+
+bool Exec::FlyTo::request_pause () {
+  bool res = true;
+  ROS_ERROR ("Exec::FlyTo::request_pause");
+  pause_requested = true;
+  return res;
+}
+
+bool Exec::FlyTo::continue_execution () {
+  bool res = true;
+  ROS_ERROR ("Exec::FlyTo::request_continue");
+  continue_requested = true;
   return res;
 }
