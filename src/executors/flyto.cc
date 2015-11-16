@@ -99,10 +99,25 @@ void Exec::FlyTo::start () {
     // Replace the sleep with useful work.
     //
 
+    bool paused = false;
     boost::this_thread::interruption_point();
     for (int i=0; i<10000; i++) {
       usleep(1000);
       boost::this_thread::interruption_point();
+      if (enough_requested) {
+	break;
+      }
+      if (pause_requested) {
+	paused = true;
+	pause_requested = false;
+      }
+      if (continue_requested) {
+	paused = false;
+	continue_requested = false;
+      }
+      if (paused) {
+	i--;
+      }
     }
 
     //
