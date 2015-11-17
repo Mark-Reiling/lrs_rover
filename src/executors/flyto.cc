@@ -110,10 +110,12 @@ void Exec::FlyTo::start () {
       if (pause_requested) {
 	paused = true;
 	pause_requested = false;
+	set_paused_flag (node_ns, node_id, true);
       }
       if (continue_requested) {
 	paused = false;
 	continue_requested = false;
+	set_paused_flag (node_ns, node_id, false);
       }
       if (paused) {
 	i--;
