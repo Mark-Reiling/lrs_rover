@@ -12,6 +12,7 @@
 
 #include "lrs_srvs_exec/TSTCreateExecutor.h"
 
+#include "executors/operator_control.h"
 #include "executors/start_video_recording.h"
 #include "executors/stop_video_recording.h"
 #include "executors/yaw.h"
@@ -128,6 +129,11 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
 
   if (type == "leashing") {
     execmap[os.str()] = new Exec::Leashing (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "operator-control") {
+    execmap[os.str()] = new Exec::OperatorControl (req.ns, req.id);
     found = true;
   }
 
