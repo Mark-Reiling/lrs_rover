@@ -16,6 +16,8 @@
 #include "executors/operator_control.h"
 #include "executors/start_video_recording.h"
 #include "executors/stop_video_recording.h"
+#include "executors/start_data_stream.h"
+#include "executors/stop_data_stream.h"
 #include "executors/yaw.h"
 #include "executors/flyto.h"
 #include "executors/flyfromto.h"
@@ -70,6 +72,16 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
 
   if (type == "stop-video-recording") {
     execmap[os.str()] = new Exec::StopVideoRecording (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "start-data-stream") {
+    execmap[os.str()] = new Exec::StartDataStream (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "stop-data-stream") {
+    execmap[os.str()] = new Exec::StopDataStream (req.ns, req.id);
     found = true;
   }
 

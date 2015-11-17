@@ -113,6 +113,8 @@ include_directories(
 
 ## Declare a cpp executable
 add_executable(txtexecutor
+  src/executors/start_data_stream.cc
+  src/executors/stop_data_stream.cc
   src/executors/take_pictures.cc
   src/executors/operator_control.cc
   src/executors/stop_video_recording.cc
