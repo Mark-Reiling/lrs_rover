@@ -16,11 +16,7 @@ namespace Exec {
     GeoConvertRos geoconv;
 
   public:
-    ScanGroundSingle (std::string ns, int id) : Executor (ns, id) {
-      // Set to true if the executor should expand the node during delegation
-      set_delegation_expandable(false);
-    };
-
+    ScanGroundSingle (std::string ns, int id);
     virtual ~ScanGroundSingle () {};
 
     virtual int expand (int free_id);

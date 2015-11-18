@@ -7,7 +7,20 @@
 #include <iostream>
 #include <string>
 
+extern std::map<std::string, boost::thread *> threadmap;
+
 using namespace std;
+
+Exec::ScanGroundSingle::ScanGroundSingle (std::string ns, int id) : Executor (ns, id) {
+  // Set to true if the executor should expand the node during delegation
+  set_delegation_expandable(false);
+
+  lrs_msgs_tst::TSTExecInfo einfo;
+  einfo.can_be_aborted = true;
+  einfo.can_be_enoughed = false;
+  einfo.can_be_paused = false;
+  set_exec_info(ns, id, einfo);
+}
 
 int Exec::ScanGroundSingle::expand (int free_id) {
 
@@ -77,6 +90,7 @@ void Exec::ScanGroundSingle::start () {
 
   ros::NodeHandle n;
 
+  try {
   if (!do_before_work()) {
     return;
   }
@@ -127,13 +141,20 @@ void Exec::ScanGroundSingle::start () {
   // To convert the points to different coordinate systems
   //
 
-  sleep(20); // Replace with the real code
+  boost::this_thread::interruption_point();
+  for (int i=0; i<20000; i++) {
+    usleep(1000);
+    boost::this_thread::interruption_point();
+  }
 
   //
   // The flying is done. Process the data if needed.
   //
 
-  sleep(5); // Replace with the real code
+  for (int i=0; i<5000; i++) {
+    usleep(1000);
+    boost::this_thread::interruption_point();
+  }
 
   //
   // Put information in the world data base about the generated data
@@ -147,12 +168,30 @@ void Exec::ScanGroundSingle::start () {
   ROS_INFO ("Exec::ScanGroundSingle: FINISHED");
 
   wait_for_postwork_conditions ();
+  }
+  catch (boost::thread_interrupted) {
+    abort_fail ("scangroundsingle ABORTED");
+    return;
+  }
 }
 
 bool Exec::ScanGroundSingle::abort () {
   bool res = false;
   ROS_INFO("Exec::ScanGroundSingle::abort");
 
+  ostringstream os;
+  os << node_ns << "-" << node_id;
+  if (threadmap.find (os.str()) != threadmap.end()) {
+    ROS_ERROR("EXECUTOR EXISTS: Sending interrupt to running thread");
+    threadmap[os.str()]->interrupt();
+
+    // Platform specific things to to
+
+    return true;
+  } else {
+    ROS_ERROR ("Executor does not exist: %s", os.str().c_str());
+    return false;
+  }
   return res;
 }
 
