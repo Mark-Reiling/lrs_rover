@@ -51,7 +51,7 @@ void Exec::StopDataStream::start () {
   string sensor_type = "";
   get_param("sensor-type", sensor_type);
 
-  ROS_INFO ("STOPPING DATA STREAM FOR: %s", sensor_type.c_str());
+  ROS_ERROR ("STOPPING DATA STREAM FOR: %d - %s", node_id, sensor_type.c_str());
 
   sleep (3);
 

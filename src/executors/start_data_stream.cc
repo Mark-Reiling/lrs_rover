@@ -51,9 +51,9 @@ void Exec::StartDataStream::start () {
   string sensor_type = "";
   get_param("sensor-type", sensor_type);
 
-  ROS_INFO ("STARTING DATA STREAM FOR: %s", sensor_type.c_str());
+  ROS_ERROR ("STARTING DATA STREAM FOR: %d - %s", node_id, sensor_type.c_str());
 
-  sleep (3);
+  sleep (30);
 
   wait_for_postwork_conditions ();
 
