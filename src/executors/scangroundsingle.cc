@@ -27,6 +27,9 @@ bool Exec::ScanGroundSingle::check () {
   fetch_node_info();
 
   if (init_params()) {
+
+    return true;
+
     if (get_param("sensor-type", sensortype)) {
       ROS_ERROR("scangroundsingle check - sensortype: %s - %s", sensortype.c_str(), tni.execution_ns.c_str());
 
