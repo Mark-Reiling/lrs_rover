@@ -53,7 +53,7 @@ void Exec::StartDataStream::start () {
 
   ROS_ERROR ("STARTING DATA STREAM FOR: %d - %s", node_id, sensor_type.c_str());
 
-  sleep (30);
+  sleep (3);
 
   wait_for_postwork_conditions ();
 
