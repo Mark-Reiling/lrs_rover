@@ -9,6 +9,16 @@
 using namespace std;
 
 
+Exec::LookAt::LookAt (std::string ns, int id) : Executor (ns, id) {
+  set_delegation_expandable(false);
+
+  lrs_msgs_tst::TSTExecInfo einfo;
+  einfo.can_be_aborted = false;
+  einfo.can_be_enoughed = true;
+  einfo.can_be_paused = false;
+  set_exec_info(ns, id, einfo);
+}
+
 bool Exec::LookAt::check () {
   ROS_INFO ("LookAt CHECK");
 
@@ -44,7 +54,20 @@ void Exec::LookAt::start () {
     return;
   }
 
-  sleep (10);
+  geographic_msgs::GeoPoint gp;
+  if (get_param("p", gp)) {
+    ROS_ERROR ("Look at: %f %f - %f", gp.latitude, gp.longitude, gp.altitude);
+  } else {
+    fail("Could not get parameter p");
+    return;
+  }
+
+  for (int i=0; i<10000; i++) {
+    usleep (1000);
+    if (enough_requested) {
+      break;
+    }
+  }
 
   wait_for_postwork_conditions ();
 
@@ -57,6 +80,9 @@ bool Exec::LookAt::abort () {
   return res;
 }
 
-
-
-
+bool Exec::LookAt::enough_execution () {
+  bool res = true;
+  ROS_ERROR ("Exec::LookAt::enough_execution");
+  enough_requested = true;
+  return res;
+}

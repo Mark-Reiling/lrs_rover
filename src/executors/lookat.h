@@ -11,12 +11,10 @@ namespace Exec {
 
   class LookAt : public virtual Executor {
   private:
+    bool enough_requested;
 
   public:
-    LookAt (std::string ns, int id) : Executor (ns, id) {
-      set_delegation_expandable(false);
-    };
-
+    LookAt (std::string ns, int id);
     virtual ~LookAt () {};
 
     virtual bool check ();
@@ -25,6 +23,8 @@ namespace Exec {
     virtual void start ();
     virtual bool abort ();
 
+
+    virtual bool enough_execution ();
 
   };
 };
