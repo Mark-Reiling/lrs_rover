@@ -17,7 +17,8 @@ Exec::TakePictures::TakePictures (std::string ns, int id) : Executor (ns, id),
 							    pause_requested(false),
 							    continue_requested(false) {
 
-  add_resource_to_lock("camera");
+  //  add_resource_to_lock("camera");
+  // cannot lock since take pictures at position will not work concurrently then
 
   lrs_msgs_tst::TSTExecInfo einfo;
   einfo.can_be_aborted = true;

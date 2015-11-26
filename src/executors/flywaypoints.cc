@@ -9,7 +9,13 @@
 extern ros::NodeHandle * global_nh;
 extern ros::Publisher * global_confirm_pub;
 
+extern std::map<std::string, boost::thread *> threadmap;
+
 using namespace std;
+
+Exec::FlyWaypoints::FlyWaypoints (std::string ns, int id) : Executor (ns, id) {
+
+}
 
 
 bool Exec::FlyWaypoints::prepare () {
@@ -26,6 +32,9 @@ bool Exec::FlyWaypoints::prepare () {
 
 void Exec::FlyWaypoints::start () {
   ROS_INFO ("Exec::FlyWaypoints::start: %s - %d", node_ns.c_str(), node_id);
+
+
+  try {
 
   if (!do_before_work ()) {
     return;
@@ -56,11 +65,29 @@ void Exec::FlyWaypoints::start () {
   ROS_INFO ("Exec::FlyWaypoints: FINISHED");
 
   wait_for_postwork_conditions ();
+  }
+  catch (boost::thread_interrupted) {
+    abort_fail ("flyto ABORTED");
+    return;
+  }
 }
 
 bool Exec::FlyWaypoints::abort () {
   bool res = false;
   ROS_INFO("Exec::FlyWaypoints::abort");
+  ostringstream os;
+  os << node_ns << "-" << node_id;
+  if (threadmap.find (os.str()) != threadmap.end()) {
+    ROS_ERROR("EXECUTOR EXISTS: Sending interrupt to running thread");
+    threadmap[os.str()]->interrupt();
+
+    // Platform specific things to to
+
+    return true;
+  } else {
+    ROS_ERROR ("Executor does not exist: %s", os.str().c_str());
+    return false;
+  }
   return res;
 }
 

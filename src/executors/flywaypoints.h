@@ -11,10 +11,7 @@ namespace Exec {
   private:
 
   public:
-    FlyWaypoints (std::string ns, int id) : Executor (ns, id) {
-
-    };
-
+    FlyWaypoints (std::string ns, int id);
     virtual ~FlyWaypoints () {};
 
     bool prepare ();
