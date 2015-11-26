@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   lrs_wdb
   lrs_resource
   lrs_exec
+  lrs_cram
   lrs_util_tst
   lrs_util_gs
   lrs_common
