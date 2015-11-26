@@ -14,6 +14,13 @@ extern std::map<std::string, boost::thread *> threadmap;
 using namespace std;
 
 Exec::FlyWaypoints::FlyWaypoints (std::string ns, int id) : Executor (ns, id) {
+  add_resource_to_lock("fly");
+
+  lrs_msgs_tst::TSTExecInfo einfo;
+  einfo.can_be_aborted = true;
+  einfo.can_be_enoughed = false;
+  einfo.can_be_paused = false;
+  set_exec_info(ns, id, einfo);
 
 }
 
@@ -59,7 +66,11 @@ void Exec::FlyWaypoints::start () {
     geographic_msgs::GeoPoint p;
     p = geopoints[i];
     ROS_INFO ("Exec::Flywaypoints: %f %f %f", p.latitude, p.longitude, p.altitude);
-    sleep (5);
+    for (int i=0; i<5000; i++) {
+      boost::this_thread::interruption_point();
+      usleep (1000);
+    }
+
   }
 
   ROS_INFO ("Exec::FlyWaypoints: FINISHED");
