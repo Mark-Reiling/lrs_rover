@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "executil.h"
+#include "consutil.h"
 
 using namespace std;
 
@@ -81,3 +82,15 @@ bool Exec::FlyFromTo::abort () {
   return res;
 }
 
+bool Exec::FlyFromTo::get_constraints (std::vector<std::string> & vars, 
+				       std::vector<std::string> & cons) {
+  vars.clear();
+  cons.clear ();
+
+  fetch_node_info();
+
+  cons.push_back (get_duration_lb_eq_cons (tni, 10));
+  cons.push_back (get_duration_ub_eq_cons (tni, 30));
+
+  return true;
+}

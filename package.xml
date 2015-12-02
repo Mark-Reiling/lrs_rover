@@ -50,6 +50,7 @@
   <build_depend>lrs_resource</build_depend>
   <build_depend>lrs_exec</build_depend>
   <build_depend>lrs_cram</build_depend>
+  <build_depend>lrs_cons</build_depend>
   <build_depend>lrs_util_gs</build_depend>
   <build_depend>lrs_common</build_depend>
   <run_depend>roscpp</run_depend>
@@ -59,6 +60,7 @@
   <run_depend>lrs_resource</run_depend>
   <run_depend>lrs_exec</run_depend>
   <run_depend>lrs_cram</run_depend>
+  <run_depend>lrs_cons</run_depend>
   <run_depend>lrs_srvs_wdb</run_depend>
   <run_depend>lrs_wdb</run_depend>
   <run_depend>lrs_util_gs</run_depend>
