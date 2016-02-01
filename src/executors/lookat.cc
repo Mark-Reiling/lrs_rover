@@ -64,7 +64,7 @@ void Exec::LookAt::start () {
 
   for (int i=0; i<10000; i++) {
     usleep (1000);
-    if (enough_requested) {
+    if (enough_requested ()) {
       break;
     }
   }
@@ -80,9 +80,3 @@ bool Exec::LookAt::abort () {
   return res;
 }
 
-bool Exec::LookAt::enough_execution () {
-  bool res = true;
-  ROS_ERROR ("Exec::LookAt::enough_execution");
-  enough_requested = true;
-  return res;
-}

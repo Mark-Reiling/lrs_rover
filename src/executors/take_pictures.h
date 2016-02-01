@@ -9,9 +9,6 @@ namespace Exec {
 
   class TakePictures : public virtual Executor {
   private:
-    bool enough_requested;
-    bool pause_requested;
-    bool continue_requested;
     double x;
     double y;
     double z;
@@ -24,10 +21,6 @@ namespace Exec {
     bool prepare ();
     void start ();
     bool abort ();
-
-    virtual bool enough_execution ();
-    virtual bool request_pause ();
-    virtual bool continue_execution ();
 
   };
 

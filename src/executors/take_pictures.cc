@@ -12,10 +12,7 @@ extern std::map<std::string, boost::thread *> threadmap;
 using namespace std;
 
 
-Exec::TakePictures::TakePictures (std::string ns, int id) : Executor (ns, id), 
-							    enough_requested(false),
-							    pause_requested(false),
-							    continue_requested(false) {
+Exec::TakePictures::TakePictures (std::string ns, int id) : Executor (ns, id) {
 
   //  add_resource_to_lock("camera");
   // cannot lock since take pictures at position will not work concurrently then
@@ -68,16 +65,16 @@ void Exec::TakePictures::start () {
     while (true) {
       usleep(1000);
       boost::this_thread::interruption_point();
-      if (enough_requested) {
+      if (enough_requested ()) {
 	break;
       }
-      if (pause_requested) {
-	pause_requested = false;
+      if (pause_requested ()) {
+	clear_pause_requested ();
 	set_paused_flag (node_ns, node_id, true);
 	paused = true;
       }
-      if (continue_requested) {
-	continue_requested = false;
+      if (continue_requested ()) {
+	clear_continue_requested ();
 	set_paused_flag (node_ns, node_id, false);
 	paused = false;
       }
@@ -124,26 +121,5 @@ bool Exec::TakePictures::abort () {
     ROS_ERROR ("Executor does not exist: %s", os.str().c_str());
     return false;
   }
-  return res;
-}
-
-bool Exec::TakePictures::enough_execution () {
-  bool res = true;
-  ROS_ERROR ("Exec::TakePictures::enough_execution");
-  enough_requested = true;
-  return res;
-}
-
-bool Exec::TakePictures::request_pause () {
-  bool res = true;
-  ROS_ERROR ("Exec::TakePictures::request_pause");
-  pause_requested = true;
-  return res;
-}
-
-bool Exec::TakePictures::continue_execution () {
-  bool res = true;
-  ROS_ERROR ("Exec::TakePictures::request_continue");
-  continue_requested = true;
   return res;
 }

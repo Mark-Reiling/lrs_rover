@@ -12,8 +12,7 @@ extern std::map<std::string, boost::thread *> threadmap;
 using namespace std;
 
 
-Exec::OperatorControl::OperatorControl (std::string ns, int id) : Executor (ns, id), 
-								  enough_requested(false) {
+Exec::OperatorControl::OperatorControl (std::string ns, int id) : Executor (ns, id) {
 
   add_resource_to_lock("fly");
 
@@ -54,7 +53,7 @@ void Exec::OperatorControl::start () {
     for (int i=0; i<10000; i++) {
       usleep(1000);
       boost::this_thread::interruption_point();
-      if (enough_requested) {
+      if (enough_requested ()) {
 	break;
       }
     }
@@ -89,12 +88,5 @@ bool Exec::OperatorControl::abort () {
     ROS_ERROR ("Executor does not exist: %s", os.str().c_str());
     return false;
   }
-  return res;
-}
-
-bool Exec::OperatorControl::enough_execution () {
-  bool res = true;
-  ROS_ERROR ("Exec::OperatorControl::enough_execution");
-  enough_requested = true;
   return res;
 }

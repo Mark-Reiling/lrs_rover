@@ -14,9 +14,7 @@ extern std::map<std::string, boost::thread *> threadmap;
 using namespace std;
 
 
-Exec::FlyTo::FlyTo (std::string ns, int id) : Executor (ns, id), enough_requested(false),
-					      pause_requested(false), 
-					      continue_requested(false) {
+Exec::FlyTo::FlyTo (std::string ns, int id) : Executor (ns, id) {
 
   add_resource_to_lock("fly");
 
@@ -104,17 +102,17 @@ void Exec::FlyTo::start () {
     for (int i=0; i<10000; i++) {
       usleep(1000);
       boost::this_thread::interruption_point();
-      if (enough_requested) {
+      if (enough_requested ()) {
 	break;
       }
-      if (pause_requested) {
+      if (pause_requested()) {
 	paused = true;
-	pause_requested = false;
+	clear_pause_requested ();
 	set_paused_flag (node_ns, node_id, true);
       }
-      if (continue_requested) {
+      if (continue_requested ()) {
 	paused = false;
-	continue_requested = false;
+	clear_continue_requested ();
 	set_paused_flag (node_ns, node_id, false);
       }
       if (paused) {
@@ -155,23 +153,3 @@ bool Exec::FlyTo::abort () {
   return res;
 }
 
-bool Exec::FlyTo::enough_execution () {
-  bool res = true;
-  ROS_ERROR ("Exec::FlyTo::enough_execution");
-  enough_requested = true;
-  return res;
-}
-
-bool Exec::FlyTo::request_pause () {
-  bool res = true;
-  ROS_ERROR ("Exec::FlyTo::request_pause");
-  pause_requested = true;
-  return res;
-}
-
-bool Exec::FlyTo::continue_execution () {
-  bool res = true;
-  ROS_ERROR ("Exec::FlyTo::request_continue");
-  continue_requested = true;
-  return res;
-}

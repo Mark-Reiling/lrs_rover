@@ -11,7 +11,6 @@ namespace Exec {
 
   class LookAt : public virtual Executor {
   private:
-    bool enough_requested;
 
   public:
     LookAt (std::string ns, int id);
@@ -22,10 +21,6 @@ namespace Exec {
     virtual bool prepare ();
     virtual void start ();
     virtual bool abort ();
-
-
-    virtual bool enough_execution ();
-
   };
 };
 #endif

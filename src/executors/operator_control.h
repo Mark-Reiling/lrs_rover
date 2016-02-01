@@ -9,7 +9,6 @@ namespace Exec {
 
   class OperatorControl : public virtual Executor {
   private:
-    bool enough_requested;
     double x;
     double y;
     double z;
@@ -23,7 +22,6 @@ namespace Exec {
     void start ();
     bool abort ();
 
-    virtual bool enough_execution ();
   };
 
 };
