@@ -18,6 +18,9 @@ Exec::FlyTo::FlyTo (std::string ns, int id) : Executor (ns, id) {
 
   add_resource_to_lock("fly");
 
+  set_can_be_paused(true);
+  set_can_be_enoughed(true);
+
   lrs_msgs_tst::TSTExecInfo einfo;
   einfo.can_be_aborted = true;
   einfo.can_be_enoughed = true;

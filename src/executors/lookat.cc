@@ -12,6 +12,8 @@ using namespace std;
 Exec::LookAt::LookAt (std::string ns, int id) : Executor (ns, id) {
   set_delegation_expandable(false);
 
+  set_can_be_enoughed(true);
+
   lrs_msgs_tst::TSTExecInfo einfo;
   einfo.can_be_aborted = false;
   einfo.can_be_enoughed = true;
