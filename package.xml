@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package>
+<package format="2">
   <name>lrs_exec_txt</name>
   <version>0.0.0</version>
   <description>The lrs_exec_txt package</description>
@@ -41,29 +41,20 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>lrs_msgs_common</build_depend>
-  <build_depend>lrs_srvs_tst</build_depend>
-  <build_depend>lrs_srvs_exec</build_depend>
-  <build_depend>lrs_srvs_wdb</build_depend>
-  <build_depend>lrs_wdb</build_depend>
-  <build_depend>lrs_resource</build_depend>
-  <build_depend>lrs_exec</build_depend>
-  <build_depend>lrs_cram</build_depend>
-  <build_depend>lrs_cons</build_depend>
-  <build_depend>lrs_util_gs</build_depend>
-  <build_depend>lrs_common</build_depend>
-  <run_depend>roscpp</run_depend>
-  <run_depend>lrs_msgs_common</run_depend>
-  <run_depend>lrs_srvs_tst</run_depend>
-  <run_depend>lrs_srvs_exec</run_depend>
-  <run_depend>lrs_resource</run_depend>
-  <run_depend>lrs_exec</run_depend>
-  <run_depend>lrs_cram</run_depend>
-  <run_depend>lrs_cons</run_depend>
-  <run_depend>lrs_srvs_wdb</run_depend>
-  <run_depend>lrs_wdb</run_depend>
-  <run_depend>lrs_util_gs</run_depend>
+  <depend>roscpp</depend>
+  <depend>lrs_msgs_common</depend>
+  <depend>lrs_util_tst</depend>
+  <depend>lrs_srvs_tst</depend>
+  <depend>lrs_srvs_exec</depend>
+  <depend>lrs_srvs_wdb</depend>
+  <depend>lrs_wdb</depend>
+  <depend>lrs_resource</depend>
+  <depend>lrs_exec</depend>
+  <depend>lrs_cram</depend>
+  <depend>lrs_cons</depend>
+  <depend>lrs_util_gs</depend>
+  <depend>lrs_common</depend>
+  <depend>tf</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

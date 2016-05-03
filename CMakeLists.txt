@@ -96,7 +96,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES lrs_exec_txt
-#  CATKIN_DEPENDS roscpp
+  CATKIN_DEPENDS roscpp lrs_msgs_common
 #  DEPENDS system_lib
 )
 
