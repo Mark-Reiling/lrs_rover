@@ -19,7 +19,8 @@ namespace Exec {
 
     virtual ~InAirGoal () {};
 
-    virtual int expand (int free_id, std::vector<std::string> possible_units);
+    virtual int expand (int free_id, std::vector<std::string> possible_units, int expansion_try, 
+			int & expansion_can_be_tried);
 
     virtual bool check ();
 

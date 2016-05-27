@@ -8,8 +8,12 @@
 
 using namespace std;
 
-int Exec::InAirGoal::expand (int free_id, std::vector<std::string> possible_units) {
+int Exec::InAirGoal::expand (int free_id, std::vector<std::string> possible_units, int expansion_try, 
+			     int & expansion_can_be_tried) {
+
   std::string ns = ros::names::clean (ros::this_node::getNamespace());
+
+  expansion_can_be_tried = expansion_try;
 
   ROS_INFO("expand: %s", ns.c_str());
 
