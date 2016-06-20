@@ -54,19 +54,19 @@ void Exec::FlyTo::start () {
       // Try to use the qualitative speed
       std::string qspeed;
       if (get_param("speed", qspeed)) {
-	// Assign speed dependent on the value of qspeed
-	if (qspeed == "slow") {
-	  speed = 1.0;
-	}
-	if (qspeed == "standard") {
-	  speed = 3.0;
-	}
-	if (qspeed == "fast") {
-	  speed = 7.0;
-	}
+        // Assign speed dependent on the value of qspeed
+        if (qspeed == "slow") {
+          speed = 1.0;
+        }
+        if (qspeed == "standard") {
+          speed = 3.0;
+        }
+        if (qspeed == "fast") {
+          speed = 7.0;
+        }
       } else {
-	// Use default speed
-	speed = 3.0;
+        // Use default speed
+        speed = 3.0;
       }
     } 
    
@@ -84,15 +84,15 @@ void Exec::FlyTo::start () {
     double follow_ground_altitude = 0.0;
     if (follow_ground_flag) {
       if (!get_param ("follow-ground-altitude", follow_ground_altitude)) {
-	fail ("flyto: follow ground altitude must be specified");
-	return;
+        fail ("flyto: follow ground altitude must be specified");
+        return;
       }
     }
 
     ROS_INFO ("Exec::Flyto: Execution unit: %s", tni.execution_ns.c_str());
 
     ROS_INFO ("Exec::Flyto (WGS84 Ellipsoid alt): %f %f %f - %f", 
-	      p.latitude, p.longitude, p.altitude, speed);
+              p.latitude, p.longitude, p.altitude, speed);
 
     ROS_INFO ("Exec::Flyto: Follow ground: %d - %f", follow_ground_flag, follow_ground_altitude);
 
@@ -106,20 +106,20 @@ void Exec::FlyTo::start () {
       usleep(1000);
       boost::this_thread::interruption_point();
       if (enough_requested ()) {
-	break;
+        break;
       }
       if (pause_requested()) {
-	paused = true;
-	clear_pause_requested ();
-	set_paused_flag (node_ns, node_id, true);
+        paused = true;
+        clear_pause_requested ();
+        set_paused_flag (node_ns, node_id, true);
       }
       if (continue_requested ()) {
-	paused = false;
-	clear_continue_requested ();
-	set_paused_flag (node_ns, node_id, false);
+        paused = false;
+        clear_continue_requested ();
+        set_paused_flag (node_ns, node_id, false);
       }
       if (paused) {
-	i--;
+        i--;
       }
     }
 

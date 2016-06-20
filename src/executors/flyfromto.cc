@@ -60,9 +60,9 @@ void Exec::FlyFromTo::start () {
   get_param ("fly-in-a-straight-line-flag", fly_in_straight_line_flag);
 
   ROS_INFO ("txtexecutor flyfromto exec: %f %f %f -> %f %f %f - %f", 
-	    p0.latitude, p0.longitude, p0.altitude,
-	    p.latitude, p.longitude, p.altitude, 
-	    speed);
+            p0.latitude, p0.longitude, p0.altitude,
+            p.latitude, p.longitude, p.altitude, 
+            speed);
 
   ROS_INFO ("Exec::FlyFromTo: Follow ground: %d - %f", follow_ground_flag, follow_ground_altitude);
 
@@ -83,7 +83,7 @@ bool Exec::FlyFromTo::abort () {
 }
 
 bool Exec::FlyFromTo::get_constraints (std::vector<std::string> & vars, 
-				       std::vector<std::string> & cons) {
+                                       std::vector<std::string> & cons) {
   vars.clear();
   cons.clear ();
 

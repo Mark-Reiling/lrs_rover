@@ -45,7 +45,7 @@ boost::mutex mutex;
 using namespace std;
 
 bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
-		      lrs_srvs_exec::TSTCreateExecutor::Response &res ) {
+                      lrs_srvs_exec::TSTCreateExecutor::Response &res ) {
   boost::mutex::scoped_lock lock(mutex);
   ROS_INFO("quadexecutor: create_executor: %s %d - %d", req.ns.c_str(), req.id, req.run_prepare);
 
@@ -161,8 +161,8 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
     if (req.run_prepare) {
       bool prep = execmap[os.str()]->prepare ();
       if (!prep) {
-	res.success = false;
-	res.error = 2;
+        res.success = false;
+        res.error = 2;
       }
     }
   } else {

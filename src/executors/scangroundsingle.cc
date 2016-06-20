@@ -53,19 +53,19 @@ bool Exec::ScanGroundSingle::check () {
       // Here a hard coded check for examples.
 
       if (sensortype == "laser") {
-	if (tni.delegation_ns == "/uav0") {
-	  return true;
-	} else {
-	  return false;
-	}
+        if (tni.delegation_ns == "/uav0") {
+          return true;
+        } else {
+          return false;
+        }
       }
 
       if (sensortype == "camera") {
-	if (tni.delegation_ns == "/uav1") {
-	  return true;
-	} else {
-	  return false;
-	}
+        if (tni.delegation_ns == "/uav1") {
+          return true;
+        } else {
+          return false;
+        }
       }
       
     }
@@ -134,7 +134,7 @@ void Exec::ScanGroundSingle::start () {
 
   for (unsigned int i=0; i<points.size(); i++) {
     ROS_ERROR("GeoPoint %d: %f %f %f", i,
-	      points[i].latitude, points[i].longitude, points[i].altitude);
+              points[i].latitude, points[i].longitude, points[i].altitude);
   }
 
   //

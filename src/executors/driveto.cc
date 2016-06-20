@@ -50,7 +50,7 @@ void Exec::DriveTo::start () {
 
   ros::NodeHandle n;
   ros::Subscriber pose_sub = n.subscribe("pose", 1, &Exec::DriveTo::pose_callback, 
-					 this);
+                                         this);
 
 
   try {
@@ -65,19 +65,19 @@ void Exec::DriveTo::start () {
       // Try to use the qualitative speed
       std::string qspeed;
       if (get_param("speed", qspeed)) {
-	// Assign speed dependent on the value of qspeed
-	if (qspeed == "slow") {
-	  speed = 1.0;
-	}
-	if (qspeed == "standard") {
-	  speed = 3.0;
-	}
-	if (qspeed == "fast") {
-	  speed = 7.0;
-	}
+        // Assign speed dependent on the value of qspeed
+        if (qspeed == "slow") {
+          speed = 1.0;
+        }
+        if (qspeed == "standard") {
+          speed = 3.0;
+        }
+        if (qspeed == "fast") {
+          speed = 7.0;
+        }
       } else {
-	// Use default speed
-	speed = 3.0;
+        // Use default speed
+        speed = 3.0;
       }
     } 
 
@@ -90,7 +90,7 @@ void Exec::DriveTo::start () {
     }
 
     ROS_INFO ("Exec::DriveTo (WGS84 Ellipsoid alt): %f %f - %f", 
-	      gp.latitude, gp.longitude,  speed);
+              gp.latitude, gp.longitude,  speed);
 
     geometry_msgs::PointStamped p = geoconv.to_world (gp);
 

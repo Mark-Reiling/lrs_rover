@@ -14,12 +14,12 @@ using namespace std;
 
 
 Exec::Leashing::Leashing (std::string ns, int id) : Executor (ns, id), 
-						    enough_requested(false), 
-						    have_current_position(false), 
-						    have_command(false),
-						    horizontal_control_mode(0),
-						    vertical_control_mode(0),
-						    yaw_control_mode(0) {
+                                                    enough_requested(false), 
+                                                    have_current_position(false), 
+                                                    have_command(false),
+                                                    horizontal_control_mode(0),
+                                                    vertical_control_mode(0),
+                                                    yaw_control_mode(0) {
   set_delegation_expandable(false);
   lrs_msgs_tst::TSTExecInfo einfo;
   einfo.can_be_aborted = true;
@@ -116,39 +116,39 @@ void Exec::Leashing::start () {
       boost::this_thread::interruption_point();
 
       if (horizontal_control_mode == lrs_msgs_common::LeashingCommand::HORIZONTAL_CONTROL_MODE_DISTANCE_HEADING_VEL) {
-	horizontal_distance += horizontal_distance_vel * period;
-	if (horizontal_distance < 0) {
-	  horizontal_distance = 0.0;
-	}
+        horizontal_distance += horizontal_distance_vel * period;
+        if (horizontal_distance < 0) {
+          horizontal_distance = 0.0;
+        }
 
-	// divide by r*r to compensate for longer circumference
-	horizontal_heading += horizontal_heading_vel*20.0 * period / horizontal_distance / horizontal_distance;
+        // divide by r*r to compensate for longer circumference
+        horizontal_heading += horizontal_heading_vel*20.0 * period / horizontal_distance / horizontal_distance;
 
-	if (horizontal_heading < -360.0) {
-	  horizontal_heading += 360.0;
-	}
-	if (horizontal_heading > 360.0) {
-	  horizontal_heading -= 360.0;
-	}
+        if (horizontal_heading < -360.0) {
+          horizontal_heading += 360.0;
+        }
+        if (horizontal_heading > 360.0) {
+          horizontal_heading -= 360.0;
+        }
       }
 
       if (horizontal_control_mode == lrs_msgs_common::LeashingCommand::HORIZONTAL_CONTROL_MODE_NORTH_EAST_VEL) {
-	distance_north += distance_north_vel * period;
-	distance_east += distance_east_vel * period;
+        distance_north += distance_north_vel * period;
+        distance_east += distance_east_vel * period;
       }
 
       if (vertical_control_mode == lrs_msgs_common::LeashingCommand::VERTICAL_CONTROL_MODE_VEL) {
-	vertical_distance += vertical_distance_vel * period;
+        vertical_distance += vertical_distance_vel * period;
       }
 
       if (yaw_control_mode == lrs_msgs_common::LeashingCommand::YAW_CONTROL_MODE_VEL) {
-	yaw += yaw_vel*10*period;
-	if (yaw < -360.0) {
-	  yaw += 360.0;
-	}
-	if (yaw > 360.0) {
-	  yaw -= 360.0;
-	}
+        yaw += yaw_vel*10*period;
+        if (yaw < -360.0) {
+          yaw += 360.0;
+        }
+        if (yaw > 360.0) {
+          yaw -= 360.0;
+        }
       }
 
 
@@ -166,7 +166,7 @@ void Exec::Leashing::start () {
       status_pub.publish(status);
 
       if (have_current_position) {
-	// Control the vehicle
+        // Control the vehicle
       }
     }
 

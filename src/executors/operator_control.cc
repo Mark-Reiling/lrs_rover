@@ -54,7 +54,7 @@ void Exec::OperatorControl::start () {
       usleep(1000);
       boost::this_thread::interruption_point();
       if (enough_requested ()) {
-	break;
+        break;
       }
     }
 

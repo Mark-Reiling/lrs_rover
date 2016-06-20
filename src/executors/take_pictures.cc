@@ -69,27 +69,27 @@ void Exec::TakePictures::start () {
       usleep(1000);
       boost::this_thread::interruption_point();
       if (enough_requested ()) {
-	break;
+        break;
       }
       if (pause_requested ()) {
-	clear_pause_requested ();
-	set_paused_flag (node_ns, node_id, true);
-	paused = true;
+        clear_pause_requested ();
+        set_paused_flag (node_ns, node_id, true);
+        paused = true;
       }
       if (continue_requested ()) {
-	clear_continue_requested ();
-	set_paused_flag (node_ns, node_id, false);
-	paused = false;
+        clear_continue_requested ();
+        set_paused_flag (node_ns, node_id, false);
+        paused = false;
       }
       if (!paused) {
-	if (time > delay) {
-	  time = 0.0;
-	  n++;
-	  ROS_INFO("TAKING PICTURE NUMBER: %d", n);
-	}
+        if (time > delay) {
+          time = 0.0;
+          n++;
+          ROS_INFO("TAKING PICTURE NUMBER: %d", n);
+        }
       }
       if ((n != 0) && (n == n_pictures)) {
-	break;
+        break;
       }
       time += 0.001;
     }

@@ -42,8 +42,8 @@ void Exec::MoveArm::start () {
   ROS_INFO ("Exec::MoveArm: Execution unit: %s", tni.execution_ns.c_str());
 
   ROS_INFO ("Exec::MoveArm: %f %f %f %s", 
-	    p.pose.position.x, p.pose.position.y, p.pose.position.z, 
-	    p.header.frame_id.c_str());
+            p.pose.position.x, p.pose.position.y, p.pose.position.z, 
+            p.header.frame_id.c_str());
 
   //
   // Replace the sleep with useful work.
