@@ -20,6 +20,8 @@ Exec::OperatorControl::OperatorControl (std::string ns, int id) : Executor (ns, 
   einfo.can_be_aborted = true;
   einfo.can_be_enoughed = true;
   set_exec_info(ns, id, einfo);
+
+  update_from_exec_info (einfo);    
 }
 
 bool Exec::OperatorControl::prepare () {

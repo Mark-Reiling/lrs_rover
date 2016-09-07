@@ -20,6 +20,8 @@ Exec::ScanGroundSingle::ScanGroundSingle (std::string ns, int id) : Executor (ns
   einfo.can_be_enoughed = false;
   einfo.can_be_paused = false;
   set_exec_info(ns, id, einfo);
+
+  update_from_exec_info (einfo);  
 }
 
 int Exec::ScanGroundSingle::expand (int free_id) {

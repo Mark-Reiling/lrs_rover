@@ -26,6 +26,8 @@ Exec::Leashing::Leashing (std::string ns, int id) : Executor (ns, id),
   einfo.can_be_enoughed = true;
   set_exec_info(ns, id, einfo);
 
+  update_from_exec_info (einfo);
+
   ROS_ERROR ("Leashing constructor ns - id: %s - %d", ns.c_str(), id);
 }
 

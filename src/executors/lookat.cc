@@ -12,13 +12,13 @@ using namespace std;
 Exec::LookAt::LookAt (std::string ns, int id) : Executor (ns, id) {
   set_delegation_expandable(false);
 
-  set_can_be_enoughed(true);
-
   lrs_msgs_tst::TSTExecInfo einfo;
   einfo.can_be_aborted = false;
   einfo.can_be_enoughed = true;
   einfo.can_be_paused = false;
   set_exec_info(ns, id, einfo);
+
+  update_from_exec_info (einfo);  
 }
 
 bool Exec::LookAt::check () {

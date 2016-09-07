@@ -22,6 +22,7 @@ Exec::FlyWaypoints::FlyWaypoints (std::string ns, int id) : Executor (ns, id) {
   einfo.can_be_paused = false;
   set_exec_info(ns, id, einfo);
 
+  update_from_exec_info (einfo);  
 }
 
 

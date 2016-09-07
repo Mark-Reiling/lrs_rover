@@ -16,6 +16,7 @@ Exec::DriveTo::DriveTo (std::string ns, int id) : Executor (ns, id) {
   lrs_msgs_tst::TSTExecInfo einfo;
   einfo.can_be_aborted = true;
   set_exec_info(ns, id, einfo);
+  update_from_exec_info (einfo);
 }
 
 
