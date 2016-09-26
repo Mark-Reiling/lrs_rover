@@ -12,6 +12,9 @@ extern std::map<std::string, boost::thread *> threadmap;
 using namespace std;
 
 Exec::ScanGroundSingle::ScanGroundSingle (std::string ns, int id) : Executor (ns, id) {
+
+  add_resource_to_lock("fly");
+  
   // Set to true if the executor should expand the node during delegation
   set_delegation_expandable(false);
 
