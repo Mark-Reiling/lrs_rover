@@ -44,35 +44,35 @@ bool Exec::ScanGroundSingle::check () {
 
   fetch_node_info();
 
-  if (init_params()) {
+  if (!init_params ()) {
+    ROS_ERROR("ScanGroundSingle check: init_params failed");
+    return false;
+  }
 
-    return true;
+  if (!get_param("sensor-type", sensortype)) {
+    ROS_ERROR ("ScanGroundSingle: Could not get sensor_type parameter");
+    return false;
+  } else {
+    // ROS_ERROR("scangroundsingle check - sensortype: %s - %s", sensortype.c_str(), tni.execution_ns.c_str());
+  }
 
-    if (get_param("sensor-type", sensortype)) {
-      ROS_ERROR("scangroundsingle check - sensortype: %s - %s", sensortype.c_str(), tni.execution_ns.c_str());
 
-      //
-      // Check that we have this sensor. Return false if we do not have this sensor.
-      //
 
-      // Here a hard coded check for examples.
+  if (sensortype == "pointcloud") {
+    if (tni.delegation_ns != "/uav0") {
+      res = false;
+    }
+  }
 
-      if (sensortype == "laser") {
-        if (tni.delegation_ns == "/uav0") {
-          return true;
-        } else {
-          return false;
-        }
-      }
+  if (sensortype == "artva") {
+    if (tni.delegation_ns != "/uav1") {
+      res = false;
+    }
+  }
 
-      if (sensortype == "camera") {
-        if (tni.delegation_ns == "/uav1") {
-          return true;
-        } else {
-          return false;
-        }
-      }
-      
+  if (sensortype == "camera") {
+    if ((tni.delegation_ns != "/uav2") && (tni.delegation_ns != "/uav3")) {
+      res = false;
     }
   }
   return res;
