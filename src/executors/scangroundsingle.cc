@@ -91,88 +91,125 @@ bool Exec::ScanGroundSingle::prepare () {
 }
 
 void Exec::ScanGroundSingle::start () {
-  ROS_INFO ("Exec::ScanGroundSingle::start: %s - %d", node_ns.c_str(), node_id);
+  ROS_ERROR ("Exec::ScanGroundSingle::start: %s - %d", node_ns.c_str(), node_id);
 
   ros::NodeHandle n;
-
-  try {
-  if (!do_before_work()) {
-    return;
-  }
-
-  //
-  // If the executor expands the node then the code below should be similar to the  
-  // code for the sequence node.
-  //
-  // Otherwise the code below is the code doing the actual scan/mapping
-  //
-
-
-  //
-  // Replace the sleeps with useful work.
-  //
-
-
-  //
-  // We assume that this node is a non-expanding node and that the datacollection
-  // and processing is done in this node.
-  //
-
-  std::vector<geographic_msgs::GeoPoint> points;
-  if (!get_param("area", points)) {
-    fail("Parameter 'area' do not exist or is not set");
-    return;
-  }
-
-  //
-  // Code to preparefor the data collection
-  //
-
-  string datauuid = string_params["data-uuid"].value;
-  ROS_INFO("scangroundsingle preparing for data collection for uuid: %s", datauuid.c_str());
-
-  sleep(5); // Replace with the real code
-
-  //
-  // Do the actual scan/mapping flying
-  // 
-
-  for (unsigned int i=0; i<points.size(); i++) {
-    ROS_ERROR("GeoPoint %d: %f %f %f", i,
-              points[i].latitude, points[i].longitude, points[i].altitude);
-  }
-
-  //
-  // To convert the points to different coordinate systems
-  //
-
-  boost::this_thread::interruption_point();
-  for (int i=0; i<20000; i++) {
-    usleep(1000);
-    boost::this_thread::interruption_point();
-  }
-
-  //
-  // The flying is done. Process the data if needed.
-  //
-
-  for (int i=0; i<5000; i++) {
-    usleep(1000);
-    boost::this_thread::interruption_point();
-  }
-
-  //
-  // Put information in the world data base about the generated data
-  //
-
-
-  //
-  // When we reach this point the node execution whould be finished.
-  //
   
-  ROS_INFO ("Exec::ScanGroundSingle: FINISHED");
+  try {
+    if (!do_before_work()) {
+      return;
+    }
 
-  wait_for_postwork_conditions ();
+    //
+    // If the executor expands the node then the code below should be similar to the  
+    // code for the sequence node.
+    //
+    // Otherwise the code below is the code doing the actual scan/mapping
+    //
+
+    
+    //
+    // Replace the sleeps with useful work.
+    //
+
+
+    //
+    // We assume that this node is a non-expanding node and that the datacollection
+    // and processing is done in this node.
+    //
+
+    std::vector<geographic_msgs::GeoPoint> points;
+    if (!get_param("area", points)) {
+      fail("Parameter 'area' do not exist or is not set");
+      return;
+    }
+
+    //
+    // Code to preparefor the data collection
+    //
+    
+    string datauuid = string_params["data-uuid"].value;
+    ROS_ERROR("scangroundsingle preparing for data collection for uuid: %s", datauuid.c_str());
+
+    //
+    // Do the actual scan/mapping flying
+    // 
+
+    for (unsigned int i=0; i<points.size(); i++) {
+      ROS_ERROR("GeoPoint %d: %f %f %f", i,
+                points[i].latitude, points[i].longitude, points[i].altitude);
+    }
+
+    //
+    // To convert the points to different coordinate systems
+    //
+
+    if (tni.delegation_ns == "/uav0") {
+      int duration = 120;
+  
+      boost::this_thread::interruption_point();
+      for (int i=0; i<1000*duration; i++) {
+        usleep(1000);
+        boost::this_thread::interruption_point();
+        
+        if ((i % 10000) == 0) {
+          
+        }
+      }
+    }
+
+    if (tni.delegation_ns == "/uav1") {
+      int duration = 30;
+      
+      boost::this_thread::interruption_point();
+      for (int i=0; i<1000*duration; i++) {
+        usleep(1000);
+        boost::this_thread::interruption_point();
+      }
+    }
+
+    if (tni.delegation_ns == "/uav2") {
+      int duration = 15;
+      
+      boost::this_thread::interruption_point();
+      for (int i=0; i<1000*duration; i++) {
+        usleep(1000);
+        boost::this_thread::interruption_point();
+      }
+    }
+
+    if (tni.delegation_ns == "/uav3") {
+      int duration = 17;
+      
+      boost::this_thread::interruption_point();
+      for (int i=0; i<1000*duration; i++) {
+        usleep(1000);
+        boost::this_thread::interruption_point();
+      }
+    }
+    
+    //
+    // The flying is done. Process the data if needed.
+    //
+#if 0
+    for (int i=0; i<5000; i++) {
+      usleep(1000);
+      boost::this_thread::interruption_point();
+    }
+#endif
+    //
+    // Put information in the world data base about the generated data
+    //
+
+
+    //
+    // When we reach this point the node execution whould be finished.
+    //
+    
+    ROS_ERROR ("Exec::ScanGroundSingle: FINISHED");
+    
+    wait_for_postwork_conditions ();
+
   }
   catch (boost::thread_interrupted) {
     abort_fail ("scangroundsingle ABORTED");
