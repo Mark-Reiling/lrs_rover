@@ -7,6 +7,10 @@
 #include <iostream>
 #include <string>
 
+#include "lrs_msgs_common/ScanSpecCommand.h"
+
+#include <uuid/uuid.h>
+
 extern std::map<std::string, boost::thread *> threadmap;
 
 using namespace std;
@@ -118,6 +122,18 @@ void Exec::ScanGroundSingle::start () {
     // and processing is done in this node.
     //
 
+    uuid_t out;
+    uuid_generate(out);
+    char uuid[37];
+    uuid_unparse(out, uuid);
+    //    queue_uuid = std::string (uuid);
+    queue_uuid = "uuid17";
+
+
+    ros::NodeHandle n;
+    ros::Publisher ssc_pub = n.advertise<lrs_msgs_common::ScanSpecCommand>("/scan_spec_command", 10);
+    
+
     std::vector<geographic_msgs::GeoPoint> points;
     if (!get_param("area", points)) {
       fail("Parameter 'area' do not exist or is not set");
@@ -145,8 +161,43 @@ void Exec::ScanGroundSingle::start () {
     //
 
     if (tni.delegation_ns == "/uav0") {
-      int duration = 120;
-  
+      int duration = 45;
+
+      
+      boost::this_thread::interruption_point();
+      for (int i=0; i<1000*duration; i++) {
+        usleep(1000);
+        boost::this_thread::interruption_point();
+        if (i == 5000) {
+          std::vector<geographic_msgs::GeoPoint> area;
+          area.push_back(geoconv.wtogp(0, 2, 0));
+          area.push_back(geoconv.wtogp(2, 2, 0));
+          area.push_back(geoconv.wtogp(2, 4, 0));
+          area.push_back(geoconv.wtogp(0, 4, 0));
+          push_command (ssc_pub, "artva", area);
+        }
+        if (i == 10000) {
+          std::vector<geographic_msgs::GeoPoint> area;
+          area.push_back(geoconv.wtogp(0, -2, 0));
+          area.push_back(geoconv.wtogp(2, -2, 0));
+          area.push_back(geoconv.wtogp(2, -4, 0));
+          area.push_back(geoconv.wtogp(0, -4, 0));
+          push_command (ssc_pub, "camera", area);
+        }
+        if (i == 15000) {
+          std::vector<geographic_msgs::GeoPoint> area;
+          area.push_back(geoconv.wtogp(-2, 0, 0));
+          area.push_back(geoconv.wtogp(-2, 2, 0));
+          area.push_back(geoconv.wtogp(-4, 2, 0));
+          area.push_back(geoconv.wtogp(-4, 0, 0));
+          push_command (ssc_pub, "camera", area);
+        }
+      }
+    }
+
+    if (tni.delegation_ns == "/uav1") {
+      int duration = 35;
+
       boost::this_thread::interruption_point();
       for (int i=0; i<1000*duration; i++) {
         usleep(1000);
@@ -155,16 +206,6 @@ void Exec::ScanGroundSingle::start () {
         if ((i % 10000) == 0) {
           
         }
-      }
-    }
-
-    if (tni.delegation_ns == "/uav1") {
-      int duration = 30;
-      
-      boost::this_thread::interruption_point();
-      for (int i=0; i<1000*duration; i++) {
-        usleep(1000);
-        boost::this_thread::interruption_point();
       }
     }
 
@@ -179,13 +220,14 @@ void Exec::ScanGroundSingle::start () {
     }
 
     if (tni.delegation_ns == "/uav3") {
-      int duration = 17;
-      
+      int duration = 10;
+
       boost::this_thread::interruption_point();
       for (int i=0; i<1000*duration; i++) {
         usleep(1000);
         boost::this_thread::interruption_point();
       }
+ 
     }
     
     //
@@ -237,3 +279,32 @@ bool Exec::ScanGroundSingle::abort () {
   return res;
 }
 
+
+void Exec::ScanGroundSingle::push_command (ros::Publisher & pub, std::string sensor_type,
+                                           std::vector<geographic_msgs::GeoPoint> area) {
+  ROS_ERROR ("push scan spec command: %s", sensor_type.c_str());
+  
+  lrs_msgs_common::ScanSpec ss;
+  uuid_t out;
+  uuid_generate(out);
+  char uuid[37];
+  uuid_unparse(out, uuid);
+  ss.uuid = std::string (uuid);
+  ss.sensor_type = ss.SCAN_SPEC_SENSOR_TYPE_UNSPECIFIED;
+  if (sensor_type == "artva") {
+    ss.sensor_type = ss.SCAN_SPEC_SENSOR_TYPE_ARTVA;
+  }
+  if (sensor_type == "camera") {
+    ss.sensor_type = ss.SCAN_SPEC_SENSOR_TYPE_CAMERA;
+  }
+  ss.area = area;
+
+  lrs_msgs_common::ScanSpecCommand ssc;
+
+  ssc.command = ssc.SCAN_SPEC_COMMAND_QUEUE_INSERT;
+  ssc.queue_uuid = queue_uuid;
+  ssc.scan_spec =ss;
+
+  pub.publish(ssc);
+  
+}

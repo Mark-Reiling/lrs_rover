@@ -14,6 +14,7 @@ namespace Exec {
   private:
     std::vector< std::map<std::string, double> > sensors_params;
     GeoConvertRos geoconv;
+    std::string queue_uuid;
 
   public:
     ScanGroundSingle (std::string ns, int id);
@@ -25,6 +26,9 @@ namespace Exec {
     bool prepare ();
     void start ();
     bool abort ();
+
+    void push_command (ros::Publisher & pub, std::string sensor_type,
+                       std::vector<geographic_msgs::GeoPoint> area);
 
   };
 

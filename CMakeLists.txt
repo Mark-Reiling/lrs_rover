@@ -137,9 +137,12 @@ add_executable(txtexecutor
   src/executors/driveto.cc
   src/executors/leashing.cc
   src/txtexecutor.cc
-)
+  )
+
+find_library(UUID_LIB uuid)
 
 target_link_libraries(txtexecutor
+  ${UUID_LIB}
   ${catkin_LIBRARIES}
 )
 
