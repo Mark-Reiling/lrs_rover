@@ -18,7 +18,6 @@ find_package(catkin REQUIRED COMPONENTS
   lrs_cram
   lrs_cons
   lrs_util_tst
-  lrs_util_gs
   lrs_common
   tf
   roscpp

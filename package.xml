@@ -52,7 +52,6 @@
   <depend>lrs_exec</depend>
   <depend>lrs_cram</depend>
   <depend>lrs_cons</depend>
-  <depend>lrs_util_gs</depend>
   <depend>lrs_common</depend>
   <depend>tf</depend>
 
