@@ -58,7 +58,7 @@ void Exec::LookAt::start () {
 
   geographic_msgs::GeoPoint gp;
   if (get_param("p", gp)) {
-    ROS_ERROR ("Look at: %f %f - %f", gp.latitude, gp.longitude, gp.altitude);
+    ROS_INFO ("Look at: %f %f - %f", gp.latitude, gp.longitude, gp.altitude);
   } else {
     fail("Could not get parameter p");
     return;

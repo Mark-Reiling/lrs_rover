@@ -71,7 +71,7 @@ void Exec::FlyTo::start () {
    
     geographic_msgs::GeoPoint p;
     if (get_param("p", p)) {
-      ROS_ERROR ("FLYTO: %f %f - %f - %f", p.latitude, p.longitude, p.altitude, speed);
+      ROS_INFO ("FLYTO: %f %f - %f - %f", p.latitude, p.longitude, p.altitude, speed);
     } else {
       fail ("flyto: parameter p is missing");
       return;
@@ -138,11 +138,11 @@ void Exec::FlyTo::start () {
 
 bool Exec::FlyTo::abort () {
   bool res = false;
-  ROS_ERROR("Exec::FlyTo::abort");
+  ROS_INFO("Exec::FlyTo::abort");
   ostringstream os;
   os << node_ns << "-" << node_id;
   if (threadmap.find (os.str()) != threadmap.end()) {
-    ROS_ERROR("EXECUTOR EXISTS: Sending interrupt to running thread");
+    ROS_INFO("EXECUTOR EXISTS: Sending interrupt to running thread");
     threadmap[os.str()]->interrupt();
 
     // Platform specific things to to

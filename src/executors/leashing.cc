@@ -28,7 +28,6 @@ Exec::Leashing::Leashing (std::string ns, int id) : Executor (ns, id),
 
   update_from_exec_info (einfo);
 
-  ROS_ERROR ("Leashing constructor ns - id: %s - %d", ns.c_str(), id);
 }
 
 
@@ -40,7 +39,7 @@ bool Exec::Leashing::check () {
   fetch_node_info();
 
   if (!init_params ()) {
-    ROS_ERROR("expand: init_params failed");
+    ROS_ERROR("leashing check: init_params failed");
     return false;
   }
 
@@ -52,7 +51,7 @@ bool Exec::Leashing::prepare () {
   bool res = true;
   ROS_INFO ("Exec::Leashing::prepare");
   if (res) {
-    ROS_ERROR ("TRY TO SET ACTIVE FLAG: %s - %d", node_ns.c_str(), node_id);
+    ROS_INFO ("TRY TO SET ACTIVE FLAG: %s - %d", node_ns.c_str(), node_id);
     if (node_id < 0) {
       return false;
     } else {
@@ -80,8 +79,8 @@ void Exec::Leashing::start () {
     double desired_vertical_distance = 2.0;
     get_param("desired_vertical_distance", desired_vertical_distance);
 
-    ROS_ERROR ("leashing: Desired horizontal distance: %f", desired_horizontal_distance);
-    ROS_ERROR ("leashing: Desired vertical distance: %f", desired_vertical_distance);
+    ROS_INFO ("leashing: Desired horizontal distance: %f", desired_horizontal_distance);
+    ROS_INFO ("leashing: Desired vertical distance: %f", desired_vertical_distance);
 
     string command_topic = "leashing_command";
     get_param("command_topic", command_topic);
@@ -92,9 +91,9 @@ void Exec::Leashing::start () {
     string position_topic = "/rescuer/geopose";
     get_param("position_topic", position_topic);
 
-    ROS_ERROR("leashing: Position topic: %s", position_topic.c_str());
-    ROS_ERROR("leashing: Command  topic: %s", command_topic.c_str());
-    ROS_ERROR("leashing: Status   topic: %s", status_topic.c_str());
+    ROS_INFO("leashing: Position topic: %s", position_topic.c_str());
+    ROS_INFO("leashing: Command  topic: %s", command_topic.c_str());
+    ROS_INFO("leashing: Status   topic: %s", status_topic.c_str());
 
     position_sub = n.subscribe(position_topic, 1, &Exec::Leashing::position_callback, this);
     command_sub = n.subscribe(command_topic, 1, &Exec::Leashing::command_callback, this);
@@ -190,7 +189,7 @@ bool Exec::Leashing::abort () {
   ostringstream os;
   os << node_ns << "-" << node_id;
   if (threadmap.find (os.str()) != threadmap.end()) {
-    ROS_ERROR("EXECUTOR EXISTS: Sending interrupt to running thread");
+    ROS_INFO("EXECUTOR EXISTS: Sending interrupt to running thread");
     threadmap[os.str()]->interrupt();
     // Platform specific things to to
 
@@ -200,13 +199,6 @@ bool Exec::Leashing::abort () {
     return false;
   }
 
-  return res;
-}
-
-bool Exec::Leashing::enough_execution () {
-  bool res = true;
-  ROS_ERROR ("Exec::Leashing::enough_execution");
-  enough_requested = true;
   return res;
 }
 

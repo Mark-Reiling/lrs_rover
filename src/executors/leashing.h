@@ -59,8 +59,6 @@ namespace Exec {
     virtual void start ();
     virtual bool abort ();
 
-    virtual bool enough_execution ();
-
     void position_callback(const geographic_msgs::GeoPose::ConstPtr & msg);
     void command_callback(const lrs_msgs_common::LeashingCommand::ConstPtr & msg);
   };

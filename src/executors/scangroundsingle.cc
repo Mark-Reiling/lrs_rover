@@ -95,7 +95,7 @@ bool Exec::ScanGroundSingle::prepare () {
 }
 
 void Exec::ScanGroundSingle::start () {
-  ROS_ERROR ("Exec::ScanGroundSingle::start: %s - %d", node_ns.c_str(), node_id);
+  ROS_INFO ("Exec::ScanGroundSingle::start: %s - %d", node_ns.c_str(), node_id);
 
   ros::NodeHandle n;
   
@@ -145,14 +145,14 @@ void Exec::ScanGroundSingle::start () {
     //
     
     string datauuid = string_params["data-uuid"].value;
-    ROS_ERROR("scangroundsingle preparing for data collection for uuid: %s", datauuid.c_str());
+    ROS_INFO("scangroundsingle preparing for data collection for uuid: %s", datauuid.c_str());
 
     //
     // Do the actual scan/mapping flying
     // 
 
     for (unsigned int i=0; i<points.size(); i++) {
-      ROS_ERROR("GeoPoint %d: %f %f %f", i,
+      ROS_INFO("GeoPoint %d: %f %f %f", i,
                 points[i].latitude, points[i].longitude, points[i].altitude);
     }
 
@@ -248,7 +248,7 @@ void Exec::ScanGroundSingle::start () {
     // When we reach this point the node execution whould be finished.
     //
     
-    ROS_ERROR ("Exec::ScanGroundSingle: FINISHED");
+    ROS_INFO ("Exec::ScanGroundSingle: FINISHED");
     
     wait_for_postwork_conditions ();
 
@@ -266,7 +266,7 @@ bool Exec::ScanGroundSingle::abort () {
   ostringstream os;
   os << node_ns << "-" << node_id;
   if (threadmap.find (os.str()) != threadmap.end()) {
-    ROS_ERROR("EXECUTOR EXISTS: Sending interrupt to running thread");
+    ROS_INFO("EXECUTOR EXISTS: Sending interrupt to running thread");
     threadmap[os.str()]->interrupt();
 
     // Platform specific things to to
@@ -282,7 +282,7 @@ bool Exec::ScanGroundSingle::abort () {
 
 void Exec::ScanGroundSingle::push_command (ros::Publisher & pub, std::string sensor_type,
                                            std::vector<geographic_msgs::GeoPoint> area) {
-  ROS_ERROR ("push scan spec command: %s", sensor_type.c_str());
+  ROS_INFO ("push scan spec command: %s", sensor_type.c_str());
   
   lrs_msgs_common::ScanSpec ss;
   uuid_t out;
