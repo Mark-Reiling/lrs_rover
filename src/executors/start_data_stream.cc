@@ -15,8 +15,8 @@ Exec::StartDataStream::StartDataStream (std::string ns, int id) : Executor (ns, 
 
 bool Exec::StartDataStream::check () {
   ROS_INFO ("StartDataStream CHECK");
-
-  std::string ns = ros::names::clean (ros::this_node::getNamespace());
+  bool res = true;
+  string sensortype;
 
   fetch_node_info();
 
@@ -25,7 +25,33 @@ bool Exec::StartDataStream::check () {
     return false;
   }
 
-  return true;
+  if (!get_param("sensor-type", sensortype)) {
+    ROS_ERROR ("StartDataStream: Could not get sensor_type parameter");
+    return false;
+  } else {
+    // ROS_ERROR("scangroundsingle check - sensortype: %s - %s", sensortype.c_str(), tni.execution_ns.c_str());
+  }
+
+  if (sensortype == "pointcloud") {
+    if (tni.delegation_ns != "/uav0") {
+      res = false;
+    }
+  }
+
+  if (sensortype == "artva") {
+    if (tni.delegation_ns != "/uav1") {
+      res = false;
+    }
+  }
+
+  if (sensortype == "camera") {
+    if ((tni.delegation_ns != "/uav2") && (tni.delegation_ns != "/uav3")) {
+      res = false;
+    }
+  }
+  
+
+  return res;
 }
 
 
