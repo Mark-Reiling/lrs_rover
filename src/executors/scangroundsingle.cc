@@ -68,6 +68,12 @@ bool Exec::ScanGroundSingle::check () {
     }
   }
 
+  if (sensortype == "IR+camera") {
+    if (tni.delegation_ns != "/uav0") {
+      res = false;
+    }
+  }
+
   if (sensortype == "artva") {
     if (tni.delegation_ns != "/uav1") {
       res = false;
