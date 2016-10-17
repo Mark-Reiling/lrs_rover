@@ -52,7 +52,7 @@ void Exec::OperatorControl::start () {
     //
 
     boost::this_thread::interruption_point();
-    for (int i=0; i<10000; i++) {
+    while (true) {
       usleep(1000);
       boost::this_thread::interruption_point();
       if (enough_requested ()) {
@@ -76,11 +76,11 @@ void Exec::OperatorControl::start () {
 
 bool Exec::OperatorControl::abort () {
   bool res = false;
-  ROS_ERROR("Exec::OperatorControl::abort");
+  ROS_INFO("Exec::OperatorControl::abort");
   ostringstream os;
   os << node_ns << "-" << node_id;
   if (threadmap.find (os.str()) != threadmap.end()) {
-    ROS_ERROR("EXECUTOR EXISTS: Sending interrupt to running thread");
+    ROS_INFO("EXECUTOR EXISTS: Sending interrupt to running thread");
     threadmap[os.str()]->interrupt();
 
     // Platform specific things to to
