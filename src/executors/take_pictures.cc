@@ -85,7 +85,7 @@ void Exec::TakePictures::start () {
         if (time > delay) {
           time = 0.0;
           n++;
-          ROS_INFO("TAKING PICTURE NUMBER: %d", n);
+          //          ROS_ERROR("TAKING PICTURE NUMBER: %d", n);
         }
       }
       if ((n != 0) && (n == n_pictures)) {
@@ -110,11 +110,11 @@ void Exec::TakePictures::start () {
 
 bool Exec::TakePictures::abort () {
   bool res = false;
-  ROS_ERROR("Exec::TakePictures::abort");
+  ROS_INFO("Exec::TakePictures::abort");
   ostringstream os;
   os << node_ns << "-" << node_id;
   if (threadmap.find (os.str()) != threadmap.end()) {
-    ROS_ERROR("EXECUTOR EXISTS: Sending interrupt to running thread");
+    ROS_INFO("EXECUTOR EXISTS: Sending interrupt to running thread");
     threadmap[os.str()]->interrupt();
 
     // Platform specific things to to
