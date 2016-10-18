@@ -17,6 +17,8 @@ namespace Exec {
     StartCollectData (std::string ns, int id);
     virtual ~StartCollectData ();
 
+    virtual bool check ();
+    
     bool prepare ();
     void start ();
     bool abort ();

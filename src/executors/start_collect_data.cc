@@ -11,11 +11,59 @@ using namespace std;
 
 
 Exec::StartCollectData::StartCollectData (std::string ns, int id) : Executor (ns, id) {
-
+  set_delegation_expandable(false);
 }
 
 Exec::StartCollectData::~StartCollectData () {
 
+}
+
+
+bool Exec::StartCollectData::check () {
+  ROS_INFO ("StartDataStream CHECK");
+  bool res = true;
+  string sensortype;
+
+  fetch_node_info();
+
+  if (!init_params ()) {
+    ROS_ERROR("expand: init_params failed");
+    return false;
+  }
+
+  if (!get_param("sensor-type", sensortype)) {
+    ROS_ERROR ("StartDataStream: Could not get sensor_type parameter");
+    return false;
+  } else {
+    // ROS_ERROR("scangroundsingle check - sensortype: %s - %s", sensortype.c_str(), tni.execution_ns.c_str());
+  }
+
+  if (sensortype == "pointcloud") {
+    if (tni.delegation_ns != "/uav0") {
+      res = false;
+    }
+  }
+
+  if (sensortype == "IR+camera") {
+    if (tni.delegation_ns != "/uav0") {
+      res = false;
+    }
+  }
+
+  if (sensortype == "artva") {
+    if (tni.delegation_ns != "/uav1") {
+      res = false;
+    }
+  }
+
+  if (sensortype == "camera") {
+    if ((tni.delegation_ns != "/uav2") && (tni.delegation_ns != "/uav3")) {
+      res = false;
+    }
+  }
+  
+
+  return res;
 }
 
 
