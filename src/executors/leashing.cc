@@ -14,7 +14,6 @@ using namespace std;
 
 
 Exec::Leashing::Leashing (std::string ns, int id) : Executor (ns, id), 
-                                                    enough_requested(false), 
                                                     have_current_position(false), 
                                                     have_command(false),
                                                     horizontal_control_mode(0),
@@ -73,11 +72,10 @@ void Exec::Leashing::start () {
       return;
     }
 
+    // These two values are not paraemeters. Should be initialized by position or initial image
+    // processing.
     double desired_horizontal_distance = 4.0;
-    get_param("desired_horizontal_distance", desired_horizontal_distance);
-
     double desired_vertical_distance = 2.0;
-    get_param("desired_vertical_distance", desired_vertical_distance);
 
     ROS_INFO ("leashing: Desired horizontal distance: %f", desired_horizontal_distance);
     ROS_INFO ("leashing: Desired vertical distance: %f", desired_vertical_distance);
@@ -111,7 +109,7 @@ void Exec::Leashing::start () {
     vertical_distance = desired_vertical_distance;
 
     double period = 0.1;
-    while (!enough_requested) {
+    while (!enough_requested()) {
       //    usleep (1000000.0*period);
       usleep (100000);
       boost::this_thread::interruption_point();

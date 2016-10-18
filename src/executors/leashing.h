@@ -17,7 +17,6 @@ namespace Exec {
 
   class Leashing : public Executor {
   private:
-    bool enough_requested;
     tf::TransformListener listener;
     ros::Subscriber position_sub;
     bool have_current_position;
