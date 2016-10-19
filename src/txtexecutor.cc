@@ -16,6 +16,7 @@
 #include "executors/operator_control.h"
 #include "executors/start_video_recording.h"
 #include "executors/stop_video_recording.h"
+#include "executors/start_charging.h"
 #include "executors/start_collect_data.h"
 #include "executors/stop_collect_data.h"
 #include "executors/start_data_stream.h"
@@ -64,6 +65,11 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
   Executor * cres = check_exec(type, req.ns, req.id);
   if (cres) {
     execmap[os.str()] = cres;
+    found = true;
+  }
+
+  if (type == "start-charging") {
+    execmap[os.str()] = new Exec::StartCharging (req.ns, req.id);
     found = true;
   }
 
