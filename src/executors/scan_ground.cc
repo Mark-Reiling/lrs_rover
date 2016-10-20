@@ -1,5 +1,6 @@
 #include "scan_ground.h"
 
+#include "tstutil.h"
 #include "executil.h"
 
 #include <iostream>
@@ -13,8 +14,6 @@ using namespace std;
 
 Exec::ScanGround::ScanGround (std::string ns, int id) : Executor (ns, id) {
 
-  add_resource_to_lock("fly");
-  
   // Set to true if the executor should expand the node during delegation
   set_delegation_expandable(true);
 
@@ -27,13 +26,66 @@ Exec::ScanGround::ScanGround (std::string ns, int id) : Executor (ns, id) {
   update_from_exec_info (einfo);  
 }
 
-int Exec::ScanGround::expand (int free_id) {
+int Exec::ScanGround::expand (int free_id, std::vector<std::string> possible_units,
+                              int expansion_try, int & expansion_can_be_tried) {
 
   std::string ns = ros::names::clean (ros::this_node::getNamespace());
 
   ROS_INFO("expand: %s", ns.c_str());
 
   // Place code doing the expansion
+
+  fetch_node_info();
+
+  if (!init_params ()) {
+    ROS_ERROR("ScanGround check: init_params failed");
+    return false;
+  }
+
+  string sensortype;
+  if (!get_param("sensor-type", sensortype)) {
+    ROS_ERROR ("ScanGround: Could not get sensor_type parameter");
+    return false;
+  } else {
+    // ROS_ERROR("scan_ground check - sensortype: %s - %s", sensortype.c_str(), tni.execution_ns.c_str());
+  }
+
+  std::vector<geographic_msgs::GeoPoint> area;
+  if (!get_param("area", area)) {
+    ROS_ERROR("scan_gropund: Parameter 'area' do not exist or is not set");
+    return false;
+  }
+  
+
+  unsigned int n_sub_tasks = 1;
+
+  if (sensortype == "artva") {
+    n_sub_tasks = 1;
+  }
+
+  if (sensortype == "camera") {
+    n_sub_tasks = 2;
+  }
+
+  int conc_id = create_child_node (node_ns, "conc", "conc", node_id);
+  set_execution_unit(node_ns, conc_id, ns);
+  set_parameter_int32(node_ns, conc_id, "unique_node_id", free_id++);
+
+  if (sensortype == "artva") {
+    int artva_trigger_id = create_child_node (node_ns, "artva-trigger", "artva-trigger", conc_id);
+    set_execution_unit(node_ns, artva_trigger_id, ns);
+    set_parameter_float64(node_ns, artva_trigger_id, "limit", 10.0);
+    set_parameter_int32(node_ns, artva_trigger_id, "abort-unique-node-id", 1);
+    set_parameter_int32(node_ns, artva_trigger_id, "unique_node_id", free_id++); 
+ }
+
+  for (unsigned int i=0; i<n_sub_tasks; i++) {
+    int scan_id = create_child_node (node_ns, "scan-ground-single", "scan-ground-single", conc_id);
+    set_parameter_geopoints(node_ns, scan_id, "area", area);
+    set_parameter_string(node_ns, scan_id, "sensor-type", sensortype);
+    set_parameter_int32(node_ns, scan_id, "unique_node_id", free_id++);
+  }
+
 
   return free_id;
 }
@@ -119,6 +171,12 @@ void Exec::ScanGround::start () {
       return;
     }
 
+#if 0
+    while (true) {
+      usleep(1000);
+      boost::this_thread::interruption_point();
+    }
+#endif
 
     //
     // When we reach this point the node execution whould be finished.
@@ -142,7 +200,13 @@ bool Exec::ScanGround::abort () {
   ostringstream os;
   os << node_ns << "-" << node_id;
   if (threadmap.find (os.str()) != threadmap.end()) {
-    ROS_INFO("EXECUTOR EXISTS: Sending interrupt to running thread");
+
+    for (unsigned int i=0; i<tni.children.size(); i++) {
+      ROS_INFO("SCAN GROUND ABORT CHILDREN %d: %d", i, tni.children[i]);
+      set_abort_executor(node_ns, tni.children[i], true);
+    }
+
+    ROS_INFO("SCAN GROUND EXISTS: Sending interrupt to running thread");
     threadmap[os.str()]->interrupt();
 
     // Platform specific things to to

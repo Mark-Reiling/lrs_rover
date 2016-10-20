@@ -20,7 +20,6 @@ namespace Exec {
     ScanGroundSingle (std::string ns, int id);
     virtual ~ScanGroundSingle () {};
 
-    virtual int expand (int free_id);
     virtual bool check ();
 
     bool prepare ();

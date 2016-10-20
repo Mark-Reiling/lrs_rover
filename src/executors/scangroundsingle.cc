@@ -31,17 +31,6 @@ Exec::ScanGroundSingle::ScanGroundSingle (std::string ns, int id) : Executor (ns
   update_from_exec_info (einfo);  
 }
 
-int Exec::ScanGroundSingle::expand (int free_id) {
-
-  std::string ns = ros::names::clean (ros::this_node::getNamespace());
-
-  ROS_INFO("expand: %s", ns.c_str());
-
-  // Place code doing the expansion
-
-  return free_id;
-}
-
 bool Exec::ScanGroundSingle::check () {
   bool res = true;
   string sensortype;
