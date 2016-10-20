@@ -55,17 +55,28 @@ int Exec::ScanGround::expand (int free_id, std::vector<std::string> possible_uni
     ROS_ERROR("scan_gropund: Parameter 'area' do not exist or is not set");
     return false;
   }
+
+  unsigned int n_sub_tasks = 0;
+  
+  for (unsigned int i=0; i<possible_units.size(); i++) {
+    ROS_ERROR("POSSIBLE UNIT: %s", possible_units[i].c_str());
+    if (sensortype == "artva") {
+      if (possible_units[i] == "/uav1") {
+	n_sub_tasks++;
+      }
+    }
+    if (sensortype == "camera") {
+      if (possible_units[i] == "/uav2") {
+	n_sub_tasks++;
+      }
+      if (possible_units[i] == "/uav3") {
+	n_sub_tasks++;
+      }
+    }
+  }
   
 
-  unsigned int n_sub_tasks = 1;
 
-  if (sensortype == "artva") {
-    n_sub_tasks = 1;
-  }
-
-  if (sensortype == "camera") {
-    n_sub_tasks = 2;
-  }
 
   int conc_id = create_child_node (node_ns, "conc", "conc", node_id);
   set_execution_unit(node_ns, conc_id, ns);
