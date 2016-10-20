@@ -30,6 +30,7 @@
 #include "executors/flywaypoints.h"
 #include "executors/movearm.h"
 #include "executors/scangroundsingle.h"
+#include "executors/scan_ground.h"
 #include "executors/inairgoal.h"
 
 #include "executors/driveto.h"
@@ -145,6 +146,11 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
 
   if (type == "scan-ground-single") {
     execmap[os.str()] = new Exec::ScanGroundSingle (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "scan-ground") {
+    execmap[os.str()] = new Exec::ScanGround (req.ns, req.id);
     found = true;
   }
 
