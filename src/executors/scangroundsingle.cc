@@ -49,6 +49,7 @@ bool Exec::ScanGroundSingle::check () {
     // ROS_ERROR("scangroundsingle check - sensortype: %s - %s", sensortype.c_str(), tni.execution_ns.c_str());
   }
 
+  // Assume /uav0 is the FW, /uav1 is the Artva Wasp and /uav3 and /uav4 are Camera Wasps.
 
 
   if (sensortype == "pointcloud") {
@@ -108,15 +109,11 @@ void Exec::ScanGroundSingle::start () {
 
     
     //
-    // Replace the sleeps with useful work.
-    //
-
-
-    //
     // We assume that this node is a non-expanding node and that the datacollection
     // and processing is done in this node.
     //
 
+    // This is just for testing demo 5
     uuid_t out;
     uuid_generate(out);
     char uuid[37];
@@ -127,12 +124,23 @@ void Exec::ScanGroundSingle::start () {
 
     ros::NodeHandle n;
     ros::Publisher ssc_pub = n.advertise<lrs_msgs_common::ScanSpecCommand>("/scan_spec_command", 10);
-    
+    // End demo 5 stuff
 
+    bool waypoints_scan_flag = false;
+    get_param("waypoints_scan_flag", waypoints_scan_flag);
+
+    
     std::vector<geographic_msgs::GeoPoint> points;
-    if (!get_param("area", points)) {
-      fail("Parameter 'area' do not exist or is not set");
-      return;
+    if (waypoints_scan_flag) {
+      if (!get_param("waypoints", points)) {
+        fail("Parameter 'waypoints' do not exist or is not set");
+        return;
+      }
+    } else {
+      if (!get_param("area", points)) {
+        fail("Parameter 'area' do not exist or is not set");
+        return;
+      }
     }
 
     //
@@ -144,7 +152,7 @@ void Exec::ScanGroundSingle::start () {
 
     //
     // Do the actual scan/mapping flying
-    // 
+    //
 
     for (unsigned int i=0; i<points.size(); i++) {
       ROS_INFO("GeoPoint %d: %f %f %f", i,
@@ -228,14 +236,10 @@ void Exec::ScanGroundSingle::start () {
     //
     // The flying is done. Process the data if needed.
     //
-#if 0
-    for (int i=0; i<5000; i++) {
-      usleep(1000);
-      boost::this_thread::interruption_point();
-    }
-#endif
+
+
     //
-    // Put information in the world data base about the generated data
+    // Put information in the sherpa world model
     //
 
 
@@ -274,7 +278,7 @@ bool Exec::ScanGroundSingle::abort () {
   return res;
 }
 
-
+// help function for the dem0 5 stuff
 void Exec::ScanGroundSingle::push_command (ros::Publisher & pub, std::string sensor_type,
                                            std::vector<geographic_msgs::GeoPoint> area) {
   ROS_INFO ("push scan spec command: %s", sensor_type.c_str());
