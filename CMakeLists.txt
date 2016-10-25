@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(lrs_exec_txt)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -std=c++0x")
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -117,6 +117,7 @@ include_directories(
 
 ## Declare a cpp executable
 add_executable(txtexecutor
+  src/executors/rescue_video_recording.cc
   src/executors/inairtest.cc
   src/executors/start_charging.cc
   src/executors/start_collect_data.cc

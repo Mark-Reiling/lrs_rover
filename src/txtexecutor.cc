@@ -33,6 +33,7 @@
 #include "executors/scan_ground.h"
 #include "executors/inairgoal.h"
 #include "executors/inairtest.h"
+#include "executors/rescue_video_recording.h"
 
 #include "executors/driveto.h"
 
@@ -182,6 +183,11 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
 
   if (type == "take-pictures") {
     execmap[os.str()] = new Exec::TakePictures (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "rescue-video-recording") {
+    execmap[os.str()] = new Exec::RescueVideoRecording (req.ns, req.id);
     found = true;
   }
 
