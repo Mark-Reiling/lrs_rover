@@ -117,6 +117,7 @@ include_directories(
 
 ## Declare a cpp executable
 add_executable(txtexecutor
+  src/executors/inairtest.cc
   src/executors/start_charging.cc
   src/executors/start_collect_data.cc
   src/executors/stop_collect_data.cc

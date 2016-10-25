@@ -32,6 +32,7 @@
 #include "executors/scangroundsingle.h"
 #include "executors/scan_ground.h"
 #include "executors/inairgoal.h"
+#include "executors/inairtest.h"
 
 #include "executors/driveto.h"
 
@@ -156,6 +157,11 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
 
   if (type == "in-air-goal") {
     execmap[os.str()] = new Exec::InAirGoal (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "in-air-test") {
+    execmap[os.str()] = new Exec::InAirTest (req.ns, req.id);
     found = true;
   }
 
