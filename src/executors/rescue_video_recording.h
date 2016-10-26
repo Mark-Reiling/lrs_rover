@@ -10,7 +10,8 @@ namespace Exec {
 
   class RescueVideoRecording : public virtual Executor {
   private:
-      
+    ros::Publisher display_pub;
+    
   public:
     RescueVideoRecording (std::string ns, int id);
     virtual ~RescueVideoRecording() {};

@@ -42,6 +42,39 @@ void Exec::RescueVideoRecording::start () {
 
   ros::NodeHandle n;
   std::string ns = ros::names::clean (ros::this_node::getNamespace());
+  display_pub = n.advertise<std_msgs::Int32>("/tst_display_id", 1000);
+  sleep (3);
+
+  geographic_msgs::GeoPoint lookat_gp;
+  geographic_msgs::GeoPoint video_gp1;
+  geographic_msgs::GeoPoint video_gp2;
+  geographic_msgs::GeoPoint charge_gp1;
+  geographic_msgs::GeoPoint charge_gp2;
+
+  if (!get_param("lookat-gp", lookat_gp)) {
+    fail("Could not get parameter lookat-gp");
+    return;
+  }
+
+  if (!get_param("video-gp1", video_gp1)) {
+    fail("Could not get parameter video-gp1");
+    return;
+  }
+
+  if (!get_param("video-gp1", video_gp1)) {
+    fail("Could not get parameter video-gp2");
+    return;
+  }
+
+  if (!get_param("charge-gp1", charge_gp1)) {
+    fail("Could not get parameter charge-gp1");
+    return;
+  }
+
+  if (!get_param("charge-gp2", charge_gp2)) {
+    fail("Could not get parameter charge-gp2");
+    return;
+  }
 
   vector<string> possible_units = get_possible_units(tni.execution_ns);
   lrs_msgs_del::DelArgs delargs;
@@ -65,9 +98,50 @@ void Exec::RescueVideoRecording::start () {
     return;
   }
   set_parameter_int32(node_ns, root_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, root_id, "execution_ns", node_ns);
   set_all_same(node_ns, root_id, "A");
 
-  int seq_id = create_child_node (node_ns, "seq", "seq", root_id);
+  int conc_id = create_child_node (node_ns, "conc", "conc", root_id);
+  if (conc_id < 0) {
+    fail("Failed to create conc node");
+    return;
+  }
+  set_parameter_int32(node_ns, conc_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, conc_id, "execunitalias", "A");
+
+  int seq2_id = create_child_node (node_ns, "seq", "seq", conc_id);
+  if (seq2_id < 0) {
+    fail("Failed to create seq node");
+    return;
+  }
+  set_parameter_int32(node_ns, seq2_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, seq2_id, "execunitalias", "A");
+
+  int lowbatt_id = create_child_node (node_ns, "low-battery-trigger", "low-battery-trigger", seq2_id);
+  if (lowbatt_id < 0) {
+    fail("Failed to create low-battery-trigger for rescuevideorecording");
+    return;
+  }
+  set_parameter_int32(node_ns, lowbatt_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, lowbatt_id, "execunitalias", "A");
+  set_parameter_bool(node_ns, lowbatt_id, "burst-flag", false);
+  set_parameter_float64(node_ns, lowbatt_id, "limit", 10.0);
+
+  int rvr_id = create_child_node (node_ns, "rescue-video-recording", "rescue-video-recording", seq2_id);
+  if (rvr_id < 0) {
+    fail("Failed to create rescuevideorecording node");
+    return;
+  }
+  set_parameter_int32(node_ns, rvr_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, rvr_id, "execunitalias", "A");
+  set_parameter_geopoint(node_ns, rvr_id, "lookat-gp", lookat_gp);
+  set_parameter_geopoint(node_ns, rvr_id, "video-gp1", video_gp2);
+  set_parameter_geopoint(node_ns, rvr_id, "video-gp2", video_gp1);
+  set_parameter_geopoint(node_ns, rvr_id, "charge-gp1", charge_gp2);
+  set_parameter_geopoint(node_ns, rvr_id, "charge-gp2", charge_gp1);
+
+
+  int seq_id = create_child_node (node_ns, "seq", "seq", conc_id);
   if (seq_id < 0) {
     fail("Failed to create seq node");
     return;
@@ -78,6 +152,81 @@ void Exec::RescueVideoRecording::start () {
   resnames.push_back("delexec17");
   set_del_exec_resources(node_ns, seq_id, resnames);
 
+  int flyto_video_id = create_child_node (node_ns, "fly-to", "fly-to", seq_id);
+  if (flyto_video_id < 0) {
+    fail("Failed to create flyto node for rescuevideorecording");
+    return;
+  }
+  set_parameter_int32(node_ns, flyto_video_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, flyto_video_id, "execunitalias", "A");
+  set_parameter_geopoint(node_ns, flyto_video_id, "p", video_gp1);
+
+  int lookat_id = create_child_node (node_ns, "look-at", "look-at", seq_id);
+  if (lookat_id < 0) {
+    fail("Failed to create lookat node for rescuevideorecording");
+    return;
+  }
+  set_parameter_int32(node_ns, lookat_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, lookat_id, "execunitalias", "A");
+  set_parameter_geopoint(node_ns, lookat_id, "p", lookat_gp);
+
+  int start_id = create_child_node (node_ns, "start-video-recording", "start-video-recording", seq_id);
+  if (start_id < 0) {
+    fail("Failed to create start-video-recording for rescuevideorecording");
+    return;
+  }
+  set_parameter_int32(node_ns, start_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, start_id, "execunitalias", "A");
+
+  int always_id = create_child_node (node_ns, "always-trigger", "always-trigger", seq_id);
+  if (always_id < 0) {
+    fail("Failed to create always-trigger for rescuevideorecording");
+    return;
+  }
+  set_parameter_int32(node_ns, always_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, always_id, "execunitalias", "A");
+  set_parameter_bool(node_ns, always_id, "burst-flag", false);
+  set_parameter_string(node_ns, always_id, "global-tree-uuid-to-trigger", "dummyvalue-fix-me");
+
+  int wait_id = create_child_node (node_ns, "wait", "wait", seq_id);
+  if (wait_id < 0) {
+    fail("Failed to create wait for rescuevideorecording");
+    return;
+  }
+  set_parameter_int32(node_ns, wait_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, wait_id, "execunitalias", "A");
+  set_parameter_int32(node_ns, wait_id, "duration", -1);
+
+  int stop_id = create_child_node (node_ns, "stop-video-recording", "stop-video-recording", seq_id);
+  if (stop_id < 0) {
+    fail("Failed to create stop-video-recording for rescuevideorecording");
+    return;
+  }
+  set_parameter_int32(node_ns, stop_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, stop_id, "execunitalias", "A");
+
+  int flyto_charge_id = create_child_node (node_ns, "fly-to", "fly-to", seq_id);
+  if (flyto_charge_id < 0) {
+    fail("Failed to create flyto node for rescuevideorecording");
+    return;
+  }
+  set_parameter_int32(node_ns, flyto_charge_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, flyto_charge_id, "execunitalias", "A");
+  set_parameter_geopoint(node_ns, flyto_charge_id, "p", charge_gp1);
+
+  int start_charging_id = create_child_node (node_ns, "start-charging", "start-charging", seq_id);
+  if (wait_id < 0) {
+    fail("Failed to create start_charging for rescuevideorecording");
+    return;
+  }
+  set_parameter_int32(node_ns, start_charging_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, start_charging_id, "execunitalias", "A");
+
+  std_msgs::Int32 bdata;
+  bdata.data = root_id;
+  display_pub.publish(bdata);
+
+  sleep(3);
 
   string cid = delegate(node_ns, node_ns, root_id, delargs);
 
@@ -167,11 +316,9 @@ void Exec::RescueVideoRecording::start () {
     return;
   }
 
-#if 0
   std_msgs::Int32 data;
   data.data = root_id;
   display_pub.publish(data);
-#endif
 
   string dotstr = get_tst_string(node_ns, root_id,
 				 lrs_srvs_tst::TSTGetTreeString::Request::FORMAT_DOT);
