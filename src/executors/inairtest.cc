@@ -49,7 +49,7 @@ void Exec::InAirTest::start () {
   //  sleep (5);
 
   string answer = "unknown";
-  answer = "no";
+  answer = "false";
   ROS_ERROR("inairtest answer: %s", answer.c_str());
 
 

@@ -13,10 +13,7 @@ namespace Exec {
   private:
 
   public:
-    InAirGoal (std::string ns, int id) : Executor (ns, id) {
-      set_delegation_expandable(true);
-    };
-
+    InAirGoal (std::string ns, int id);
     virtual ~InAirGoal () {};
 
     virtual int expand (int free_id, std::vector<std::string> possible_units, int expansion_try, 
