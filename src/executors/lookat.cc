@@ -13,7 +13,7 @@ Exec::LookAt::LookAt (std::string ns, int id) : Executor (ns, id) {
   set_delegation_expandable(false);
 
   lrs_msgs_tst::TSTExecInfo einfo;
-  einfo.can_be_aborted = false;
+  einfo.can_be_aborted = true;
   einfo.can_be_enoughed = true;
   einfo.can_be_paused = false;
   set_exec_info(ns, id, einfo);
@@ -52,26 +52,32 @@ void Exec::LookAt::start () {
 
   ros::NodeHandle n;
 
-  if (!do_before_work()) {
-    return;
-  }
-
-  geographic_msgs::GeoPoint gp;
-  if (get_param("p", gp)) {
-    ROS_INFO ("Look at: %f %f - %f", gp.latitude, gp.longitude, gp.altitude);
-  } else {
-    fail("Could not get parameter p");
-    return;
-  }
-
-  for (int i=0; i<10000; i++) {
-    usleep (1000);
-    if (enough_requested ()) {
-      break;
+  try {
+    if (!do_before_work()) {
+      return;
     }
+
+    geographic_msgs::GeoPoint gp;
+    if (get_param("p", gp)) {
+      ROS_INFO ("Look at: %f %f - %f", gp.latitude, gp.longitude, gp.altitude);
+    } else {
+      fail("Could not get parameter p");
+      return;
+    }
+    
+    for (int i=0; i<10000; i++) {
+      boost::this_thread::interruption_point();    
+      usleep (1000);
+      if (enough_requested ()) {
+	break;
+      }
+    }
+    
+    wait_for_postwork_conditions ();
   }
-
-  wait_for_postwork_conditions ();
-
+  catch (boost::thread_interrupted) {
+    abort_fail ("lookat ABORTED");
+    return;
+  }
 }
 
