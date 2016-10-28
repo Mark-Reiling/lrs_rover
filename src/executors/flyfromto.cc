@@ -76,12 +76,6 @@ void Exec::FlyFromTo::start () {
   wait_for_postwork_conditions ();
 }
 
-bool Exec::FlyFromTo::abort () {
-  bool res = false;
-  ROS_INFO("Exec::FlyFromTo::abort");
-  return res;
-}
-
 bool Exec::FlyFromTo::get_constraints (std::vector<std::string> & vars, 
                                        std::vector<std::string> & cons) {
   vars.clear();

@@ -24,7 +24,6 @@ namespace Exec {
 
     virtual bool prepare ();
     virtual void start ();
-    virtual bool abort ();
 
     void pose_callback(const geometry_msgs::PoseStamped::ConstPtr & msg);
 

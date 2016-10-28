@@ -65,9 +65,3 @@ void Exec::StartCharging::start () {
   wait_for_postwork_conditions ();
 }
 
-bool Exec::StartCharging::abort () {
-  bool res = false;
-  ROS_INFO("Exec::StartCharging::abort");
-
-  return res;
-}

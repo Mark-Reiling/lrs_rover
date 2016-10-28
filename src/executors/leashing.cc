@@ -8,8 +8,6 @@
 
 #include "lrs_msgs_common/LeashingStatus.h"
 
-extern std::map<std::string, boost::thread *> threadmap;
-
 using namespace std;
 
 
@@ -178,26 +176,6 @@ void Exec::Leashing::start () {
     return;
   }
 
-}
-
-bool Exec::Leashing::abort () {
-  bool res = false;
-  ROS_INFO("Exec::Leashing::abort");
-
-  ostringstream os;
-  os << node_ns << "-" << node_id;
-  if (threadmap.find (os.str()) != threadmap.end()) {
-    ROS_INFO("EXECUTOR EXISTS: Sending interrupt to running thread");
-    threadmap[os.str()]->interrupt();
-    // Platform specific things to to
-
-    return true;
-  } else {
-    ROS_ERROR ("Executor does not exist: %s", os.str().c_str());
-    return false;
-  }
-
-  return res;
 }
 
 void Exec::Leashing::position_callback(const geographic_msgs::GeoPose::ConstPtr & msg) {

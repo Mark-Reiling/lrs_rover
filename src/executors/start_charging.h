@@ -21,8 +21,6 @@ namespace Exec {
     
     bool prepare ();
     void start ();
-    bool abort ();
-
   };
 
 };

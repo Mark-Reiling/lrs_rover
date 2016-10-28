@@ -50,13 +50,6 @@ void Exec::Land::start () {
 
 }
 
-bool Exec::Land::abort () {
-  bool res = false;
-  ROS_INFO("Exec::Land::abort");
-
-  return res;
-}
-
 
 
 

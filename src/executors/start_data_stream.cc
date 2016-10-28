@@ -91,13 +91,6 @@ void Exec::StartDataStream::start () {
 
 }
 
-bool Exec::StartDataStream::abort () {
-  bool res = false;
-  ROS_INFO("Exec::StartDataStream::abort");
-
-  return res;
-}
-
 
 
 

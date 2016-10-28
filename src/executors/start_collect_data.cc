@@ -95,9 +95,3 @@ void Exec::StartCollectData::start () {
   wait_for_postwork_conditions ();
 }
 
-bool Exec::StartCollectData::abort () {
-  bool res = false;
-  ROS_INFO("Exec::StartCollectData::abort");
-
-  return res;
-}

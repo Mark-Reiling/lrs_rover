@@ -20,7 +20,6 @@ namespace Exec {
 
     virtual bool prepare ();
     virtual void start ();
-    virtual bool abort ();
   };
 };
 #endif

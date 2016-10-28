@@ -387,11 +387,6 @@ void Exec::RescueVideoRecording::start () {
   ROS_INFO ("Exec::RescueVideoRecording: FINISHED");
 }
 
-bool Exec::RescueVideoRecording::abort () {
-  bool res = false;
-  ROS_INFO("Exec::RescueVideoRecording::abort");
-  return res;
-}
 
 bool Exec::RescueVideoRecording::get_constraints (std::vector<std::string> & cons) {
   cons.clear ();

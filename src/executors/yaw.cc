@@ -70,13 +70,6 @@ void Exec::Yaw::start () {
 
 }
 
-bool Exec::Yaw::abort () {
-  bool res = false;
-  ROS_INFO("Exec::Yaw::abort");
-
-  return res;
-}
-
 
 
 

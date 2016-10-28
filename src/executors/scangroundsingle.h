@@ -24,7 +24,6 @@ namespace Exec {
 
     bool prepare ();
     void start ();
-    bool abort ();
 
     void push_command (ros::Publisher & pub, std::string sensor_type,
                        std::vector<geographic_msgs::GeoPoint> area);

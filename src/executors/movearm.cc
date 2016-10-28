@@ -60,9 +60,3 @@ void Exec::MoveArm::start () {
   wait_for_postwork_conditions ();
 }
 
-bool Exec::MoveArm::abort () {
-  bool res = false;
-  ROS_INFO("Exec::MoveArm::abort");
-  return res;
-}
-

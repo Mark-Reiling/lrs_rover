@@ -9,8 +9,6 @@
 extern ros::NodeHandle * global_nh;
 extern ros::Publisher * global_confirm_pub;
 
-extern std::map<std::string, boost::thread *> threadmap;
-
 using namespace std;
 
 Exec::FlyWaypoints::FlyWaypoints (std::string ns, int id) : Executor (ns, id) {
@@ -84,22 +82,4 @@ void Exec::FlyWaypoints::start () {
   }
 }
 
-bool Exec::FlyWaypoints::abort () {
-  bool res = false;
-  ROS_INFO("Exec::FlyWaypoints::abort");
-  ostringstream os;
-  os << node_ns << "-" << node_id;
-  if (threadmap.find (os.str()) != threadmap.end()) {
-    ROS_ERROR("EXECUTOR EXISTS: Sending interrupt to running thread");
-    threadmap[os.str()]->interrupt();
-
-    // Platform specific things to to
-
-    return true;
-  } else {
-    ROS_ERROR ("Executor does not exist: %s", os.str().c_str());
-    return false;
-  }
-  return res;
-}
 

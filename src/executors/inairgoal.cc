@@ -142,13 +142,6 @@ void Exec::InAirGoal::start () {
 
 }
 
-bool Exec::InAirGoal::abort () {
-  bool res = false;
-  ROS_INFO("Exec::InAirGoal::abort");
-
-  return res;
-}
-
 
 
 

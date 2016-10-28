@@ -24,7 +24,6 @@ namespace Exec {
 
     bool prepare ();
     void start ();
-    bool abort ();
 
     virtual bool get_constraints (std::vector<std::string> & vars, 
                                   std::vector<std::string> & cons);

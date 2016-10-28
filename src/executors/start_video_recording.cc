@@ -54,12 +54,6 @@ void Exec::StartVideoRecording::start () {
 
 }
 
-bool Exec::StartVideoRecording::abort () {
-  bool res = false;
-  ROS_INFO("Exec::StartVideoRecording::abort");
-
-  return res;
-}
 
 
 

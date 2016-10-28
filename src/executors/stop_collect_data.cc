@@ -47,9 +47,3 @@ void Exec::StopCollectData::start () {
   wait_for_postwork_conditions ();
 }
 
-bool Exec::StopCollectData::abort () {
-  bool res = false;
-  ROS_INFO("Exec::StopCollectData::abort");
-
-  return res;
-}

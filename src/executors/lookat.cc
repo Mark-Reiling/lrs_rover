@@ -75,10 +75,3 @@ void Exec::LookAt::start () {
 
 }
 
-bool Exec::LookAt::abort () {
-  bool res = false;
-  ROS_INFO("Exec::LookAt::abort");
-
-  return res;
-}
-

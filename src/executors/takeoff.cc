@@ -50,13 +50,6 @@ void Exec::TakeOff::start () {
 
 }
 
-bool Exec::TakeOff::abort () {
-  bool res = false;
-  ROS_INFO("Exec::TakeOff::abort");
-
-  return res;
-}
-
 
 
 

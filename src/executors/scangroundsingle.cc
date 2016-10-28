@@ -11,8 +11,6 @@
 
 #include <uuid/uuid.h>
 
-extern std::map<std::string, boost::thread *> threadmap;
-
 using namespace std;
 
 Exec::ScanGroundSingle::ScanGroundSingle (std::string ns, int id) : Executor (ns, id) {
@@ -258,25 +256,6 @@ void Exec::ScanGroundSingle::start () {
   }
 }
 
-bool Exec::ScanGroundSingle::abort () {
-  bool res = false;
-  ROS_INFO("Exec::ScanGroundSingle::abort");
-
-  ostringstream os;
-  os << node_ns << "-" << node_id;
-  if (threadmap.find (os.str()) != threadmap.end()) {
-    ROS_INFO("EXECUTOR EXISTS: Sending interrupt to running thread");
-    threadmap[os.str()]->interrupt();
-
-    // Platform specific things to to
-
-    return true;
-  } else {
-    ROS_ERROR ("Executor does not exist: %s", os.str().c_str());
-    return false;
-  }
-  return res;
-}
 
 // help function for the dem0 5 stuff
 void Exec::ScanGroundSingle::push_command (ros::Publisher & pub, std::string sensor_type,

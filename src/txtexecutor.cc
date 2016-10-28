@@ -41,8 +41,12 @@
 
 #include "executil.h"
 
+#include <boost/thread.hpp>
+
 std::map<std::string, Executor *> execmap;
 std::map<std::string, boost::thread *> threadmap;
+boost::mutex thread_map_lock;
+
 ros::NodeHandle * global_nh;
 ros::Publisher * global_confirm_pub;
 

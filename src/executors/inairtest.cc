@@ -6,8 +6,6 @@
 #include <iostream>
 #include <boost/lexical_cast.hpp>
 
-extern std::map<std::string, boost::thread *> threadmap;
-
 using namespace std;
 
 Exec::InAirTest::InAirTest (std::string ns, int id) : Executor (ns, id) {
@@ -66,8 +64,3 @@ void Exec::InAirTest::start () {
 }
 
 
-bool Exec::InAirTest::abort () {
-  bool res = false;
-  cerr << "Exec::Goal::abort" << endl;
-  return res;
-}
