@@ -32,7 +32,7 @@ bool Exec::RescueVideoRecording::prepare () {
 
 
 void Exec::RescueVideoRecording::start () {
-  ROS_ERROR ("Exec::RescueVideoRecording::start: %s - %d", node_ns.c_str(), node_id);
+  ROS_INFO ("Exec::RescueVideoRecording::start: %s - %d", node_ns.c_str(), node_id);
 
   if (!do_before_work()) {
     return;
@@ -222,11 +222,23 @@ void Exec::RescueVideoRecording::start () {
   set_parameter_int32(node_ns, start_charging_id, "unique_node_id", free_id++);
   set_parameter_string(node_ns, start_charging_id, "execunitalias", "A");
 
-  std_msgs::Int32 bdata;
-  bdata.data = root_id;
-  display_pub.publish(bdata);
+  // Sett puuid
 
-  sleep(3);
+  std::string puuid;
+  if (!get_param("parent-uuid", puuid)) {
+    if (!get_global_tree_uuid_from_node(ns, tni.id, puuid)) {
+      fail("Failed to get global tree uuid for the parent");
+      return;
+    }
+  }
+
+  ROS_INFO("rescue_video_recording parent-uuid: %s", puuid.c_str());
+  set_parameter_string(node_ns, rvr_id, "parent-uuid", puuid);  
+  
+  //  std_msgs::Int32 bdata;
+  //  bdata.data = root_id;
+  //  display_pub.publish(bdata);
+  //  sleep(3);
 
   string cid = delegate(node_ns, node_ns, root_id, delargs);
 
@@ -242,13 +254,13 @@ void Exec::RescueVideoRecording::start () {
     if (cnp_status(node_ns, cid, proposed, finished, failure, dellog)) {
       //        ROS_ERROR("proposed: %d finished: %d failure: %d", proposed, finished, failure);
       if (index == -1) {
-	ROS_ERROR("DelLog Name: %s", dellog.name.c_str());
+	ROS_INFO("DelLog Name: %s", dellog.name.c_str());
 	index = 0;
       }
       for (;index<(int)dellog.logitems.size(); index++) {
 	lrs_msgs_del::DelLogItem li = dellog.logitems[index];
 	std::string listr = dellogitem_to_str(li);
-	ROS_ERROR("DelLog Item %d: %s", index, listr.c_str());
+	ROS_INFO("DelLog Item %d: %s", index, listr.c_str());
       }
       if (proposed) {
 	if (failure) {
@@ -271,7 +283,7 @@ void Exec::RescueVideoRecording::start () {
     }
     usleep(100000);
   }
-  ROS_ERROR ("WE HAVE A PROPOSAL");
+  ROS_INFO ("WE HAVE A PROPOSAL");
 
   // We have a proposal
   
@@ -291,7 +303,7 @@ void Exec::RescueVideoRecording::start () {
 	  ROS_ERROR("Delegation failed in wait for finished");
 	  wait_for_postwork_conditions ();            
 	  return;
-	  } else {
+	} else {
 	  ROS_INFO("Delegation succeeded");
 	}
       }
@@ -316,16 +328,16 @@ void Exec::RescueVideoRecording::start () {
     return;
   }
 
-  std_msgs::Int32 data;
-  data.data = root_id;
-  display_pub.publish(data);
+  //  std_msgs::Int32 data;
+  //  data.data = root_id;
+  //  display_pub.publish(data);
 
   string dotstr = get_tst_string(node_ns, root_id,
 				 lrs_srvs_tst::TSTGetTreeString::Request::FORMAT_DOT);
   ofstream dotout("/tmp/rescue_video_recording.dot");
   dotout << dotstr << endl;
   
-  ROS_ERROR("DELEGATION FINISHED - STARTING EXECUTION PHASE");
+  ROS_INFO("DELEGATION FINISHED - STARTING EXECUTION PHASE");
 
   if (!distribute_tree(node_ns, root_id)) {
     fail("Failed to distribute tree");
@@ -339,7 +351,7 @@ void Exec::RescueVideoRecording::start () {
 
   if (!set_tree_start_time(node_ns, root_id, ros::Time::now())) {
     ostringstream os;
-    os << "delegate_scan_spec.cc: Failed to set tree start time: " << root_id;
+    os << "rescue_video_recording: Failed to set tree start time: " << root_id;
     fail(os.str());
     return;
   }
@@ -349,40 +361,30 @@ void Exec::RescueVideoRecording::start () {
   if (set_start_executor_flag(ns, root_id, true)) {
     
   } else {
-    ROS_ERROR ("Exec::Sequence: Failed to set start executor flag: %d", root_id);
-    fail("Exec::DelExec: Failed to create and start executor");
+    ROS_ERROR ("rescue_video_recording: Failed to set start executor flag: %d", root_id);
+    fail("rescue_video_recording: Failed to create and start executor");
     return;
   }
 
-  std::string puuid;
-  if (get_global_tree_uuid_from_node(ns, tni.id, puuid)) {
-    
-  } else {
-    fail("Failed to get global tree uuid for the parent");
-    return;
-  }
-  
   std::string uuid;
-  if (get_global_tree_uuid_from_node(ns, root_id, uuid)) {
-    
-  } else {
+  if (!get_global_tree_uuid_from_node(ns, root_id, uuid)) {
     fail("Failed to get global tree uuid");
     return;
   }
+
+  ROS_INFO("rescue_video_recording uuid: %s", uuid.c_str());
   
 
-  if (register_executing_tree(ns, uuid, puuid)) {
-    
-  } else {
-    fail("Failed to get register tree");
+  if (!register_executing_tree(ns, uuid, puuid)) {
+    fail("Failed to register new executing tree");
     return;
   }
 
-  ROS_ERROR("EXEUTION STARTED");
+  ROS_INFO("rescue_video_recording: EXECUTION STARTED");
 
   wait_for_postwork_conditions ();
 
-  ROS_ERROR ("Exec::RescueVideoRecording: FINISHED");
+  ROS_INFO ("Exec::RescueVideoRecording: FINISHED");
 }
 
 bool Exec::RescueVideoRecording::abort () {
