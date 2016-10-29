@@ -9,6 +9,7 @@
 #include <uuid/uuid.h>
 
 extern std::map<std::string, boost::thread *> threadmap;
+extern boost::mutex thread_map_lock;
 
 using namespace std;
 
@@ -205,6 +206,7 @@ void Exec::ScanGround::start () {
 }
 
 bool Exec::ScanGround::abort () {
+  boost::mutex::scoped_lock lock(thread_map_lock);    
   bool res = false;
   ROS_INFO("Exec::ScanGround::abort");
 
