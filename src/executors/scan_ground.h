@@ -6,7 +6,15 @@
 #include "executor.h"
 #include "geoconvertros.h"
 
+#include "lrs_msgs_common/PointArray.h"
+
 #include <string>
+
+bool get_partitioning (std::string ns, 
+                       std::vector<geometry_msgs::Point> polygon, 
+                       std::vector<geometry_msgs::Point> sites, 
+                       std::vector<double> area_req, 
+                       std::vector<lrs_msgs_common::PointArray> & areas);
 
 namespace Exec {
 

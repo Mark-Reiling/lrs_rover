@@ -8,10 +8,45 @@
 
 #include <uuid/uuid.h>
 
+#include "lrs_msgs_common/GetPartitioning.h"
+
 extern std::map<std::string, boost::thread *> threadmap;
 extern boost::mutex thread_map_lock;
 
 using namespace std;
+
+
+bool get_partitioning (std::string ns, std::vector<geometry_msgs::Point> polygon, 
+		       std::vector<geometry_msgs::Point> sites, 
+		       std::vector<double> area_req, 
+		       std::vector<lrs_msgs_common::PointArray> & areas) {
+
+  bool res = true;
+
+  ros::NodeHandle n;
+  ostringstream os;
+  os << ns << "/partitioningserver/" << "get_partitioning";
+  ros::ServiceClient client = n.serviceClient<lrs_msgs_common::GetPartitioning>(os.str());
+  lrs_msgs_common::GetPartitioning srv;
+  srv.request.polygon = polygon;
+  srv.request.sites = sites;
+  srv.request.area_request = area_req;
+
+  if (client.call(srv)) {
+    if (srv.response.success) {
+      areas = srv.response.areas;
+      res = true;
+    } else {
+      ROS_ERROR("Failed to get partitioning: %s - %d", ns.c_str(), srv.response.error);
+      res = false;
+    }
+  } else {
+    ROS_ERROR("Call to partitioning server failed: %s", ns.c_str());
+    res = false;
+  }
+  return res;
+}
+
 
 Exec::ScanGround::ScanGround (std::string ns, int id) : Executor (ns, id) {
 
@@ -46,7 +81,7 @@ int Exec::ScanGround::expand (int free_id, std::vector<std::string> possible_uni
   string sensortype;
   if (!get_param("sensor-type", sensortype)) {
     ROS_ERROR ("ScanGround: Could not get sensor_type parameter");
-    return false;
+    return free_id;
   } else {
     // ROS_ERROR("scan_ground check - sensortype: %s - %s", sensortype.c_str(), tni.execution_ns.c_str());
   }
@@ -54,7 +89,7 @@ int Exec::ScanGround::expand (int free_id, std::vector<std::string> possible_uni
   std::vector<geographic_msgs::GeoPoint> area;
   if (!get_param("area", area)) {
     ROS_ERROR("scan_gropund: Parameter 'area' do not exist or is not set");
-    return false;
+    return free_id;
   }
 
   unsigned int n_sub_tasks = 0;
@@ -75,8 +110,48 @@ int Exec::ScanGround::expand (int free_id, std::vector<std::string> possible_uni
       }
     }
   }
-  
 
+  if (n_sub_tasks == 0) {
+    return free_id;
+  }
+
+  std::vector<lrs_msgs_common::PointArray> areas;
+  if (n_sub_tasks == 1) {
+    lrs_msgs_common::PointArray pa;
+    for (unsigned int i=0; i<area.size(); i++) {
+      geometry_msgs::PointStamped ps = geoconv.to_world (area[i]);
+      geometry_msgs::Point p;
+      p.x = ps.point.x;
+      p.y = ps.point.y;
+      p.z = 0.0;
+      pa.points.push_back(p);
+    }
+    areas.push_back(pa);
+  } else {
+    std::vector<geometry_msgs::Point> polygon;
+    std::vector<geometry_msgs::Point> sites;
+    std::vector<double> area_req;
+    for (unsigned int i=0; i<area.size(); i++) {
+      ROS_ERROR("AREA %d: %f %f", i, area[i].latitude, area[i].longitude);
+      geometry_msgs::PointStamped ps = geoconv.to_world (area[i]);
+      geometry_msgs::Point p;
+      p.x = ps.point.x;
+      p.y = ps.point.y;
+      p.z = 0.0;
+      polygon.push_back(p);
+      ROS_ERROR ("POLYGON POINT %d: %f %f", i, p.x, p.y);
+    }
+    for (unsigned int i=0; i<n_sub_tasks; i++) {
+      area_req.push_back (1.0/n_sub_tasks);
+      sites.push_back(polygon[i]);
+    }
+    if (get_partitioning(node_ns, polygon, sites, area_req, areas)) {
+
+    } else {
+      ROS_ERROR("Failed to get a partitioning");
+      return free_id;
+    }
+  }
 
 
   int conc_id = create_child_node (node_ns, "conc", "conc", node_id);
@@ -93,7 +168,15 @@ int Exec::ScanGround::expand (int free_id, std::vector<std::string> possible_uni
 
   for (unsigned int i=0; i<n_sub_tasks; i++) {
     int scan_id = create_child_node (node_ns, "scan-ground-single", "scan-ground-single", conc_id);
-    set_parameter_geopoints(node_ns, scan_id, "area", area);
+    std::vector<geographic_msgs::GeoPoint> a;
+    for (unsigned int j=0; j<areas[i].points.size(); j++) {
+      geometry_msgs::PointStamped ps;
+      ps.header.frame_id = "/world";
+      ps.header.stamp = ros::Time::now();
+      ps.point = areas[i].points[j];
+      a.push_back(geoconv.to_geopoint(ps));
+    }
+    set_parameter_geopoints(node_ns, scan_id, "area", a);
     set_parameter_string(node_ns, scan_id, "sensor-type", sensortype);
     set_parameter_int32(node_ns, scan_id, "unique_node_id", free_id++);
   }
