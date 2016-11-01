@@ -61,12 +61,28 @@ int Exec::InAirGoal::expand (int free_id, std::vector<std::string> possible_unit
   //
 
   if (ns == "/uav0") {
-    int cid = create_child_node (node_ns, "tell-operator", "tell-operator", seqid);
+    int testif = create_child_node (node_ns, "test-if", "test-if", seqid);
+    set_execution_unit(node_ns, testif, ns);
+    set_parameter_int32(node_ns, testif, "unique_node_id", free_id++);
+
+    int testid = create_child_node (node_ns, "in-air-test", "in-air-test", testif);
+    set_execution_unit(node_ns, testid, ns);
+    set_parameter_int32(node_ns, testid, "unique_node_id", free_id++);
+
+    int noop1 = create_child_node (node_ns, "no-op", "no-op", testif);
+    set_execution_unit(node_ns, noop1, ns);
+    set_parameter_int32(node_ns, noop1, "unique_node_id", free_id++);
+
+    int cid = create_child_node (node_ns, "tell-operator", "tell-operator", testif);
     //  set_constraints(node_ns, cid, vars, cons);
     set_execution_unit(node_ns, cid, ns);  
     set_parameter_string(node_ns, cid, "content", "take-to-the-air");
     set_parameter_string(node_ns, cid, "interaction-uuid", "18");
     set_parameter_int32(node_ns, cid, "unique_node_id", free_id++);
+
+    int noop2 = create_child_node (node_ns, "no-op", "no-op", testif);
+    set_execution_unit(node_ns, noop2, ns);
+    set_parameter_int32(node_ns, noop2, "unique_node_id", free_id++);
   } else {
     int testif = create_child_node (node_ns, "test-if", "test-if", seqid);
     set_execution_unit(node_ns, testif, ns);
