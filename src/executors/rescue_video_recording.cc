@@ -214,14 +214,22 @@ void Exec::RescueVideoRecording::start () {
   set_parameter_string(node_ns, flyto_charge_id, "execunitalias", "A");
   set_parameter_geopoint(node_ns, flyto_charge_id, "p", charge_gp1);
 
-  int start_charging_id = create_child_node (node_ns, "start-charging", "start-charging", seq_id);
-  if (wait_id < 0) {
-    fail("Failed to create start_charging for rescuevideorecording");
+  int land_id = create_child_node (node_ns, "land", "land", seq_id);
+  if (land_id < 0) {
+    fail("Failed to create land node for rescuevideorecording");
     return;
   }
-  set_parameter_int32(node_ns, start_charging_id, "unique_node_id", free_id++);
-  set_parameter_string(node_ns, start_charging_id, "execunitalias", "A");
+  set_parameter_int32(node_ns, land_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, land_id, "execunitalias", "A");
 
+  int change_battery_id = create_child_node (node_ns, "change-battery", "change-battery", seq_id);
+  if (change_battery_id < 0) {
+    fail("Failed to create change_battery for rescuevideorecording");
+    return;
+  }
+  set_parameter_int32(node_ns, change_battery_id, "unique_node_id", free_id++);
+  set_parameter_string(node_ns, change_battery_id, "execunitalias", "A");
+  
   // Sett puuid
 
   std::string puuid;

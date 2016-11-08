@@ -159,9 +159,13 @@ int Exec::ScanGround::expand (int free_id, std::vector<std::string> possible_uni
   set_parameter_int32(node_ns, conc_id, "unique_node_id", free_id++);
 
   if (sensortype == "artva") {
+    int artva_filter_id = create_child_node (node_ns, "artva-filter", "artva-filter", conc_id);
+    set_execution_unit(node_ns, artva_filter_id, ns);
+    set_parameter_float64(node_ns, artva_filter_id, "limit", 10.0);
+
     int artva_trigger_id = create_child_node (node_ns, "artva-trigger", "artva-trigger", conc_id);
     set_execution_unit(node_ns, artva_trigger_id, ns);
-    set_parameter_float64(node_ns, artva_trigger_id, "limit", 10.0);
+    set_parameter_int32(node_ns, artva_trigger_id, "n_hits", 1);
     set_parameter_int32(node_ns, artva_trigger_id, "abort-unique-node-id", 1);
     set_parameter_int32(node_ns, artva_trigger_id, "unique_node_id", free_id++); 
  }
