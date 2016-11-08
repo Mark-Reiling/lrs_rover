@@ -12,6 +12,7 @@
 
 #include "lrs_srvs_exec/TSTCreateExecutor.h"
 
+#include "executors/artva_filter.h"
 #include "executors/take_pictures.h"
 #include "executors/operator_control.h"
 #include "executors/start_video_recording.h"
@@ -192,6 +193,11 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
 
   if (type == "rescue-video-recording") {
     execmap[os.str()] = new Exec::RescueVideoRecording (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "artva-trigger") {
+    execmap[os.str()] = new Exec::ArtvaTrigger (req.ns, req.id);
     found = true;
   }
 

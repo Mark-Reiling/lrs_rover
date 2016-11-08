@@ -117,6 +117,7 @@ include_directories(
 
 ## Declare a cpp executable
 add_executable(txtexecutor
+  src/executors/artva_filter.cc
   src/executors/rescue_video_recording.cc
   src/executors/inairtest.cc
   src/executors/start_charging.cc
