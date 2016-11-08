@@ -121,6 +121,7 @@ add_executable(txtexecutor
   src/executors/rescue_video_recording.cc
   src/executors/inairtest.cc
   src/executors/start_charging.cc
+  src/executors/change_battery.cc
   src/executors/start_collect_data.cc
   src/executors/stop_collect_data.cc
   src/executors/start_data_stream.cc

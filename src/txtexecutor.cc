@@ -18,6 +18,7 @@
 #include "executors/start_video_recording.h"
 #include "executors/stop_video_recording.h"
 #include "executors/start_charging.h"
+#include "executors/change_battery.h"
 #include "executors/start_collect_data.h"
 #include "executors/stop_collect_data.h"
 #include "executors/start_data_stream.h"
@@ -78,6 +79,11 @@ bool create_executor (lrs_srvs_exec::TSTCreateExecutor::Request  &req,
 
   if (type == "start-charging") {
     execmap[os.str()] = new Exec::StartCharging (req.ns, req.id);
+    found = true;
+  }
+
+  if (type == "change-battery") {
+    execmap[os.str()] = new Exec::ChangeBattery (req.ns, req.id);
     found = true;
   }
 
