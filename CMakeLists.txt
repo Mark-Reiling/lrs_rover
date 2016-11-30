@@ -107,13 +107,15 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
-# add_library(lrs_exec_txt
-#   src/${PROJECT_NAME}/lrs_exec_txt.cpp
-# )
+
+add_library(Gpoint
+   include/Gpoint.cpp
+)
 
 ## Declare a cpp executable
 add_executable(GRAexecutor
@@ -148,7 +150,7 @@ add_executable(GRAexecutor
 
 find_library(UUID_LIB uuid)
 
-target_link_libraries(GRAexecutor
+target_link_libraries(GRAexecutor Gpoint
   ${UUID_LIB}
   ${catkin_LIBRARIES}
 )

@@ -15,6 +15,7 @@ namespace Exec {
     GeoConvertRos geoconv;
     bool have_current_pose;
     geometry_msgs::PoseStamped current_pose;
+    bool check_node(std::string node_);
 
   public:
     DriveTo (std::string ns, int id);
