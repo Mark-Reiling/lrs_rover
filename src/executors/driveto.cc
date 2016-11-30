@@ -29,6 +29,9 @@ bool Exec::DriveTo::check () {
     ROS_ERROR("expand: init_params failed");
     return false;
   }
+  // Internal check
+  // check arm status string: TransportMode Busy
+  // check rover
 
   return true;
 }
@@ -40,6 +43,8 @@ bool Exec::DriveTo::prepare () {
   if (res) {
     set_active_flag (node_ns, node_id, true);
   }
+  // lock the arm and fail if it is not possible - using a service
+
   return res;
 }
 
@@ -66,17 +71,17 @@ void Exec::DriveTo::start () {
       if (get_param("speed", qspeed)) {
         // Assign speed dependent on the value of qspeed
         if (qspeed == "slow") {
-          speed = 1.0;
+          speed = 0.25;
         }
         if (qspeed == "standard") {
-          speed = 3.0;
+          speed = 0.5;
         }
         if (qspeed == "fast") {
-          speed = 7.0;
+          speed = 0.75;
         }
       } else {
         // Use default speed
-        speed = 3.0;
+        speed = 0.5;
       }
     } 
 
@@ -96,6 +101,20 @@ void Exec::DriveTo::start () {
     ROS_INFO ("Exec::DriveTo (/world): %f %f", p.point.x, p.point.y);
 
     // Code doing the actual work
+
+    /*
+     * here the GPS coordinate has to be translated to a NED and find the relative pose to the goal
+     * and the result has to be sent to the driveTo action
+     * hazard has to be check
+     * in case of hazard DriveToObs has to be invoked
+     *
+     *
+     * */
+    ROS_INFO("Done");
+
+    //Question1: what happens when I arrive? the node would finish?
+    //Question2: Is there a timeout?
+    //Question3: how can I report success or failure ?abort_fail("driveto ABORT");
 
     sleep (10);
 

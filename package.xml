@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>lrs_exec_txt</name>
-  <version>0.0.0</version>
-  <description>The lrs_exec_txt package</description>
+  <name>lrs_rover</name>
+  <version>1.0.0</version>
+  <description>The lrs_rover package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="tompe@todo.todo">tompe</maintainer>
+  <maintainer email="seyedmohs.mirhassani@unibo.it">Mohsen</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
@@ -26,7 +26,7 @@
   <!-- Authors do not have to be maintianers, but could be -->
   <!-- Example: -->
   <!-- <author email="jane.doe@example.com">Jane Doe</author> -->
-  <author email="tommy.persson@liu.se">Tommy Persson</author>
+  <author email="seyedmohs.mirhassani@unibo.it">SeyedMohsen Mirhassani</author>
 
 
   <!-- The *_depend tags are used to specify dependencies -->
