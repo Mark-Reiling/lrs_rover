@@ -7,6 +7,9 @@
 #include "geoconvertros.h"
 
 #include <string>
+#include <rover_actions/DriveToAction.h>
+#include <actionlib/client/simple_action_client.h>
+#include <actionlib/client/terminal_state.h>
 
 namespace Exec {
 

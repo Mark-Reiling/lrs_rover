@@ -21,6 +21,8 @@ find_package(catkin REQUIRED COMPONENTS
   lrs_common
   tf
   roscpp
+  actionlib
+  rover_actions
 )
 
 ## System dependencies are found with CMake's conventions

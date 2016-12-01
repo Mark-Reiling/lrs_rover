@@ -10,138 +10,6 @@
 
 
 using namespace std;
-/*
-class Gpoint{
-public:
-  Gpoint(double a_, double b_, string type_)
-  {
-    set_home();
-    if (type_.compare("GPS") == 0)
-    {
-        lat = a_;
-        lng = b_;
-        is_GPS_set = true;
-        Cal_xy();
-    }
-    else if(type_.compare("local"))
-    {
-        x = a_;
-        y = b_;
-        is_local_set = true;
-        Cal_GPS();
-    }
-    else ROS_ERROR_STREAM("The point type is" << type_ << "which does not match neither GPS nor local");
-
-  }
-  Gpoint(geographic_msgs::GeoPoint G)
-  {
-      set_home();
-      lat = G.latitude;
-      lng = G.longitude;
-      is_GPS_set = true;
-      Cal_xy();
-  }
-
-  ~Gpoint()
-  {
-
-  }
-  void update_local(double x_,double y_)
-  {
-    x = x_;
-    y = y_;
-    Cal_GPS();
-  }
-  void update_GPS(double lat_,double lng_)
-  {
-    lat = lat_;
-    lng = lng_;
-    Cal_xy();
-  }
-
-  void update_home(double lat_, double lng_)
-  {
-    if(!(is_GPS_set||is_local_set))
-    {
-      ROS_ERROR("insufficient coordinate data");
-      return;
-    }
-    lat_home = lat_;
-    lng_home = lng_;
-    is_home_set = true;
-    Cal_R();
-    Cal_GPS();
-    Cal_xy();
-  }
-  void update_home(geographic_msgs::GeoPoint G)
-  {
-    if(!(is_GPS_set||is_local_set))
-    {
-      ROS_ERROR("insufficient coordinate data");
-      return;
-    }
-    lat_home = G.latitude;
-    lng_home = G.longitude;
-    is_home_set = true;
-    Cal_R();
-    Cal_GPS();
-    Cal_xy();
-  }
-
-private:
-  double const A =  6378137;    //major semiaxis
-  double const B = 6356752.3124;    //minor semiaxis
-  double const e = 0.0816733743281685;// first eccentricity
-  double x;
-  double y;
-  double lat;
-  double lng;
-  double lat_home;
-  double lng_home;
-  bool is_home_set = false;
-  bool is_local_set = false;
-  bool is_GPS_set = false;
-  double R;
-
-  //member functions
-  void Cal_R()
-  {
-    R = A/sqrt(1-pow(e,2)*pow(sin(lat_home*M_PI/180.0),2));
-  }
-
-  void set_home()
-  {
-    lat_home = 52.240677;
-    lng_home = 6.853642;
-    is_home_set = true;
-    Cal_R();
-  }
-
-
-
-  void Cal_GPS()
-  {
-    if(!is_local_set)
-    {
-      ROS_ERROR("local coordinate data does not exist");
-      return;
-    }
-    lat = y/R*180.0/M_PI + lat_home;
-    lng = x/R*180.0/M_PI*cos(lat*M_PI/180.0) + lng_home;
-
-  }
-  void Cal_xy()
-  {
-     if(!is_GPS_set)
-     {
-       ROS_ERROR("GPS coordinate data does not exist");
-       return;
-     }
-     x = (lat-lat_home)*M_PI/180.00*R;
-     y =-(lng - lng_home)*M_PI/180.00*R*cos(lat*M_PI/180.0);
-  }
-
-};*/
 
 
 Exec::DriveTo::DriveTo (std::string ns, int id) : Executor (ns, id) {
@@ -236,8 +104,21 @@ void Exec::DriveTo::start () {
     ROS_INFO ("Exec::DriveTo (/world): %f %f", p.point.x, p.point.y);
 
     // Code doing the actual work
+    actionlib::SimpleActionClient<rover_actions::DriveToAction> ac_simple("DriveTo", true);
+    ac_simple.waitForServer();
+    ROS_INFO("Strat following goal");
     Gpoint target(gp);
-
+    rover_actions::DriveToGoal G_ac_simple;
+    G_ac_simple.goal_pose.position.x = target.getX();
+    G_ac_simple.goal_pose.position.y = target.getY();
+    // Orientation?
+    ros::Duration Timeout(300); //Timeout?
+    ac_simple.sendGoal(G_ac_simple);
+    if(!ac_simple.waitForResult(Timeout))
+    {
+      ROS_ERROR("Simple follower did not finished before the timeout of %f GRA cancels the Goal",Timeout.toSec());
+      ac_simple.cancelAllGoals();
+    }
     /*
      * here the GPS coordinate has to be translated to a NED and find the relative pose to the goal
      * and the result has to be sent to the driveTo action
@@ -246,7 +127,7 @@ void Exec::DriveTo::start () {
      *
      *
      * */
-    ROS_INFO("Done");
+
 
     //Question1: what happens when I arrive? the node would finish?
     //Question2: Is there a timeout?

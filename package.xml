@@ -53,6 +53,8 @@
   <depend>lrs_cram</depend>
   <depend>lrs_cons</depend>
   <depend>lrs_common</depend>
+  <depend>actionlib</depend>
+  <depend>rover_actions</depend>
   <depend>tf</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
