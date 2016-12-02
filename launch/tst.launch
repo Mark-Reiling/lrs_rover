@@ -14,6 +14,9 @@
   </group>
   <group unless="$(arg ground)">
     <node name="roverexec" pkg="lrs_rover" type="GRAexecutor" output="screen"  />
+    <!-- Local stuff -->
+    <include file="$(find rover_simulator)/launch/simulator.launch"/>
+    <include file="$(find rover_actions)/launch/action.launch"/>
   </group>
 
 </launch>
