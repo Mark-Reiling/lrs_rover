@@ -1,0 +1,19 @@
+<launch>
+  <arg name="ground" default="0" />
+
+  <!-- Base nodes for the TST functionality and some other nodes on the same level.  -->
+
+  <node name="tstfactory" pkg="lrs_tst" type="tstfactory" output="log" />
+  <node name="tstexecmanager" pkg="lrs_exec" type="tstexecmanager" output="log" />
+  <node name="partitioningserver" pkg="lrs_pyutil" type="partitioningserver.py" output="log" />
+
+  <node name="resourceagent" pkg="lrs_resource" type="resourceagent" output="log" />
+
+  <group if="$(arg ground)">
+    <node name="groundexecutor" pkg="lrs_exec_common" type="groundexecutor" />
+  </group>
+  <group unless="$(arg ground)">
+    <node name="roverexec" pkg="lrs_rover" type="GRAexecutor" output="screen"  />
+  </group>
+
+</launch>

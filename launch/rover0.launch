@@ -1,0 +1,22 @@
+<launch>
+
+  <group ns="/rover0">
+    <rosparam>
+      altitude/high: 4.5
+      altitude/standard: 3.0
+      altitude/low: 2.0
+      speed/fast: 0.5
+      speed/standard: 0.5
+      speed/slow: 0.5
+    </rosparam>
+    <include file="$(find lrs_rover)/launch/tst.launch" >
+
+    </include>
+
+    <node name="dwdb" pkg="lrs_wdb" type="dwdb">
+      <rosparam>
+        capabilities: ["start-charging", "change-battery", "low-battery-trigger", "wait", "no-op", "test-if", "always-trigger", "drive-to"]
+      </rosparam>
+    </node>
+  </group>
+</launch>

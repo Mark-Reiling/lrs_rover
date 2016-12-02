@@ -1,0 +1,63 @@
+deflogin on
+autodetach on
+
+escape ^oo
+
+caption always
+
+screen 0
+title "Misc"
+
+screen 1
+title "location + roscore"
+stuff "roslaunch lrs_launch location_rafz.launch ns:=/rover0 -p $PORT \015"
+
+screen 5
+title "roverexec"
+stuff "sleep 10; roslaunch lrs_rover tst4.launch\015"
+
+screen 6
+title "Delegation"
+stuff "sleep 10; roslaunch lrs_sherpa delegation.launch __ns:=/rover0\015"
+
+screen 7
+title "SWM"
+stuff "sleep 5; source ${FBX_MODULES}/env.sh; cd ${SWMWS}/ubx_robotscenegraph/examples/sherpa/; env SWM_WMA_NAME=uav3 SWM_WMA_ID= SWM_GLOBAL_ID=e379121f-06c6-4e21-ae9d-ae78ec1986a1 SWM_LOCAL_JSON_QUERY_PORT=22425 SWM_CONSTRAINTS_FILE=constraints.lua SWM_GOSSIP_ENDPOINT=ipc:///tmp/rover0-swm-local-hub SWM_ZYRE_GROUP=local SWM_LOG_LEVEL=0 ${SHERPAWS}/src/lrs_sherpa/scripts/run_swm.sh 8891\015"
+
+screen 8
+title "Communication Mediator"
+stuff "cd ${SWMWS}/sherpa-com-mediator/; ./bin/sherpa_comm_mediator ${SHERPAWS}/src/lrs_sherpa/com_mediator_configs/txt4.json\015"
+
+screen 9
+title "ROSSWM"
+stuff "sleep 10; rosrun lrs_sherpa_proxy rosswm __ns:=/rover0\015"
+
+screen 10
+title "roszyre"
+stuff "sleep 10; rosrun lrs_sherpa_proxy roszyre __ns:=/rover0 _forward_unit_info:=1\015"
+
+screen 11
+title "proxy"
+stuff "rosrun lrs_sherpa_proxy proxy _prefix:=main __ns:=/rover0\015"
+
+screen 12
+title "platform roszyre"
+stuff "rosrun lrs_sherpa_proxy platform_roszyre __ns:=/rover0 --wait\015"
+
+screen 13
+title "platform proxy"
+stuff "rosrun lrs_sherpa_proxy proxy __ns:=/rover0 _prefix:=platform _long_name:=http://www.ida.liu.se/aiics/rover0-platform\015"
+
+screen 14
+title "sensor roszyre"
+stuff "rosrun lrs_sherpa_proxy sensor_roszyre __ns:=/rover0 --wait\015"
+
+screen 15
+title "sensor proxy"
+stuff "rosrun lrs_sherpa_proxy proxy __ns:=/rover0 _prefix:=sensor _long_name:=http://www.ida.liu.se/aiics/rover0-sensor\015"
+
+screen 18
+title "TST Display Server"
+stuff "rosrun lrs_delegation tstdisplayserver.py __ns:=/rover0\015"
+
+select 5
