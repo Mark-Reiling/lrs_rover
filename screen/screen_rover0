@@ -64,9 +64,9 @@ screen 19
 title "RVIZ"
 stuff "sleep 10;rosrun rviz rviz\015"
 
-screen 20
-title "Driveto Simple"
-stuff "sleep 10;rosrun rover_actions rover_actions_server\015"
+#screen 20
+#title "Driveto Simple"
+#stuff "sleep 10;rosrun rover_actions rover_actions_server\015"
 
 
 select 5

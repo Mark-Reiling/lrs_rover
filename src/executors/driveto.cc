@@ -106,13 +106,17 @@ void Exec::DriveTo::start () {
     // Code doing the actual work
 
     ROS_WARN("STARTING MOHSEN CODE");
-    actionlib::SimpleActionClient<rover_actions::DriveToAction> ac_simple("DriveTo", true);
+    actionlib::SimpleActionClient<rover_actions::DriveToAction> ac_simple(ros::this_node::getNamespace()+"/DriveTo", true);
     ac_simple.waitForServer();
     ROS_INFO("Strat following goal");
     Gpoint target(gp);
     rover_actions::DriveToGoal G_ac_simple;
     G_ac_simple.goal_pose.position.x = target.getX();
     G_ac_simple.goal_pose.position.y = target.getY();
+    G_ac_simple.goal_pose.position.z = -100.00;
+    ROS_INFO("CIAO");
+    ROS_INFO_STREAM("Goal is:\n" << G_ac_simple.goal_pose );
+
     // Orientation?
     ros::Duration Timeout(300); //Timeout?
     ac_simple.sendGoal(G_ac_simple);

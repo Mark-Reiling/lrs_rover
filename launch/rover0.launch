@@ -14,7 +14,7 @@
     </include>
     <!-- Local stuff-->
     <include file="$(find rover_simulator)/launch/simulator.launch"/>
-    <!--<include file="$(find rover_actions)/launch/action.launch"/>-->
+    <include file="$(find rover_actions)/launch/action.launch"/>
      <!-- Local stuff end -->
     <node name="dwdb" pkg="lrs_wdb" type="dwdb">
       <rosparam>
