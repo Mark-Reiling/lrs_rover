@@ -12,7 +12,10 @@
     <include file="$(find lrs_rover)/launch/tst.launch" >
 
     </include>
-
+    <!-- Local stuff-->
+    <include file="$(find rover_simulator)/launch/simulator.launch"/>
+    <!--<include file="$(find rover_actions)/launch/action.launch"/>-->
+     <!-- Local stuff end -->
     <node name="dwdb" pkg="lrs_wdb" type="dwdb">
       <rosparam>
         capabilities: ["start-charging", "change-battery", "low-battery-trigger", "wait", "no-op", "test-if", "always-trigger", "drive-to"]

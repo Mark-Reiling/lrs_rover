@@ -104,6 +104,8 @@ void Exec::DriveTo::start () {
     ROS_INFO ("Exec::DriveTo (/world): %f %f", p.point.x, p.point.y);
 
     // Code doing the actual work
+
+    ROS_WARN("STARTING MOHSEN CODE");
     actionlib::SimpleActionClient<rover_actions::DriveToAction> ac_simple("DriveTo", true);
     ac_simple.waitForServer();
     ROS_INFO("Strat following goal");

@@ -14,7 +14,7 @@ stuff "roslaunch lrs_launch location_rafz.launch ns:=/rover0 -p $PORT \015"
 
 screen 5
 title "roverexec"
-stuff "sleep 10; roslaunch lrs_rover tst4.launch\015"
+stuff "sleep 10; roslaunch lrs_rover rover0.launch\015"
 
 screen 6
 title "Delegation"
@@ -59,5 +59,14 @@ stuff "rosrun lrs_sherpa_proxy proxy __ns:=/rover0 _prefix:=sensor _long_name:=h
 screen 18
 title "TST Display Server"
 stuff "rosrun lrs_delegation tstdisplayserver.py __ns:=/rover0\015"
+
+screen 19
+title "RVIZ"
+stuff "sleep 10;rosrun rviz rviz\015"
+
+screen 20
+title "Driveto Simple"
+stuff "sleep 10;rosrun rover_actions rover_actions_server\015"
+
 
 select 5

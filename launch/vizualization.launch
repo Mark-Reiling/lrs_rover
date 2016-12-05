@@ -1,0 +1,6 @@
+<launch>
+
+  <group ns="/rover0">
+     <node name="rviz" pkg="rviz" type="rviz" output="screen">
+  </group>
+</launch>
